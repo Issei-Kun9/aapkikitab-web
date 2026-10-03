@@ -32,7 +32,7 @@ export interface Book {
 const ol = (isbn: string) =>
   `https://covers.openlibrary.org/b/isbn/${isbn}-L.jpg?default=false`;
 
-export const BOOKS: Book[] = [
+export const DEMO_BOOKS: Book[] = [
   {
     slug: "parth-the-promise",
     title: "Parth: The Promise",
@@ -460,6 +460,12 @@ export const BOOKS: Book[] = [
     blurb: "The definitive UPSC polity reference — constitution, governance and current updates.",
   },
 ];
+
+import { SHOPIFY_BOOKS } from "./shopify-catalog";
+
+// Live Shopify catalog when synced, demo seed otherwise.
+// Admin flow: edit products in Shopify admin → rebuild (Pages deploy hook) → live.
+export const BOOKS: Book[] = SHOPIFY_BOOKS.length > 0 ? SHOPIFY_BOOKS : DEMO_BOOKS;
 
 export const getBook = (slug: string) => BOOKS.find((b) => b.slug === slug);
 
