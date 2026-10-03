@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { BOOKS } from "@/data/books";
-import { BUDGETS, BUDGET_IMAGE, DISCOVERY_IMAGE, PROMOS, type Tile } from "@/data/taxonomy";
+import { BOOKS, inr } from "@/data/books";
+import { BUDGETS, BUDGET_IMAGE, CATEGORIES, DISCOVERY_IMAGE, PROMOS, STORES, type Tile } from "@/data/taxonomy";
 import { BookCard, Cover, Icon, I, Price, SectionHead } from "./ui";
 
 /* ---------- tile thumbnail: relevant photo, monogram fallback ---------- */
@@ -34,6 +34,7 @@ function TileThumb({ tile }: { tile: Tile }) {
 export function PromoSlider() {
   const trackRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
+  const [paused, setPaused] = useState(false);
 
   const goTo = useCallback((i: number) => {
     const track = trackRef.current;
@@ -45,7 +46,7 @@ export function PromoSlider() {
   }, []);
 
   useEffect(() => {
-    if (PROMOS.length <= 1) return;
+    if (PROMOS.length <= 1 || paused) return;
     const id = setInterval(() => {
       setActive((a) => {
         const next = (a + 1) % PROMOS.length;
@@ -55,7 +56,7 @@ export function PromoSlider() {
       });
     }, 5000);
     return () => clearInterval(id);
-  }, []);
+  }, [paused]);
 
   if (PROMOS.length === 0) return null;
 
@@ -66,7 +67,15 @@ export function PromoSlider() {
   };
 
   return (
-    <div className="relative" aria-roledescription="carousel" aria-label="Promotions">
+    <div
+      className="relative"
+      aria-roledescription="carousel"
+      aria-label="Promotions"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+      onFocus={() => setPaused(true)}
+      onBlur={() => setPaused(false)}
+    >
       <div
         ref={trackRef}
         onScroll={onScroll}
@@ -124,18 +133,23 @@ export function PromoSlider() {
           >
             <Icon size={17} d={I.arrow} />
           </button>
-          <div className="mt-2 flex justify-center gap-1.5" role="tablist" aria-label="Promotion dots">
-            {PROMOS.map((p, i) => (
-              <button
-                key={p.heading}
-                type="button"
-                role="tab"
-                aria-selected={i === active}
-                aria-label={`Go to promotion ${i + 1}`}
-                onClick={() => goTo(i)}
-                className={`h-2 rounded-full transition-all ${i === active ? "w-6 bg-ak-800" : "w-2 bg-line"}`}
-              />
-            ))}
+          <div className="mt-2 flex items-center justify-center gap-3" role="tablist" aria-label="Promotion dots">
+            <div className="flex gap-1.5">
+              {PROMOS.map((p, i) => (
+                <button
+                  key={p.heading}
+                  type="button"
+                  role="tab"
+                  aria-selected={i === active}
+                  aria-label={`Go to promotion ${i + 1}`}
+                  onClick={() => goTo(i)}
+                  className={`h-2 rounded-full transition-all ${i === active ? "w-6 bg-ak-800" : "w-2 bg-line"}`}
+                />
+              ))}
+            </div>
+            <span className="tnum text-xs font-bold text-muted" aria-live="polite">
+              {active + 1} / {PROMOS.length}
+            </span>
           </div>
         </>
       )}
@@ -264,6 +278,71 @@ export function TrustStrip() {
   );
 }
 
+/* ---------- proof strip: honest computed stats ---------- */
+export function ProofStrip() {
+  const titles = BOOKS.length;
+  const authors = new Set(BOOKS.map((b) => b.author)).size;
+  const stores = STORES.length;
+  const avg = BOOKS.length
+    ? (BOOKS.reduce((s, b) => s + b.rating, 0) / BOOKS.length).toFixed(1)
+    : "0.0";
+  const stats = [
+    { value: String(titles), label: "Curated titles" },
+    { value: String(authors), label: "Authors" },
+    { value: String(stores), label: "Verified bookstores" },
+    { value: avg, label: "Average rating" },
+  ];
+  return (
+    <div className="grid grid-cols-2 rounded-2xl border border-line bg-white lg:grid-cols-4" aria-label="Store highlights">
+      {stats.map((s, i) => (
+        <div
+          key={s.label}
+          className={`px-4 py-5 text-center ${i % 2 === 1 ? "border-l border-line" : ""} ${i >= 2 ? "border-t border-line" : ""} lg:border-t-0 ${i > 0 ? "lg:border-l" : "lg:border-l-0"}`}
+        >
+          <p className="tnum font-display text-[26px] leading-none text-ink lg:text-[32px]">{s.value}</p>
+          <p className="mt-1 text-[13px] text-muted">{s.label}</p>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+/* ---------- featured authors rail ---------- */
+export function FeaturedAuthors() {
+  const counts = new Map<string, number>();
+  for (const b of BOOKS) counts.set(b.author, (counts.get(b.author) ?? 0) + 1);
+  const authors = [...counts.entries()].sort((a, b) => b[1] - a[1]).slice(0, 10);
+  if (authors.length === 0) return null;
+  return (
+    <div>
+      <SectionHead title="Featured Authors" href="/browse" />
+      <div className="ak-rail ak-rail-4">
+        {authors.map(([name, n]) => (
+          <Link
+            key={name}
+            href={`/search?q=${encodeURIComponent(name)}`}
+            className="flex items-center gap-3 rounded-xl border border-line bg-white p-3"
+            aria-label={`${name}, ${n} ${n === 1 ? "book" : "books"}`}
+          >
+            <span
+              aria-hidden="true"
+              className="grid h-11 w-11 shrink-0 place-items-center rounded-lg bg-ak-100 font-display text-xl text-ak-800"
+            >
+              {name.charAt(0).toUpperCase()}
+            </span>
+            <span className="leading-tight">
+              <span className="block truncate text-[14.5px] font-bold text-ink">{name}</span>
+              <span className="tnum block text-xs text-muted">
+                {n} {n === 1 ? "book" : "books"}
+              </span>
+            </span>
+          </Link>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 /* ---------- carousels ---------- */
 export function NewArrivals() {
   const books = BOOKS.filter((b) => b.isNew).slice(0, 10);
@@ -326,3 +405,6 @@ export function BookOfDay() {
     </div>
   );
 }
+
+/* Recently viewed rail (local-only history). Re-exported here for home + PDP use. */
+export { RecentlyViewed } from "./recently-viewed";

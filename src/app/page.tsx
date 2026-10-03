@@ -1,4 +1,4 @@
-import { BookOfDay, BudgetBand, Discovery, NewArrivals, PromoSlider, TileRow, Trending, TrustStrip } from "@/components/home";
+import { BookOfDay, BudgetBand, Discovery, FeaturedAuthors, NewArrivals, PromoSlider, ProofStrip, RecentlyViewed, TileRow, Trending, TrustStrip } from "@/components/home";
 import { Reveal } from "@/components/motion";
 import { CATEGORIES, EXAMS, MOODS } from "@/data/taxonomy";
 
@@ -10,6 +10,9 @@ export default function Home() {
       </section>
       <section className="mt-4 lg:mt-6">
         <Reveal><TrustStrip /></Reveal>
+      </section>
+      <section className="mt-4 lg:mt-6">
+        <Reveal><ProofStrip /></Reveal>
       </section>
       <section className="mt-8 lg:mt-12">
         <Reveal><Discovery /></Reveal>
@@ -33,7 +36,13 @@ export default function Home() {
         <Reveal><Trending /></Reveal>
       </section>
       <section className="mt-8 lg:mt-12">
+        <Reveal><FeaturedAuthors /></Reveal>
+      </section>
+      <section className="mt-8 lg:mt-12">
         <Reveal><BookOfDay /></Reveal>
+      </section>
+      <section className="mt-8 lg:mt-12">
+        <Reveal><RecentlyViewed /></Reveal>
       </section>
     </main>
   );

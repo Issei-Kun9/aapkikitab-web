@@ -1,4 +1,17 @@
 @import "tailwindcss";
+@import "@astryxdesign/core/astryx.css";
+@import "@astryxdesign/theme-neutral/theme.css";
+
+/* Aapki Kitab brand over Astryx neutral tokens (unlayered beats layered) */
+[data-astryx-theme="neutral"] {
+  --color-accent: #4b0f8a;
+  --color-accent-muted: #f6f1fd;
+  --color-text-accent: #4b0f8a;
+  --color-on-accent: #ffffff;
+  --color-icon-accent: #4b0f8a;
+  --font-family-heading: "Rozha One", Georgia, serif;
+  --font-family-body: "Mukta", system-ui, sans-serif;
+}
 
 @theme {
   --color-ak-950: #23054a;

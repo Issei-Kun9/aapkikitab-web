@@ -1,12 +1,11 @@
 "use client";
 
 import Image from "next/image";
-import { motion } from "motion/react";
 import Link from "next/link";
 import { useState, type ReactNode } from "react";
 import { inr, type Book } from "@/data/books";
 import { useShop } from "@/lib/store";
-import { motionTokens, springs } from "@/lib/motion-tokens";
+import { Press } from "./motion";
 
 /* ---------- tiny drawn icon set, one 1.8px stroke ---------- */
 const P = {
@@ -122,18 +121,19 @@ export function BookCard({ book }: { book: Book }) {
           </span>
         )}
       </Link>
-      <motion.button
-        type="button"
-        onClick={() => toggleWish(book.slug)}
-        aria-label={wished ? "Remove from wishlist" : "Add to wishlist"}
-        aria-pressed={wished}
-        whileTap={{ scale: motionTokens.scale.press }}
-        animate={wished ? { scale: [1, 1.35, 1] } : { scale: 1 }}
-        transition={springs.snappy}
-        className={`absolute right-2 top-2 grid h-8 w-8 place-items-center rounded-full border border-line bg-white/95 ${wished ? "text-ak-800" : "text-muted"}`}
-      >
-        <Icon size={16} d={I.heart(wished)} />
-      </motion.button>
+      <span className="absolute right-2 top-2">
+        <Press>
+          <button
+            type="button"
+            onClick={() => toggleWish(book.slug)}
+            aria-label={wished ? "Remove from wishlist" : "Add to wishlist"}
+            aria-pressed={wished}
+            className={`grid h-8 w-8 place-items-center rounded-full border border-line bg-white/95 ${wished ? "text-ak-800" : "text-muted"}`}
+          >
+            <Icon size={16} d={I.heart(wished)} />
+          </button>
+        </Press>
+      </span>
       <div className="flex flex-1 flex-col gap-1 p-2.5">
         <Link href={`/book/${book.slug}`} className="line-clamp-2 text-[13.5px] font-semibold leading-snug text-ink hover:text-ak-800">
           {book.title}
