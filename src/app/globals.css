@@ -1,0 +1,110 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ak-950: #23054a;
+  --color-ak-900: #360873;
+  --color-ak-800: #4b0f8a;
+  --color-ak-700: #5e1ba8;
+  --color-ak-600: #7130c2;
+  --color-ak-100: #ede6f9;
+  --color-ak-50: #f6f1fd;
+  --color-ink: #1d1430;
+  --color-muted: #6d6480;
+  --color-line: #e7e0f3;
+  --color-paper: #ffffff;
+  --color-gold: #b8860b;
+  --color-leaf: #2f7d57;
+
+  --font-display: "Rozha One", "Georgia", serif;
+  --font-sans: "Mukta", "Inter", system-ui, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--color-ak-800);
+  color: #fff;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-ak-800);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.tnum {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Reading surfaces: comfortable measure + rhythm (Santa Maria: 45-75ch, 1.5-1.7) */
+.ak-prose {
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  max-width: 65ch;
+}
+
+/* Display headings never strand orphan words */
+.font-display {
+  text-wrap: balance;
+}
+
+/* Horizontal swipe rail: snap scroll on mobile, grid on desktop */
+.ak-rail {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 150px;
+  gap: 12px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  padding-bottom: 4px;
+}
+.ak-rail::-webkit-scrollbar {
+  display: none;
+}
+.ak-rail > * {
+  scroll-snap-align: start;
+}
+@media (min-width: 1024px) {
+  .ak-rail {
+    grid-auto-flow: row;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    grid-auto-columns: unset;
+    overflow: visible;
+  }
+}
+.ak-rail-4 {
+  grid-auto-columns: 220px;
+}
+@media (min-width: 1024px) {
+  .ak-rail-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+/* Thin elegant scrollbar for filter panes */
+.ak-thin-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+.ak-thin-scroll::-webkit-scrollbar-thumb {
+  background: var(--color-ak-100);
+  border-radius: 999px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
