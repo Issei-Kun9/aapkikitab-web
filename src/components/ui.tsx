@@ -6,6 +6,7 @@ import { useState, type ReactNode } from "react";
 import { inr, type Book } from "@/data/books";
 import { useShop } from "@/lib/store";
 import { Press } from "./motion";
+import { track } from "@/lib/analytics";
 
 /* ---------- tiny drawn icon set, one 1.8px stroke ---------- */
 const P = {
@@ -47,12 +48,12 @@ export const I = {
 /* ---------- price ---------- */
 export function Price({ value, mrp, big = false }: { value: number; mrp?: number; big?: boolean }) {
   return (
-    <span className="flex items-baseline gap-2">
+    <span className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
       <span className={`tnum font-bold text-ink ${big ? "text-3xl" : "text-[15px]"}`}>{inr(value)}</span>
       {mrp && mrp > value && (
         <>
           <span className={`tnum text-muted line-through ${big ? "text-lg" : "text-[13px]"}`}>{inr(mrp)}</span>
-          <span className="tnum rounded-full bg-leaf/10 px-2 py-0.5 text-[11px] font-bold text-leaf">
+          <span className="tnum whitespace-nowrap rounded-full bg-leaf/10 px-2 py-0.5 text-[11px] font-bold text-leaf">
             {Math.round(((mrp - value) / mrp) * 100)}% off
           </span>
         </>
@@ -92,12 +93,12 @@ export function Cover({ book, className = "", sizes }: { book: Book; className?:
   }
   return (
     <div
-      className={`flex aspect-[3/4] w-full flex-col justify-between p-3 text-white ${className}`}
+      className={`flex aspect-[3/4] w-full flex-col justify-between p-4 pt-11 text-white ${className}`}
       style={{ backgroundColor: book.coverTint }}
       role="img"
       aria-label={`${book.title} cover`}
     >
-      <p className="font-display text-lg leading-tight">{book.title}</p>
+      <p className="font-display text-xl leading-[1.15] [text-wrap:balance]">{book.title}</p>
       <div>
         <div className="mb-2 h-px w-10 bg-white/60" />
         <p className="text-[11px] uppercase tracking-[0.14em] opacity-90">{book.author}</p>
@@ -108,15 +109,26 @@ export function Cover({ book, className = "", sizes }: { book: Book; className?:
 
 /* ---------- universal book card ---------- */
 export function BookCard({ book }: { book: Book }) {
-  const { toggleWish, isWished } = useShop();
+  const { toggleWish, isWished, addToCart } = useShop();
+  const [added, setAdded] = useState(false);
   const wished = isWished(book.slug);
   const top = book.badges[0];
+  const add = () => {
+    addToCart(book.slug, 1);
+    track("add_to_cart", { items: [{ item_id: book.slug, price: book.price, quantity: 1 }] });
+    setAdded(true);
+    window.setTimeout(() => setAdded(false), 1400);
+  };
   return (
-    <div className="group relative flex flex-col overflow-hidden rounded-xl border border-line bg-white">
-      <Link href={`/book/${book.slug}`} className="relative block" aria-label={book.title}>
-        <Cover book={book} className="transition duration-300 group-hover:scale-[1.02]" />
+    <div className="group relative flex flex-col">
+      <Link
+        href={`/book/${book.slug}`}
+        className="relative block overflow-hidden rounded-xl bg-ak-50 shadow-[0_1px_2px_rgba(29,20,48,0.08)] transition-shadow duration-300 group-hover:shadow-[0_18px_30px_-16px_rgba(54,8,115,0.45)]"
+        aria-label={`${book.title} by ${book.author}`}
+      >
+        <Cover book={book} className="transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]" />
         {top && (
-          <span className="absolute left-2 top-2 rounded-full bg-ak-800 px-2 py-0.5 text-[10px] font-bold tracking-wider text-white">
+          <span className="absolute left-2 top-2 rounded-full bg-white/95 px-2 py-0.5 text-[10px] font-bold tracking-wider text-ak-800 shadow-sm">
             {top}
           </span>
         )}
@@ -128,21 +140,31 @@ export function BookCard({ book }: { book: Book }) {
             onClick={() => toggleWish(book.slug)}
             aria-label={wished ? "Remove from wishlist" : "Add to wishlist"}
             aria-pressed={wished}
-            className={`grid h-8 w-8 place-items-center rounded-full border border-line bg-white/95 ${wished ? "text-ak-800" : "text-muted"}`}
+            className={`grid h-9 w-9 place-items-center rounded-full bg-white/95 shadow-sm transition-colors hover:text-ak-800 ${wished ? "text-ak-800" : "text-muted"}`}
           >
-            <Icon size={16} d={I.heart(wished)} />
+            <Icon size={17} d={I.heart(wished)} />
           </button>
         </Press>
       </span>
-      <div className="flex flex-1 flex-col gap-1 p-2.5">
-        <Link href={`/book/${book.slug}`} className="line-clamp-2 text-[13.5px] font-semibold leading-snug text-ink hover:text-ak-800">
+      <div className="flex flex-1 flex-col gap-0.5 pt-2.5">
+        <Link href={`/book/${book.slug}`} className="line-clamp-2 text-[14px] font-semibold leading-snug text-ink transition-colors hover:text-ak-800">
           {book.title}
         </Link>
-        <p className="truncate text-xs text-muted">{book.author}</p>
-        <Price value={book.price} mrp={book.mrp} />
-        <p className="flex items-center gap-1 text-[11px] font-semibold text-leaf">
-          <Icon size={12} d={I.check} /> New Copy · Verified Store
-        </p>
+        <p className="truncate text-[12.5px] text-muted">{book.author}</p>
+        <div className="mb-2.5 mt-1">
+          <Price value={book.price} mrp={book.mrp} />
+        </div>
+        <button
+          type="button"
+          onClick={add}
+          aria-label={`Add ${book.title} to cart`}
+          className={`mt-auto flex h-10 w-full items-center justify-center gap-1.5 rounded-full text-[13.5px] font-bold transition-colors ${
+            added ? "bg-leaf text-white" : "border border-ak-800/25 text-ak-800 hover:border-ak-800 hover:bg-ak-800 hover:text-white"
+          }`}
+        >
+          <Icon size={15} d={added ? I.check : I.cart} />
+          {added ? "Added" : "Add to cart"}
+        </button>
       </div>
     </div>
   );
@@ -151,11 +173,11 @@ export function BookCard({ book }: { book: Book }) {
 /* ---------- section heading ---------- */
 export function SectionHead({ title, href }: { title: string; href?: string }) {
   return (
-    <div className="mb-3 flex items-end justify-between gap-3">
-      <h2 className="font-display text-[22px] leading-tight text-ink lg:text-[28px]">{title}</h2>
+    <div className="mb-5 flex items-end justify-between gap-3">
+      <h2 className="font-display text-[26px] leading-tight text-ink lg:text-[34px]">{title}</h2>
       {href && (
-        <Link href={href} className="flex shrink-0 items-center gap-1 text-sm font-bold text-ak-800">
-          View All <Icon size={15} d={I.arrow} />
+        <Link href={href} className="group flex shrink-0 items-center gap-1 pb-1 text-sm font-bold text-ak-800">
+          View all <span className="transition-transform duration-300 group-hover:translate-x-1"><Icon size={15} d={I.arrow} /></span>
         </Link>
       )}
     </div>

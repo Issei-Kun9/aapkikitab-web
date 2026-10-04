@@ -74,8 +74,8 @@ body {
 .ak-rail {
   display: grid;
   grid-auto-flow: column;
-  grid-auto-columns: 150px;
-  gap: 12px;
+  grid-auto-columns: 158px;
+  gap: 14px;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
@@ -93,6 +93,7 @@ body {
     grid-template-columns: repeat(6, minmax(0, 1fr));
     grid-auto-columns: unset;
     overflow: visible;
+    gap: 20px;
   }
 }
 .ak-rail-4 {
@@ -120,4 +121,13 @@ body {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* Browser surfaces carry the palette too */
+html {
+  accent-color: var(--color-ak-800);
+  caret-color: var(--color-ak-800);
+}
+a {
+  text-underline-offset: 3px;
 }

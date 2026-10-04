@@ -1,49 +1,49 @@
-import { BookOfDay, BudgetBand, Discovery, FeaturedAuthors, NewArrivals, PromoSlider, ProofStrip, RecentlyViewed, TileRow, Trending, TrustStrip } from "@/components/home";
-import { Reveal } from "@/components/motion";
+import { BookOfDay, BudgetBand, Discovery, FeaturedAuthors, Hero, NewArrivals, PromoSlider, RecentlyViewed, TileRow, Trending } from "@/components/home";
 import { CATEGORIES, EXAMS, MOODS } from "@/data/taxonomy";
+
+/* Rhythm: tight inside a section, generous between them. Content is visible
+   on first paint; the hero cover fan is the page's only entrance motion. */
+const S = "mt-14 lg:mt-20";
 
 export default function Home() {
   return (
-    <main className="mx-auto max-w-7xl bg-white px-4 pb-4">
-      <section className="mt-8 lg:mt-12">
-        <Reveal y={16}><PromoSlider /></Reveal>
-      </section>
+    <div className="pb-4">
       <section className="mt-4 lg:mt-6">
-        <Reveal><TrustStrip /></Reveal>
+        <Hero />
       </section>
-      <section className="mt-4 lg:mt-6">
-        <Reveal><ProofStrip /></Reveal>
+      <section className={S}>
+        <Trending />
       </section>
-      <section className="mt-8 lg:mt-12">
-        <Reveal><Discovery /></Reveal>
+      <section className={S}>
+        <TileRow title="What are you in the mood for?" href="/browse" tiles={MOODS} />
       </section>
-      <section className="mt-8 lg:mt-12">
-        <Reveal><TileRow title="What Are You In The Mood For?" href="/browse" tiles={MOODS} /></Reveal>
+      <section className={S}>
+        <PromoSlider />
       </section>
-      <section className="mt-8 lg:mt-12">
-        <Reveal><TileRow title="Education & Exams" href="/category/education-exams" tiles={EXAMS} /></Reveal>
+      <section className={S}>
+        <NewArrivals />
       </section>
-      <section className="mt-8 lg:mt-12">
-        <Reveal><BudgetBand /></Reveal>
+      <section className={S}>
+        <BudgetBand />
       </section>
-      <section className="mt-8 lg:mt-12">
-        <Reveal><TileRow title="Browse Categories" href="/browse" tiles={CATEGORIES} /></Reveal>
+      <section className={S}>
+        <TileRow title="Exams & education" href="/category/education-exams" tiles={EXAMS} />
       </section>
-      <section className="mt-8 lg:mt-12">
-        <Reveal><NewArrivals /></Reveal>
+      <section className={S}>
+        <BookOfDay />
       </section>
-      <section className="mt-8 lg:mt-12">
-        <Reveal><Trending /></Reveal>
+      <section className={S}>
+        <TileRow title="Browse categories" href="/browse" tiles={CATEGORIES} />
       </section>
-      <section className="mt-8 lg:mt-12">
-        <Reveal><FeaturedAuthors /></Reveal>
+      <section className={S}>
+        <FeaturedAuthors />
       </section>
-      <section className="mt-8 lg:mt-12">
-        <Reveal><BookOfDay /></Reveal>
+      <section className={S}>
+        <Discovery />
       </section>
-      <section className="mt-8 lg:mt-12">
-        <Reveal><RecentlyViewed /></Reveal>
+      <section className={S}>
+        <RecentlyViewed />
       </section>
-    </main>
+    </div>
   );
 }
