@@ -135,16 +135,16 @@ export default function BookDetail({
                 type="button"
                 aria-label="Decrease quantity"
                 onClick={() => setQty((q) => Math.max(1, q - 1))}
-                className="grid h-12 w-11 place-items-center text-ink"
+                className="grid h-12 w-9 place-items-center text-ink sm:w-11"
               >
                 <Icon size={16} d={<path d="M5 12h14" />} />
               </button>
-              <span className="tnum w-8 text-center font-bold">{qty}</span>
+              <span className="tnum w-7 text-center font-bold sm:w-8">{qty}</span>
               <button
                 type="button"
                 aria-label="Increase quantity"
                 onClick={() => setQty((q) => Math.min(9, q + 1))}
-                className="grid h-12 w-11 place-items-center text-ink"
+                className="grid h-12 w-9 place-items-center text-ink sm:w-11"
               >
                 <Icon size={16} d={<path d="M12 5v14M5 12h14" />} />
               </button>
@@ -152,10 +152,10 @@ export default function BookDetail({
             <button
                 type="button"
                 onClick={addOne}
-                className={`flex h-12 w-full items-center justify-center gap-1.5 rounded-full px-7 transition-transform active:scale-[0.97] sm:w-auto text-[15px] font-bold text-white transition-colors ${added ? "bg-leaf" : "bg-ak-800 hover:bg-ak-900"}`}
+                className={`flex h-12 w-full items-center justify-center gap-1.5 whitespace-nowrap rounded-full px-4 sm:px-7 transition-transform active:scale-[0.97] sm:w-auto text-[15px] font-bold text-white transition-colors ${added ? "bg-leaf" : "bg-ak-800 hover:bg-ak-900"}`}
               >
-                <Icon size={16} d={added ? I.check : I.cart} />
-                {added ? "Added to cart" : "Add to cart"}
+                <span className="hidden min-[400px]:inline"><Icon size={16} d={added ? I.check : I.cart} /></span>
+                {added ? "Added" : "Add to cart"}
               </button>
             <button
               type="button"

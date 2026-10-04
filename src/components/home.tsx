@@ -65,11 +65,11 @@ export function Hero() {
           <p className="mt-5 max-w-[30rem] text-[17px] leading-relaxed text-ak-100! sm:text-lg">
             Original books from verified Indian bookstores, at honest prices. Pay on delivery, return within 7 days.
           </p>
-          <div className="mt-7 flex flex-wrap items-center gap-3">
+          <div className="mt-7 grid grid-cols-1 gap-3 sm:flex sm:flex-wrap sm:items-center">
             <Press>
               <Link
                 href="/trending"
-                className="group inline-flex h-12 items-center gap-2 rounded-full bg-white px-7 text-[15px] font-bold text-ak-900 transition-colors hover:bg-ak-100"
+                className="group inline-flex h-12 w-full items-center justify-center gap-2 whitespace-nowrap rounded-full bg-white px-5 text-[15px] font-bold text-ak-900 transition-colors hover:bg-ak-100 sm:w-auto sm:px-7"
               >
                 Shop bestsellers
                 <span className="transition-transform duration-300 group-hover:translate-x-1"><Icon size={17} d={I.arrow} /></span>
@@ -77,7 +77,7 @@ export function Hero() {
             </Press>
             <Link
               href="/find-my-book"
-              className="inline-flex h-12 items-center rounded-full border border-white/30 px-6 text-[15px] font-bold text-white transition-colors hover:border-white hover:bg-white/10"
+              className="inline-flex h-12 items-center justify-center whitespace-nowrap rounded-full border border-white/30 px-5 text-[15px] font-bold text-white transition-colors hover:border-white hover:bg-white/10 sm:px-6"
             >
               Help me choose
             </Link>
@@ -105,7 +105,7 @@ export function Hero() {
             return (
               <motion.div
                 key={b.slug}
-                className="absolute left-1/2 top-1/2 w-[34%] max-w-[200px]"
+                className={`absolute left-1/2 top-1/2 w-[34%] max-w-[200px] ${i === 0 || i === 4 ? "hidden sm:block" : ""}`}
                 style={{ zIndex: f.z, marginLeft: "-17%", marginTop: "-25%" }}
                 initial={reduce ? false : { opacity: 0, y: 60, rotate: 0, x: "0%" }}
                 animate={{ opacity: 1, y: f.y, rotate: f.rotate, x: f.x }}

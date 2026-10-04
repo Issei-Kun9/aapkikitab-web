@@ -305,16 +305,16 @@ export function Header() {
   return (
     <header className="sticky top-0 z-40 border-b border-line bg-white">
       <div className="mx-auto flex max-w-7xl items-center gap-3 px-4 py-3 lg:gap-8">
-        <Link href="/" className="flex shrink-0 items-center gap-2" aria-label="Aapki Kitab home">
-          <img src="/logo.webp" alt="" width={44} height={44} className="h-11 w-11" />
+        <Link href="/" className="flex min-w-0 shrink items-center gap-2" aria-label="Aapki Kitab home">
+          <img src="/logo.webp" alt="" width={44} height={44} className="h-10 w-10 shrink-0 sm:h-11 sm:w-11" />
           <span className="leading-none">
-            <span className="block font-display text-[19px] font-bold tracking-[0.04em] text-ak-900">AAPKI KITAB</span>
-            <span className="mt-0.5 block text-[11px] font-semibold tracking-[0.06em] text-muted">Your next book awaits</span>
+            <span className="block whitespace-nowrap font-display text-[17px] font-bold tracking-[0.03em] text-ak-900 sm:text-[19px]">AAPKI KITAB</span>
+            <span className="mt-0.5 block whitespace-nowrap text-[11px] font-semibold tracking-[0.04em] text-muted">Your next book awaits</span>
           </span>
         </Link>
         <div className="hidden max-w-xl flex-1 md:block lg:mx-auto"><SearchBar /></div>
-        <nav className="ml-auto flex shrink-0 items-center gap-1 sm:gap-2" aria-label="Account">
-          <Link href="/wishlist" className="relative grid h-10 w-10 place-items-center rounded-full text-ink hover:bg-ak-50" aria-label="Wishlist">
+        <nav className="ml-auto flex shrink-0 items-center sm:gap-2" aria-label="Account">
+          <Link href="/wishlist" className="relative hidden h-10 w-10 place-items-center rounded-full text-ink hover:bg-ak-50 lg:grid" aria-label="Wishlist">
             <Icon size={21} d={I.heart()} /><Count n={wishlist.length} />
           </Link>
           <Link href="/cart" className="relative grid h-10 w-10 place-items-center rounded-full text-ink hover:bg-ak-50" aria-label="Cart">
@@ -374,9 +374,11 @@ export function BottomNav() {
               aria-current={active ? "page" : undefined}
               className={`relative flex flex-col items-center gap-0.5 py-2 text-[11px] font-semibold ${active ? "text-ak-800" : "text-muted"}`}
             >
-              <Icon size={21} d={t.icon} />
+              <span className="relative">
+                <Icon size={21} d={t.icon} />
+                <Count n={n} />
+              </span>
               {t.label}
-              <Count n={n} />
             </Link>
           );
         })}
@@ -457,8 +459,8 @@ export function Footer() {
   ];
   return (
     <footer className="mt-20 bg-ak-950 pb-20 text-white lg:pb-0">
-      <div className="mx-auto grid max-w-7xl gap-10 px-4 pb-12 pt-16 sm:grid-cols-2 lg:grid-cols-5">
-        <div className="lg:col-span-2">
+      <div className="mx-auto grid max-w-7xl grid-cols-2 gap-x-6 gap-y-10 px-4 pb-12 pt-14 sm:grid-cols-3 lg:grid-cols-5 lg:pt-16">
+        <div className="col-span-2 sm:col-span-3 lg:col-span-2">
           <div className="flex items-center gap-3">
             <img src="/logo.webp" alt="" width={52} height={52} className="h-13 w-13" />
             <p className="font-display text-2xl font-bold tracking-[0.04em]">AAPKI KITAB</p>

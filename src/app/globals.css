@@ -153,3 +153,20 @@ body {
     grid-auto-columns: 78%;
   }
 }
+
+/* Grid columns never grow past their container on phones: a bare .grid gets one
+   shrinkable column; any grid-cols-* utility (utilities layer) still overrides. */
+@layer base {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  input,
+  select,
+  textarea {
+    min-width: 0;
+    max-width: 100%;
+  }
+  img {
+    max-width: 100%;
+  }
+}
