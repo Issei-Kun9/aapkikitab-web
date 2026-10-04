@@ -103,7 +103,7 @@ export function Reviews({ book }: { book: Book }) {
   };
 
   return (
-    <section aria-labelledby="reviews-heading" className="mt-8">
+    <section id="reviews" aria-labelledby="reviews-heading" className="mt-8 scroll-mt-40">
       <h2 id="reviews-heading" className="mb-3 font-display text-[22px] text-ink">
         Ratings & Reviews
       </h2>

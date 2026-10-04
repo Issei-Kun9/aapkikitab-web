@@ -35,7 +35,7 @@ export const EXAMS: Tile[] = [
   { slug: "gate", label: "GATE", sub: "M.Tech", icon: "gear", href: "/exam/gate", image: us("1506880018603-83d5b814b5a6") },
   { slug: "school", label: "School", sub: "Class 1–12", icon: "book", href: "/exam/school", image: us("1521587760476-6c12a4b040da") },
   { slug: "college", label: "College", sub: "UG • PG", icon: "library", href: "/exam/college", image: us("1524995997946-a1c2e315a42f") },
-  { slug: "maths-science", label: "Maths & Science", sub: "Concepts", icon: "sigma", href: "/exam/maths-science", image: ol("9788121924986") },
+  { slug: "maths-science", label: "Maths & Science", sub: "Concepts", icon: "sigma", href: "/exam/maths-science" },
 ];
 
 export const CATEGORIES: Tile[] = [
@@ -46,8 +46,8 @@ export const CATEGORIES: Tile[] = [
   { slug: "english-literature", label: "English Literature", sub: "Classics", icon: "feather", href: "/category/english-literature", image: ol("9780141439518") },
   { slug: "biography-history", label: "Biography & History", sub: "Real lives", icon: "portrait", href: "/category/biography-history", image: ol("9788173711466") },
   { slug: "children", label: "Children", sub: "Young readers", icon: "balloon", href: "/category/children", image: ol("9780747532699") },
-  { slug: "education-exams", label: "Education & Exams", sub: "Prep", icon: "cap", href: "/category/education-exams", image: ol("9789382249276") },
-  { slug: "maths-science", label: "Maths & Science", sub: "Concepts", icon: "sigma", href: "/category/maths-science", image: ol("9788121924986") },
+  { slug: "education-exams", label: "Education & Exams", sub: "Prep", icon: "cap", href: "/category/education-exams" },
+  { slug: "maths-science", label: "Maths & Science", sub: "Concepts", icon: "sigma", href: "/category/maths-science" },
 ];
 
 export const BUDGETS = [
@@ -90,42 +90,54 @@ export const STORES: Store[] = [
 
 export interface Promo {
   heading: string;
-  text: string;
-  price: string;
+  lead: string; // line above the book title
+  book: string; // catalogue slug: title, cover and price come from the book itself
+  note: string; // line under the title
   cta: string;
-  href: string;
-  tint: string;
-  image: string;
+  photo: string; // real photography behind the slide
 }
 
+/* Admin-managed later (Shopify metaobjects). Order = display order. */
 export const PROMOS: Promo[] = [
   {
-    heading: "Stories that Stay with You",
-    text: "Discover the magic of Udaipur in Parth: The Promise — a novel of faith and mystery.",
-    price: "₹299",
-    cta: "BUY NOW",
-    href: "/book/parth-the-promise",
-    tint: "#efe7fb",
-    image: us("1507842217343-583bb7270b66", 800),
+    heading: "Stories that stay with you",
+    lead: "Discover the magic of Udaipur in",
+    book: "parth-the-promise",
+    note: "A novel · Book 1 of the Duology",
+    cta: "Buy now",
+    photo: us("1474932430478-367dbb6832c1", 1600),
   },
   {
-    heading: "Exam Season Ready",
-    text: "SSC • Banking • Railway prep books with honest discounts and fast dispatch.",
-    price: "Up to 30% off",
-    cta: "SHOP EXAMS",
-    href: "/category/education-exams",
-    tint: "#e7ecf9",
-    image: us("1524995997946-a1c2e315a42f", 800),
+    heading: "Exam season, sorted",
+    lead: "The prep book every aspirant keeps close",
+    book: "quantitative-aptitude",
+    note: "SSC · Banking · Railway",
+    cta: "Shop now",
+    photo: us("1497633762265-9d179a990aa6", 1600),
   },
   {
-    heading: "Hindi Sahitya Utsav",
-    text: "Premchand se lekar aaj tak — timeless Hindi classics for every shelf.",
-    price: "From ₹149",
-    cta: "EXPLORE",
-    href: "/category/hindi-literature",
-    tint: "#f7ecdf",
-    image: us("1512820790803-83ca734da794", 800),
+    heading: "Hindi sahitya, timeless",
+    lead: "Premchand's masterpiece, for every shelf",
+    book: "godan",
+    note: "Classic Hindi literature",
+    cta: "Shop now",
+    photo: us("1526243741027-444d633d7365", 1600),
   },
+];
+
+/* Curated gift boxes — synthetic seed data until the admin creates real boxes. */
+export interface GiftBox {
+  slug: string;
+  name: string;
+  items: string[];
+  price: number;
+  photo: string;
+}
+
+export const GIFT_BOXES: GiftBox[] = [
+  { slug: "book-lover-box", name: "Book Lover Box", items: ["1 book of your choice", "1 bookmark", "1 greeting card"], price: 599, photo: us("1512909006721-3d6018887383", 600) },
+  { slug: "birthday-book-box", name: "Birthday Book Box", items: ["1 book", "1 art / craft item", "1 greeting card"], price: 699, photo: us("1513885535751-8b9238bd345a", 600) },
+  { slug: "best-friend-box", name: "Best Friend Box", items: ["1 book", "1 bookmark", "1 small gift item"], price: 699, photo: us("1544947950-fa07a98d237f", 600) },
 ];
 
 export const DISCOVERY_IMAGE = us("1506880018603-83d5b814b5a6", 800);

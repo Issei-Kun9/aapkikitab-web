@@ -43,6 +43,12 @@ export const I = {
   x: <path d="M6 6l12 12M18 6 6 18" />,
   phone: <><rect x="7" y="3" width="10" height="18" rx="2" /><path d="M11 18h2" /></>,
   chat: <path d="M4 6.5A2.5 2.5 0 0 1 6.5 4h11A2.5 2.5 0 0 1 20 6.5v7a2.5 2.5 0 0 1-2.5 2.5H9l-5 4z" />,
+  truck: <><path d="M3 6h11v10H3z" /><path d="M14 9h4l3 3v4h-7" /><circle cx="7" cy="17.5" r="1.8" /><circle cx="17" cy="17.5" r="1.8" /></>,
+  shield: <><path d="M12 3 5 6v5c0 4.5 3 8 7 10 4-2 7-5.5 7-10V6z" /><path d="m9 12 2 2 4-4" /></>,
+  store: <><path d="M4 9h16l-1.5-5h-13z" /><path d="M5 9v11h14V9" /><path d="M10 20v-6h4v6" /></>,
+  headset: <><path d="M4 14v-2a8 8 0 0 1 16 0v2" /><rect x="3" y="14" width="4" height="6" rx="1.5" /><rect x="17" y="14" width="4" height="6" rx="1.5" /></>,
+  menu: <path d="M4 7h16M4 12h16M4 17h16" />,
+  chevron: <path d="m6 9 6 6 6-6" />,
 };
 
 /* ---------- price ---------- */
@@ -110,7 +116,7 @@ export function Cover({ book, className = "", sizes }: { book: Book; className?:
   );
 }
 
-/* ---------- universal book card ---------- */
+/* ---------- universal book card: one design everywhere, whole card opens the book ---------- */
 export function BookCard({ book }: { book: Book }) {
   const { toggleWish, isWished, addToCart } = useShop();
   const [added, setAdded] = useState(false);
@@ -123,20 +129,16 @@ export function BookCard({ book }: { book: Book }) {
     window.setTimeout(() => setAdded(false), 1400);
   };
   return (
-    <div className="group relative flex flex-col">
-      <Link
-        href={`/book/${book.slug}`}
-        className="relative block overflow-hidden rounded-xl bg-ak-50 shadow-[0_1px_2px_rgba(29,20,48,0.08)] transition-shadow duration-300 group-hover:shadow-[0_18px_30px_-16px_rgba(54,8,115,0.45)]"
-        aria-label={`${book.title} by ${book.author}`}
-      >
+    <div className="group relative flex flex-col rounded-xl border border-line bg-white p-2.5 transition-[border-color,box-shadow] duration-300 hover:border-ak-800/30 hover:shadow-[0_18px_30px_-20px_rgba(54,8,115,0.55)]">
+      <Link href={`/book/${book.slug}`} className="relative block overflow-hidden rounded-lg bg-ak-50" aria-label={`${book.title} by ${book.author}`}>
         <Cover book={book} className="transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]" />
         {top && (
-          <span className="absolute left-2 top-2 rounded-full bg-white/95 px-2 py-0.5 text-[10px] font-bold tracking-wider text-ak-800 shadow-sm">
-            {top}
+          <span className="absolute left-0 top-2 rounded-r-md bg-ak-800 px-2 py-0.5 text-[10.5px] font-bold capitalize tracking-wide text-white">
+            {top.toLowerCase()}
           </span>
         )}
       </Link>
-      <span className="absolute right-2 top-2">
+      <span className="absolute right-4 top-4">
         <Press>
           <button
             type="button"
@@ -149,20 +151,24 @@ export function BookCard({ book }: { book: Book }) {
           </button>
         </Press>
       </span>
-      <div className="flex flex-1 flex-col gap-0.5 pt-2.5">
-        <Link href={`/book/${book.slug}`} className="line-clamp-2 text-[14px] font-semibold leading-snug text-ink transition-colors hover:text-ak-800">
+      <div className="flex flex-1 flex-col px-0.5 pt-2.5">
+        <Link href={`/book/${book.slug}`} className="line-clamp-2 text-[14.5px] font-bold leading-snug text-ink transition-colors hover:text-ak-800">
           {book.title}
         </Link>
         <p className="truncate text-[12.5px] text-muted">{book.author}</p>
-        <div className="mb-2.5 mt-1">
+        <div className="mb-1.5 mt-1">
           <Price value={book.price} mrp={book.mrp} />
         </div>
+        <p className="mb-2.5 flex items-center gap-1 whitespace-nowrap text-[11.5px] font-semibold text-leaf">
+          <Icon size={12} d={I.check} />
+          <span className="truncate"><span className="hidden sm:inline">New copy · </span>Verified store</span>
+        </p>
         <button
           type="button"
           onClick={add}
           aria-label={`Add ${book.title} to cart`}
-          className={`mt-auto flex h-10 w-full items-center justify-center gap-1.5 rounded-full text-[13.5px] font-bold transition-colors ${
-            added ? "bg-leaf text-white" : "border border-ak-800/25 text-ak-800 hover:border-ak-800 hover:bg-ak-800 hover:text-white"
+          className={`mt-auto flex h-10 w-full items-center justify-center gap-1.5 rounded-lg text-[13.5px] font-bold text-white transition-colors ${
+            added ? "bg-leaf" : "bg-ak-800 hover:bg-ak-900"
           }`}
         >
           <Icon size={15} d={added ? I.check : I.cart} />
@@ -174,13 +180,17 @@ export function BookCard({ book }: { book: Book }) {
 }
 
 /* ---------- section heading ---------- */
-export function SectionHead({ title, href }: { title: string; href?: string }) {
+export function SectionHead({ title, href, sub }: { title: string; href?: string; sub?: string }) {
   return (
-    <div className="mb-5 flex items-end justify-between gap-3">
-      <h2 className="font-display text-[26px] leading-tight text-ink lg:text-[34px]">{title}</h2>
+    <div className="mb-4 flex items-end justify-between gap-3 lg:mb-5">
+      <div className="min-w-0">
+        <h2 className="font-display text-[24px] font-bold leading-tight text-ink sm:text-[28px] lg:text-[32px]">{title}</h2>
+        {sub && <p className="mt-0.5 text-[14.5px] text-muted">{sub}</p>}
+      </div>
       {href && (
-        <Link href={href} className="group flex shrink-0 items-center gap-1 pb-1 text-sm font-bold text-ak-800">
-          View all <span className="transition-transform duration-300 group-hover:translate-x-1"><Icon size={15} d={I.arrow} /></span>
+        <Link href={href} className="group flex shrink-0 items-center gap-1 pb-1 text-[14.5px] font-bold text-ak-800">
+          View all
+          <span className="transition-transform duration-300 group-hover:translate-x-1"><Icon size={15} d={I.arrow} /></span>
         </Link>
       )}
     </div>

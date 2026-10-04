@@ -63,7 +63,7 @@ body {
 .ak-rail {
   display: grid;
   grid-auto-flow: column;
-  grid-auto-columns: 158px;
+  grid-auto-columns: 164px;
   gap: 14px;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
@@ -142,8 +142,8 @@ body {
   animation: ak-menu-in 0.28s cubic-bezier(0.16, 1, 0.3, 1);
 }
 @keyframes ak-menu-in {
-  from { opacity: 0; transform: translate(-50%, 6px); }
-  to { opacity: 1; transform: translate(-50%, 0); }
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
 }
 
 /* Tile rails show two rows on phones so the swipe reads as a shelf, not a strip */
@@ -169,4 +169,26 @@ body {
   img {
     max-width: 100%;
   }
+}
+
+/* Mood cards: swipe on phones, 4 → 8 across on larger screens */
+.ak-rail-mood { grid-auto-columns: 112px; }
+@media (min-width: 640px) {
+  .ak-rail-mood { grid-auto-flow: row; grid-template-columns: repeat(4, minmax(0, 1fr)); overflow: visible; }
+}
+@media (min-width: 1024px) {
+  .ak-rail-mood { grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 14px; }
+}
+/* Exam tiles: compact swipe on phones, one row of 12 on desktop */
+.ak-rail-exam { grid-auto-columns: 96px; gap: 10px; }
+@media (min-width: 1024px) {
+  .ak-rail-exam { grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 10px; }
+}
+/* Gift boxes / review cards: peek-swipe on phones, three across on desktop */
+.ak-rail-gift { grid-auto-columns: 88%; gap: 14px; }
+@media (min-width: 640px) {
+  .ak-rail-gift { grid-auto-columns: 60%; }
+}
+@media (min-width: 1024px) {
+  .ak-rail-gift { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
 }

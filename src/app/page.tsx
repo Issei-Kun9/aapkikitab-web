@@ -1,36 +1,58 @@
-import { BookOfDay, BudgetBand, Hero, MoodShelf, NewArrivals, RecentlyViewed, TileRow, Trending } from "@/components/home";
-import { CATEGORIES, EXAMS } from "@/data/taxonomy";
+import {
+  BookOfDay,
+  BudgetBand,
+  ExamStrip,
+  FindNextBook,
+  GiftBoxes,
+  MoodPanel,
+  NewArrivals,
+  PromoSlider,
+  ReaderReviews,
+  RecentlyViewed,
+  TileRow,
+  Trending,
+} from "@/components/home";
+import { CATEGORIES } from "@/data/taxonomy";
 
-/* Rhythm: tight inside a section, generous between them. Content is visible
-   on first paint; the hero cover fan is the page's only entrance motion. */
-const S = "mt-14 empty:hidden lg:mt-20";
+/* Homepage order follows the client brief (§6/§48). Sections render nothing
+   when their data is empty, and the wrapper collapses with them. */
+const S = "mt-10 empty:hidden lg:mt-14";
 
 export default function Home() {
   return (
     <div className="pb-4">
-      <section>
-        <Hero />
+      <section className="mt-4 lg:mt-6">
+        <PromoSlider />
+      </section>
+      <section className="mt-4 empty:hidden lg:mt-6">
+        <FindNextBook />
       </section>
       <section className={S}>
-        <Trending />
+        <MoodPanel />
       </section>
       <section className={S}>
-        <MoodShelf />
-      </section>
-      <section className={S}>
-        <NewArrivals />
+        <ExamStrip />
       </section>
       <section className={S}>
         <BudgetBand />
       </section>
       <section className={S}>
-        <TileRow title="Exams & education" href="/category/education-exams" tiles={EXAMS} />
+        <TileRow title="Browse Categories" href="/browse" tiles={CATEGORIES.slice(0, 8)} />
+      </section>
+      <section className={S}>
+        <NewArrivals />
+      </section>
+      <section className={S}>
+        <Trending />
+      </section>
+      <section className={S}>
+        <GiftBoxes />
       </section>
       <section className={S}>
         <BookOfDay />
       </section>
       <section className={S}>
-        <TileRow title="Browse categories" href="/browse" tiles={CATEGORIES.slice(0, 8)} />
+        <ReaderReviews />
       </section>
       <section className={S}>
         <RecentlyViewed />

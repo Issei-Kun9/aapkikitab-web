@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Icon } from "@/components/ui";
 
 const inputCls =
@@ -19,6 +19,12 @@ export default function RequestBookPage() {
     name: "",
     mobile: "",
   });
+
+  /* Gift box orders arrive as ?gift=<box name>: prefill so the customer only adds contact details. */
+  useEffect(() => {
+    const gift = new URLSearchParams(window.location.search).get("gift");
+    if (gift) setForm((f) => ({ ...f, bookName: `Gift box: ${gift.slice(0, 80)}` }));
+  }, []);
 
   const set = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) =>
     setForm((f) => ({ ...f, [k]: e.target.value }));
