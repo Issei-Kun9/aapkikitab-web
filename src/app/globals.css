@@ -1,17 +1,4 @@
 @import "tailwindcss";
-@import "@astryxdesign/core/astryx.css";
-@import "@astryxdesign/theme-neutral/theme.css";
-
-/* Aapki Kitab brand over Astryx neutral tokens (unlayered beats layered) */
-[data-astryx-theme="neutral"] {
-  --color-accent: #4b0f8a;
-  --color-accent-muted: #f6f1fd;
-  --color-text-accent: #4b0f8a;
-  --color-on-accent: #ffffff;
-  --color-icon-accent: #4b0f8a;
-  --font-family-heading: var(--font-eczar), Georgia, serif;
-  --font-family-body: var(--font-mukta), system-ui, sans-serif;
-}
 
 @theme {
   --color-ak-950: #23054a;
@@ -132,4 +119,37 @@ html {
 }
 a {
   text-underline-offset: 3px;
+}
+
+/* Announcement note swap */
+.ak-note {
+  animation: ak-note-in 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@keyframes ak-note-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* Full-bleed band inside the max-w main column */
+.ak-bleed {
+  margin-inline: calc(50% - 50vw);
+}
+body {
+  overflow-x: clip;
+}
+
+.ak-menu {
+  animation: ak-menu-in 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@keyframes ak-menu-in {
+  from { opacity: 0; transform: translate(-50%, 6px); }
+  to { opacity: 1; transform: translate(-50%, 0); }
+}
+
+/* Tile rails show two rows on phones so the swipe reads as a shelf, not a strip */
+@media (max-width: 1023px) {
+  .ak-rail-2row {
+    grid-template-rows: repeat(2, auto);
+    grid-auto-columns: 78%;
+  }
 }

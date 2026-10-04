@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Breadcrumbs, BreadcrumbItem } from "@astryxdesign/core/Breadcrumbs";
 import type { Book } from "@/data/books";
 import type { Store } from "@/data/taxonomy";
 import { CATEGORIES } from "@/data/taxonomy";
@@ -79,23 +78,21 @@ export default function BookDetail({
 
   return (
     <div className="py-6">
-      <Breadcrumbs>
-        <BreadcrumbItem href="/">Home</BreadcrumbItem>
-        {category ? (
-          <BreadcrumbItem href={category.href}>{category.label}</BreadcrumbItem>
-        ) : (
-          <BreadcrumbItem href="/browse">{book.genre}</BreadcrumbItem>
-        )}
-        <BreadcrumbItem isCurrent>{book.title}</BreadcrumbItem>
-      </Breadcrumbs>
+      <nav aria-label="Breadcrumb">
+        <ol className="flex flex-wrap items-center gap-1.5 text-[13.5px] text-muted">
+          <li><Link href="/" className="hover:text-ak-800">Home</Link></li>
+          <li aria-hidden="true">/</li>
+          <li>
+            <Link href={category?.href ?? "/browse"} className="hover:text-ak-800">{category?.label ?? book.genre}</Link>
+          </li>
+          <li aria-hidden="true">/</li>
+          <li aria-current="page" className="truncate font-semibold text-ink">{book.title}</li>
+        </ol>
+      </nav>
 
       <div className="mt-4 grid gap-6 lg:grid-cols-[320px_1fr]">
         {/* Gallery: ak-50 shelf band behind on lg, soft offset + blur shadow under cover */}
         <div className="relative mx-auto w-full max-w-[260px] lg:max-w-none">
-          <div
-            aria-hidden="true"
-            className="absolute inset-x-[-1rem] bottom-0 top-1/3 hidden rounded-2xl bg-ak-50 lg:block"
-          />
           <div className="relative">
             <div className="overflow-hidden rounded-xl border border-line bg-white shadow-[0_24px_40px_-20px_rgba(54,8,115,0.45)]">
               <Cover book={book} sizes="(max-width: 1024px) 90vw, 480px" />
@@ -249,7 +246,7 @@ export default function BookDetail({
 
       {related.length > 0 && (
         <section className="mt-8">
-          <h2 className="mb-3 font-display text-[22px] text-ink">Related Books</h2>
+          <h2 className="mb-5 font-display text-[26px] font-bold text-ink lg:text-[34px]">You may also like</h2>
           <div className="ak-rail">
             {related.map((b) => (
               <BookCard key={b.slug} book={b} />

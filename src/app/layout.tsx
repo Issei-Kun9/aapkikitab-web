@@ -27,7 +27,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${display.variable} ${sans.variable}`}>
-      <body className="min-h-screen font-sans" data-astryx-theme="neutral">
+      <body className="min-h-screen font-sans">
         <Analytics />
         <ShopProvider>
           <Announcement />
