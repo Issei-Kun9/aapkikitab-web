@@ -12,7 +12,7 @@ import { BookCard, Cover, Icon, I, Price, Rating } from "@/components/ui";
 import { Reviews } from "@/components/reviews";
 import { RecentlyViewed, recordRecentView } from "@/components/recently-viewed";
 import { track } from "@/lib/analytics";
-import { SHIPPING } from "@/data/settings";
+import { PAYMENT, SHIPPING } from "@/data/settings";
 
 /* Native disclosure: keyboard + screen-reader support for free, no JS. */
 function Section({ title, open, children }: { title: string; open?: boolean; children: React.ReactNode }) {
@@ -189,7 +189,7 @@ export default function BookDetail({
             </button>
           </div>
           <ul className="mt-4 grid max-w-md grid-cols-3 gap-2 text-center text-[12.5px] font-semibold text-ink">
-            {[`Free shipping over ₹${SHIPPING.freeAbove}`, "Cash on delivery", `${SHIPPING.returnDays}-day returns`].map((t) => (
+            {[SHIPPING.freeAll ? "Free delivery, every order" : `Free shipping over ₹${SHIPPING.freeAbove}`, PAYMENT.cod ? "Cash on delivery" : "UPI & online payment", `${SHIPPING.returnDays}-day returns`].map((t) => (
               <li key={t} className="rounded-xl bg-ak-50 px-2 py-2.5 leading-tight">{t}</li>
             ))}
           </ul>
@@ -239,7 +239,8 @@ export default function BookDetail({
             <Section title="Shipping & returns">
               <ul className="tnum space-y-1.5 text-sm text-ink/80">
                 <li>{SHIPPING.dispatch.replace(/\.$/, "")}.</li>
-                <li>Flat ₹{SHIPPING.fee} shipping; free on orders above ₹{SHIPPING.freeAbove}.</li>
+                <li>{SHIPPING.freeAll ? "Free delivery on every order across India, no minimum order." : `Flat ₹${SHIPPING.fee} shipping; free on orders above ₹${SHIPPING.freeAbove}.`}</li>
+                <li>Pay by {PAYMENT.online}.{PAYMENT.cod ? " Cash on delivery available." : " Cash on delivery is not available."}</li>
                 <li>{SHIPPING.returnDays}-day replacement for damaged or wrong-title deliveries.</li>
               </ul>
             </Section>

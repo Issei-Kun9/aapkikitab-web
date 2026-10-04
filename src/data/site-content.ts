@@ -328,7 +328,7 @@ export const SITE_CONTENT: Record<string, any> | null = {
     "show_reviews": "true",
     "show_slider": "true",
     "show_trending": "true",
-    "header_tagline": "Books • Gifts • Art & Craft • More",
+    "header_tagline": "Made for India. Made for You.",
     "search_placeholder": "Search for books, gifts, art & craft...",
     "default_delivery_place": "Udaipur, 313001",
     "hero_eyebrow": "Discover stories",
@@ -343,23 +343,24 @@ export const SITE_CONTENT: Record<string, any> | null = {
     "show_promo_tiles": "true"
   },
   "shop": {
-    "free_shipping_above": 499,
-    "shipping_fee": 49,
+    "free_shipping_above": 0,
+    "shipping_fee": 0,
     "dispatch_text": "Dispatched in 24–48 hours, delivered in 3–7 working days",
     "return_days": 7,
     "footer_about": "An independent online bookshop. Original books from real Indian bookshops, at honest prices.",
     "newsletter_heading": "New arrivals, every Sunday",
     "payment_methods": [
       "UPI",
-      "Visa",
-      "Mastercard",
-      "RuPay",
-      "NetBanking",
-      "COD"
+      "QR Code",
+      "Online Payment"
     ],
     "copyright_text": "© 2026 Aapki Kitab. Made in India.",
     "seo_title": "AapkiKitab — Books, Gifts, Art & Craft",
-    "seo_description": "Books, gifts, art & craft and stationery from real Indian bookshops. Discover books by mood, interest, exam and budget."
+    "seo_description": "Books, gifts, art & craft and stationery from real Indian bookshops. Discover books by mood, interest, exam and budget.",
+    "delivery_headline": "FREE DELIVERY ON EVERY ORDER",
+    "delivery_subline": "Across India • No Minimum Order",
+    "online_payment_label": "UPI / QR / Online Payment",
+    "cod_available": "false"
   },
   "shortcuts": [
     {
@@ -396,7 +397,7 @@ export const SITE_CONTENT: Record<string, any> | null = {
   "trust": [
     {
       "title": "Free Delivery",
-      "sub": "Above ₹499",
+      "sub": "Every Order",
       "icon": "Truck",
       "href": ""
     },

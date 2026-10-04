@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { CATEGORIES, EXAMS } from "@/data/taxonomy";
-import { CONTACT, HEADER, SHIPPING } from "@/data/settings";
+import { CONTACT, DELIVERY, HEADER } from "@/data/settings";
 import { Icon, I } from "./ui";
 
 /* ---------- delivery pincode: remembered on this device ---------- */
@@ -48,7 +48,7 @@ export function DeliveryBar({ inline = false }: { inline?: boolean }) {
         type="button"
         onClick={() => setEditing((o) => !o)}
         aria-expanded={editing}
-        className="flex items-center gap-1.5 text-[14.5px] text-ink"
+        className="flex items-center gap-1.5 whitespace-nowrap text-[14.5px] text-ink"
       >
         <span className="text-ak-800 [&_path]:fill-current [&_circle]:fill-white">
           <Icon size={22} d={I.pin} />
@@ -84,16 +84,34 @@ export function DeliveryBar({ inline = false }: { inline?: boolean }) {
   if (inline) return picker;
 
   return (
-    <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 pb-1 pt-1">
+    <div className="mx-auto max-w-7xl px-4 pb-1 pt-1">
       {picker}
-      <span className="flex shrink-0 items-center gap-2 text-ak-900">
-        <Icon size={26} d={I.truck} />
+      <FreeDelivery />
+    </div>
+  );
+}
+
+/* ---------- the delivery promise: a slim violet band phones see first, a pill on desktop ---------- */
+export function FreeDelivery({ compact = false }: { compact?: boolean }) {
+  if (compact) {
+    return (
+      <span className="flex shrink-0 items-center gap-2.5 rounded-2xl bg-[linear-gradient(100deg,var(--color-ak-800),var(--color-ak-600))] py-2 pl-2.5 pr-4 text-white shadow-[0_8px_20px_-10px_rgba(74,31,196,0.75)]">
+        <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-white/15"><Icon size={17} d={I.truck} /></span>
         <span className="leading-tight">
-          <span className="block text-[13.5px] font-semibold text-ink">Free Delivery</span>
-          <span className="block text-[12px] text-muted">Above ₹{SHIPPING.freeAbove}</span>
+          <span className="block whitespace-nowrap text-[12px] font-bold tracking-[0.06em]">{DELIVERY.headline}</span>
+          {DELIVERY.subline && <span className="block whitespace-nowrap text-[11.5px] text-white/85">{DELIVERY.subline}</span>}
         </span>
       </span>
-    </div>
+    );
+  }
+  return (
+    <p className="mt-2.5 flex items-center gap-3 rounded-2xl bg-[linear-gradient(100deg,var(--color-ak-800),var(--color-ak-600))] px-3 py-2.5 text-white shadow-[0_10px_24px_-14px_rgba(74,31,196,0.8)]">
+      <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white/15"><Icon size={20} d={I.truck} /></span>
+      <span className="min-w-0 leading-tight">
+        <span className="block text-[13px] font-bold tracking-[0.06em]">{DELIVERY.headline}</span>
+        {DELIVERY.subline && <span className="mt-0.5 block text-[12px] text-white/85">{DELIVERY.subline}</span>}
+      </span>
+    </p>
   );
 }
 

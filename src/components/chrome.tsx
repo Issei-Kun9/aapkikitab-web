@@ -5,10 +5,10 @@ import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { BOOKS, inr, searchBooks, type Book } from "@/data/books";
 import { ANNOUNCEMENTS, BUDGETS, CATEGORIES, EXAMS, MOODS } from "@/data/taxonomy";
-import { CONTACT, FOOTER, FOOTER_COLUMNS, HEADER, HEADER_LINKS, mailLink, waLink } from "@/data/settings";
+import { CONTACT, FOOTER, FOOTER_COLUMNS, HEADER, HEADER_LINKS, PAYMENT, mailLink, waLink } from "@/data/settings";
 import { useShop } from "@/lib/store";
 import { Icon, I, Price } from "./ui";
-import { DeliveryBar, Drawer, VoiceButton } from "./header-bits";
+import { DeliveryBar, Drawer, FreeDelivery, VoiceButton } from "./header-bits";
 import { Bump } from "./motion";
 
 /* Header links come from Shopify (Menu link → "Header menu"); Books and Exams menus are built in. */
@@ -317,7 +317,7 @@ export function Logo() {
       <img src="/logo.webp" alt="" width={44} height={44} className="h-10 w-10 lg:h-11 lg:w-11" />
       <span className="leading-none">
         <span className="block text-[22px] font-bold tracking-[-0.02em] text-ak-900 lg:text-[24px]">AapkiKitab</span>
-        <span className="mt-1 block text-[10.5px] font-medium text-ink/80">{HEADER.tagline}</span>
+        <span className="mt-1 block text-[11px] font-semibold tracking-[0.01em] text-ak-800">{HEADER.tagline}</span>
       </span>
     </Link>
   );
@@ -333,7 +333,7 @@ export function Header() {
     pathname === "/browse" || pathname.startsWith("/category/") || pathname.startsWith("/mood/") || pathname.startsWith("/budget/");
   const examActive = pathname.startsWith("/exam/") || pathname === "/category/education-exams";
   const linkCls = (href: string) =>
-    `flex h-full items-center border-b-2 text-[15px] font-semibold transition-colors ${pathname === href ? "border-ak-800 text-ak-800" : "border-transparent text-ink hover:text-ak-800"}`;
+    `flex h-full items-center whitespace-nowrap border-b-2 text-[15px] font-semibold transition-colors ${pathname === href ? "border-ak-800 text-ak-800" : "border-transparent text-ink hover:text-ak-800"}`;
   return (
     <>
       <header className="sticky top-0 z-40 bg-[#efe9ff]/90 backdrop-blur-md lg:border-b lg:border-line lg:bg-white/90">
@@ -348,7 +348,8 @@ export function Header() {
             <Icon size={26} d={I.menu} />
           </button>
           <Logo />
-          <div className="ml-auto hidden w-full max-w-[560px] lg:block"><SearchBar compact /></div>
+          <div className="ml-auto hidden w-full max-w-[520px] lg:block"><SearchBar compact /></div>
+          <span className="hidden xl:block"><FreeDelivery compact /></span>
           <nav className="ml-auto flex shrink-0 items-center gap-1 lg:ml-0" aria-label="Account">
             <HeaderAction href="/wishlist" label="Wishlist" icon={I.heart()} n={wishlist.length} />
             <HeaderAction href="/cart" label="Cart" icon={I.cart} n={cartCount} />
@@ -389,10 +390,10 @@ export function Header() {
               {n.label}
             </Link>
           ))}
-          <span className="ml-auto"><DeliveryBar inline /></span>
+          <span className="ml-auto hidden xl:block"><DeliveryBar inline /></span>
         </nav>
       </header>
-      <div className="lg:hidden"><DeliveryBar /></div>
+      <div className="xl:hidden"><DeliveryBar /></div>
       {menu && <Drawer nav={NAV} onClose={closeMenu} />}
     </>
   );
@@ -466,7 +467,10 @@ export function Footer() {
         <div className="col-span-2 sm:col-span-3 lg:col-span-1">
           <div className="flex items-center gap-3">
             <img src="/logo.webp" alt="" width={48} height={48} className="h-12 w-12" />
-            <p className="font-display text-[26px] font-semibold tracking-[-0.02em]">Aapki Kitab</p>
+            <p className="leading-tight">
+              <span className="block font-display text-[26px] font-semibold tracking-[-0.02em]">Aapki Kitab</span>
+              <span className="block text-[14px] font-semibold text-marigold">{HEADER.tagline}</span>
+            </p>
           </div>
           <p className="mt-5 max-w-sm whitespace-pre-line text-[15.5px] leading-relaxed text-white/70">{FOOTER.about}</p>
           {(CONTACT.phone || CONTACT.email || CONTACT.address) && (
@@ -520,6 +524,11 @@ export function Footer() {
               {p}
             </span>
           ))}
+          {!PAYMENT.cod && (
+            <span className="rounded-md border border-dashed border-white/20 px-2.5 py-1 text-[12px] font-semibold text-white/45">
+              <span className="line-through">Cash on Delivery</span> — Not Available
+            </span>
+          )}
         </div>
         <p className="text-[13px] text-white/55">{FOOTER.copyright}</p>
       </div>

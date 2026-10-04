@@ -13,7 +13,7 @@ const DEFAULTS: { id: string; title: string; text: string }[] = [
   {
     id: "shipping",
     title: "Shipping",
-    text: `${SHIPPING.dispatch.replace(/\.$/, "")}. Shipping is a flat ₹${SHIPPING.fee}, and free on orders above ₹${SHIPPING.freeAbove}.`,
+    text: `${SHIPPING.dispatch.replace(/\.$/, "")}. ${SHIPPING.freeAll ? "Delivery is free on every order across India, with no minimum order." : `Shipping is a flat ₹${SHIPPING.fee}, and free on orders above ₹${SHIPPING.freeAbove}.`}`,
   },
   {
     id: "returns",

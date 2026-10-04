@@ -7,7 +7,7 @@ import { useShop } from "@/lib/store";
 import { Cover, EmptyState, Icon, Price } from "@/components/ui";
 import { EMPTY_SHELF_IMAGE } from "@/data/taxonomy";
 import { track } from "@/lib/analytics";
-import { SHIPPING, shippingFor } from "@/data/settings";
+import { DELIVERY, PAYMENT, SHIPPING, shippingFor } from "@/data/settings";
 
 export default function CartPage() {
   const { cart, setQty, removeFromCart, subtotal } = useShop();
@@ -116,7 +116,7 @@ export default function CartPage() {
                 <p className="mt-1 text-xs font-semibold text-ak-800">Add {inr(SHIPPING.freeAbove - subtotal)} more for FREE shipping.</p>
               </div>
             ) : (
-              <p className="mt-1 text-xs font-bold text-leaf">You unlocked FREE shipping.</p>
+              <p className="mt-1 text-xs font-bold text-leaf">{SHIPPING.freeAll ? `${DELIVERY.headline.charAt(0)}${DELIVERY.headline.slice(1).toLowerCase()} · ${DELIVERY.subline}` : "You unlocked FREE shipping."}</p>
             )}
             <div className="mt-1 flex justify-between border-t border-line pt-2 text-base font-bold">
               <dt>Total</dt>
@@ -133,7 +133,7 @@ export default function CartPage() {
           >
             Proceed to checkout
           </button>
-          <p className="mt-2 text-center text-xs text-muted">100% Original · Easy 7-day returns · Secure UPI payment</p>
+          <p className="mt-2 text-center text-xs text-muted">100% Original · Easy {SHIPPING.returnDays}-day returns · {PAYMENT.online}</p>
         </div>
       </div>
     </div>
