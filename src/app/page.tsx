@@ -1,6 +1,7 @@
 import {
   BookOfDay,
   BudgetBand,
+  CategoryShelf,
   ExamStrip,
   FindNextBook,
   GiftBoxes,
@@ -9,7 +10,6 @@ import {
   PromoSlider,
   ReaderReviews,
   RecentlyViewed,
-  TileRow,
   Trending,
 } from "@/components/home";
 import { CATEGORIES } from "@/data/taxonomy";
@@ -37,7 +37,7 @@ export default function Home() {
         <BudgetBand />
       </section>
       <section className={S}>
-        <TileRow title="Browse Categories" href="/browse" tiles={CATEGORIES.slice(0, 8)} />
+        <CategoryShelf tiles={CATEGORIES} />
       </section>
       <section className={S}>
         <NewArrivals />

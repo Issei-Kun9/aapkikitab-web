@@ -97,20 +97,19 @@ export function Cover({ book, className = "", sizes }: { book: Book; className?:
       </span>
     );
   }
-  /* Authored placeholder: a designed jacket, not a flat swatch. */
+  /* Authored placeholder: a designed jacket, not a flat swatch. The wrapper is the size
+     container, so every measurement inside scales with the jacket's own width. */
   return (
-    <div
-      className={`relative flex aspect-[3/4] w-full flex-col items-center [container-type:inline-size] justify-between overflow-hidden bg-ak-900 px-4 py-6 text-center text-white ${className}`}
-      role="img"
-      aria-label={`${book.title} cover`}
-    >
-      <span aria-hidden="true" className="absolute inset-2.5 rounded-[3px] border border-white/25" />
-      <span aria-hidden="true" className="absolute inset-y-0 left-0 w-2.5 bg-ak-950/60" />
-      <img src="/logo.webp" alt="" aria-hidden="true" className="relative h-7 w-7 opacity-90" />
-      <p className="relative font-display text-[clamp(1.05rem,11cqw,2.6rem)] font-bold leading-[1.1] [text-wrap:balance]">{book.title}</p>
-      <div className="relative">
-        <div className="mx-auto mb-2 h-px w-8 bg-white/50" />
-        <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-ak-100">{book.author}</p>
+    <div className={`w-full [container-type:inline-size] ${className}`} role="img" aria-label={`${book.title} cover`}>
+      <div className="relative flex aspect-[3/4] w-full flex-col items-center justify-between overflow-hidden bg-ak-900 px-[9cqw] py-[11cqw] text-center text-white">
+        <span aria-hidden="true" className="absolute inset-[4.5cqw] rounded-[3px] border border-white/25" />
+        <span aria-hidden="true" className="absolute inset-y-0 left-0 w-[4.5cqw] bg-ak-950/60" />
+        <img src="/logo.webp" alt="" aria-hidden="true" className="relative h-[14cqw] w-[14cqw] opacity-90" />
+        <p className="relative font-display text-[11cqw] font-bold leading-[1.1] [text-wrap:balance]">{book.title}</p>
+        <div className="relative">
+          <div className="mx-auto mb-[4cqw] h-px w-[16cqw] bg-white/50" />
+          <p className="text-[5cqw] font-semibold uppercase tracking-[0.16em] text-ak-100">{book.author}</p>
+        </div>
       </div>
     </div>
   );

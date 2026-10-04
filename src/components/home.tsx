@@ -190,10 +190,10 @@ export function MoodPanel() {
             href={m.href}
             className="group flex flex-col items-center rounded-xl border border-line bg-white px-2 pb-3.5 pt-4 text-center transition-[transform,box-shadow,border-color] duration-300 hover:-translate-y-1 hover:border-ak-800/30 hover:shadow-[0_14px_28px_-16px_rgba(54,8,115,0.5)]"
           >
-            <span className="grid h-12 w-12 place-items-center rounded-full bg-ak-50 text-ak-800 transition-colors group-hover:bg-ak-800 group-hover:text-white">
-              <Icon size={24} d={MOOD_ICON[m.slug] ?? I.star} />
+            <span className="ak-duo ak-duo-dark grid h-16 w-16 place-items-center rounded-2xl bg-ak-800 text-white shadow-[0_10px_20px_-10px_rgba(54,8,115,0.7)] transition-[background-color,transform] duration-300 group-hover:-rotate-6 group-hover:scale-105 group-hover:bg-ak-900">
+              <Icon size={34} d={MOOD_ICON[m.slug] ?? I.star} />
             </span>
-            <span className="mt-2.5 text-[15px] font-bold text-ink">{m.label}</span>
+            <span className="mt-3 text-[15.5px] font-bold text-ink">{m.label}</span>
             <span className="text-[12.5px] text-muted">{m.sub}</span>
           </Link>
         ))}
@@ -212,9 +212,11 @@ export function ExamStrip() {
           <Link
             key={e.slug}
             href={e.href}
-            className="group flex flex-col items-center gap-2 rounded-xl border border-line bg-white px-2 py-4 text-center transition-colors hover:border-ak-800 hover:bg-ak-50"
+            className="group flex flex-col items-center gap-2.5 rounded-xl border border-line bg-white px-2 py-4 text-center transition-[border-color,box-shadow] duration-300 hover:border-ak-800/40 hover:shadow-[0_12px_24px_-16px_rgba(54,8,115,0.55)]"
           >
-            <span className="text-ak-800"><Icon size={26} d={EXAM_ICON[e.slug] ?? I.grid} /></span>
+            <span className="ak-duo ak-duo-soft grid h-12 w-12 place-items-center rounded-xl bg-ak-100 text-ak-800 transition-[background-color,color,transform] duration-300 group-hover:scale-105 group-hover:bg-ak-800 group-hover:text-white">
+              <Icon size={28} d={EXAM_ICON[e.slug] ?? I.grid} />
+            </span>
             <span className="text-[13.5px] font-bold leading-tight text-ink">{e.label}</span>
           </Link>
         ))}
@@ -289,6 +291,65 @@ export function TileRow({ title, href, tiles }: { title: string; href?: string; 
             <span className="min-w-0 leading-tight">
               <span className="block truncate text-[15px] font-bold text-ink transition-colors group-hover:text-ak-800">{t.label}</span>
               <span className="block truncate text-[12.5px] text-muted">{t.sub}</span>
+            </span>
+          </Link>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ---------- category shelf: each tile fans real covers from that category ---------- */
+export function CategoryShelf({ tiles }: { tiles: Tile[] }) {
+  const rows = tiles
+    .map((t) => {
+      const books = BOOKS.filter((b) => b.categories.includes(t.slug));
+      return { t, count: books.length, covers: books.filter((b) => b.cover).slice(0, 3), first: books[0] };
+    })
+    .filter((r) => r.count > 0);
+  if (rows.length === 0) return null;
+  return (
+    <div>
+      <SectionHead title="Browse Categories" href="/browse" />
+      <div className="ak-rail ak-rail-cat">
+        {rows.map(({ t, count, covers, first }) => (
+          <Link
+            key={t.slug}
+            href={t.href}
+            className="group relative flex h-[148px] overflow-hidden rounded-2xl bg-ak-50 p-4 transition-colors duration-300 hover:bg-ak-100 lg:h-[164px] lg:p-5"
+          >
+            <span className="relative z-10 flex max-w-[52%] flex-col">
+              <span className="font-display text-[19px] font-bold leading-tight text-ink lg:text-[21px]">{t.label}</span>
+              <span className="tnum mt-1 text-[13px] font-semibold text-ak-800">
+                {count} {count === 1 ? "book" : "books"}
+              </span>
+              <span className="mt-auto inline-flex items-center gap-1 text-[13px] font-bold text-ink/70 transition-colors group-hover:text-ak-800">
+                Explore
+                <span className="transition-transform duration-300 group-hover:translate-x-1"><Icon size={14} d={I.arrow} /></span>
+              </span>
+            </span>
+            <span aria-hidden="true" className="absolute -bottom-3 right-3 h-[124px] w-[45%] lg:h-[140px]">
+              {covers.length > 0 ? (
+                covers.map((b, i) => (
+                  <img
+                    key={b.slug}
+                    src={b.cover!}
+                    alt=""
+                    loading="lazy"
+                    className="absolute bottom-0 aspect-[2/3] h-[88%] rounded-[4px] object-cover shadow-[0_12px_22px_-10px_rgba(35,5,74,0.6)] transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]"
+                    style={{
+                      right: `${i * 26}%`,
+                      zIndex: 3 - i,
+                      transform: `rotate(${[4, -3, -9][i]}deg)`,
+                      transformOrigin: "bottom center",
+                    }}
+                  />
+                ))
+              ) : (
+                <span className="absolute bottom-0 right-2 block aspect-[2/3] h-[88%] rotate-[4deg] overflow-hidden rounded-[4px] shadow-[0_12px_22px_-10px_rgba(35,5,74,0.6)]">
+                  <Cover book={first} sizes="90px" />
+                </span>
+              )}
             </span>
           </Link>
         ))}

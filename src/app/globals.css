@@ -192,3 +192,22 @@ body {
 @media (min-width: 1024px) {
   .ak-rail-gift { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
 }
+
+/* Duotone drawn icons: closed shapes take a tint, strokes carry the colour */
+.ak-duo-dark svg :is(path, circle, rect) {
+  fill: rgb(255 255 255 / 0.22);
+}
+.ak-duo-soft svg :is(path, circle, rect) {
+  fill: #fff;
+}
+.group:hover .ak-duo-soft svg :is(path, circle, rect) {
+  fill: rgb(255 255 255 / 0.22);
+}
+/* Category tiles: swipe on phones, 3 then 4 across */
+.ak-rail-cat { grid-auto-columns: 82%; gap: 12px; }
+@media (min-width: 640px) {
+  .ak-rail-cat { grid-auto-columns: 46%; }
+}
+@media (min-width: 1024px) {
+  .ak-rail-cat { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+}
