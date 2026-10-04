@@ -1,3 +1,4 @@
+import { SITE_CONTENT } from "./site-content";
 export interface Tile {
   slug: string;
   label: string;
@@ -12,7 +13,7 @@ const ol = (isbn: string) =>
 const us = (id: string, w = 400) =>
   `https://images.unsplash.com/photo-${id}?q=80&w=${w}&auto=format&fit=crop`;
 
-export const MOODS: Tile[] = [
+const STATIC_MOODS: Tile[]  = [
   { slug: "feel", label: "Feel", sub: "Emotional", icon: "heart", href: "/mood/feel", image: ol("9780061122415") },
   { slug: "thrill", label: "Thrill", sub: "Mystery & Thriller", icon: "flame", href: "/mood/thrill", image: ol("9781250301697") },
   { slug: "learn", label: "Learn", sub: "Knowledge", icon: "brain", href: "/mood/learn", image: ol("9780062316097") },
@@ -23,7 +24,7 @@ export const MOODS: Tile[] = [
   { slug: "light", label: "Light", sub: "Easy Reads", icon: "sun", href: "/mood/light", image: ol("9780142410370") },
 ];
 
-export const EXAMS: Tile[] = [
+const STATIC_EXAMS: Tile[]  = [
   { slug: "jee", label: "JEE", sub: "Engineering", icon: "atom", href: "/exam/jee", image: us("1524995997946-a1c2e315a42f") },
   { slug: "neet", label: "NEET", sub: "Medical", icon: "pulse", href: "/exam/neet", image: us("1512820790803-83ca734da794") },
   { slug: "upsc", label: "UPSC", sub: "Civil Services", icon: "landmark", href: "/exam/upsc", image: us("1481627834876-b7833e8f5570") },
@@ -38,7 +39,7 @@ export const EXAMS: Tile[] = [
   { slug: "maths-science", label: "Maths & Science", sub: "Concepts", icon: "sigma", href: "/exam/maths-science" },
 ];
 
-export const CATEGORIES: Tile[] = [
+const STATIC_CATEGORIES: Tile[]  = [
   { slug: "fiction", label: "Fiction", sub: "Stories", icon: "novel", href: "/category/fiction", image: ol("9780061122415") },
   { slug: "mystery-thriller", label: "Mystery & Thriller", sub: "Page-turners", icon: "eye", href: "/category/mystery-thriller", image: ol("9781250301697") },
   { slug: "self-help", label: "Self Help", sub: "Become more", icon: "sprout", href: "/category/self-help", image: ol("9780857197689") },
@@ -50,7 +51,7 @@ export const CATEGORIES: Tile[] = [
   { slug: "maths-science", label: "Maths & Science", sub: "Concepts", icon: "sigma", href: "/category/maths-science" },
 ];
 
-export const BUDGETS = [
+const STATIC_BUDGETS = [
   { slug: "under-199", label: "Under ₹199", max: 199 },
   { slug: "under-299", label: "Under ₹299", max: 299 },
   { slug: "under-499", label: "Under ₹499", max: 499 },
@@ -67,7 +68,7 @@ export interface Store {
   photo: string;
 }
 
-export const STORES: Store[] = [
+const STATIC_STORES: Store[]  = [
   {
     slug: "abc-bookstore",
     name: "ABC Bookstore",
@@ -98,7 +99,7 @@ export interface Promo {
 }
 
 /* Admin-managed later (Shopify metaobjects). Order = display order. */
-export const PROMOS: Promo[] = [
+const STATIC_PROMOS: Promo[]  = [
   {
     heading: "Stories that stay with you",
     lead: "Discover the magic of Udaipur in",
@@ -134,7 +135,7 @@ export interface GiftBox {
   photo: string;
 }
 
-export const GIFT_BOXES: GiftBox[] = [
+const STATIC_GIFT_BOXES: GiftBox[]  = [
   { slug: "book-lover-box", name: "Book Lover Box", items: ["1 book of your choice", "1 bookmark", "1 greeting card"], price: 599, photo: us("1512909006721-3d6018887383", 600) },
   { slug: "birthday-book-box", name: "Birthday Book Box", items: ["1 book", "1 art / craft item", "1 greeting card"], price: 699, photo: us("1513885535751-8b9238bd345a", 600) },
   { slug: "best-friend-box", name: "Best Friend Box", items: ["1 book", "1 bookmark", "1 small gift item"], price: 699, photo: us("1544947950-fa07a98d237f", 600) },
@@ -143,3 +144,23 @@ export const GIFT_BOXES: GiftBox[] = [
 export const DISCOVERY_IMAGE = us("1506880018603-83d5b814b5a6", 800);
 export const BUDGET_IMAGE = us("1495446815901-a7297e633e8d", 800);
 export const EMPTY_SHELF_IMAGE = us("1481627834876-b7833e8f5570", 800);
+
+/* Live content from Shopify admin (Content → Metaobjects) when synced; the static
+   lists above are the fallback, so the site never renders empty. */
+const C = SITE_CONTENT;
+const withImages = (live: Tile[] | undefined, fallback: Tile[]): Tile[] =>
+  live?.length ? live.map((t) => ({ ...t, image: t.image ?? fallback.find((f) => f.slug === t.slug)?.image })) : fallback;
+export const MOODS: Tile[] = withImages(C?.moods, STATIC_MOODS);
+export const EXAMS: Tile[] = withImages(C?.exams, STATIC_EXAMS);
+export const CATEGORIES: Tile[] = withImages(C?.categories, STATIC_CATEGORIES);
+export const BUDGETS: typeof STATIC_BUDGETS = C?.budgets?.length ? C.budgets : STATIC_BUDGETS;
+export const STORES: Store[] = C?.stores?.length ? C.stores : STATIC_STORES;
+export const PROMOS: Promo[] = C ? C.promos : STATIC_PROMOS;
+export const GIFT_BOXES: GiftBox[] = C ? C.giftBoxes : STATIC_GIFT_BOXES;
+
+/* Homepage section switches + top-bar messages (all on / defaults when not synced). */
+const H = C?.home as Record<string, string> | null | undefined;
+export const SHOW = (key: string) => (H?.[`show_${key}`] ?? "true") !== "false";
+export const ANNOUNCEMENTS: string[] = H
+  ? [H.announcement_1, H.announcement_2, H.announcement_3].filter(Boolean)
+  : ["Free shipping on orders above ₹499", "100% original books", "Verified physical bookstores"];

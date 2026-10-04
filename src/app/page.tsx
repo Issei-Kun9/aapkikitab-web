@@ -12,7 +12,7 @@ import {
   RecentlyViewed,
   Trending,
 } from "@/components/home";
-import { CATEGORIES } from "@/data/taxonomy";
+import { CATEGORIES, SHOW } from "@/data/taxonomy";
 
 /* Homepage order follows the client brief (§6/§48). Sections render nothing
    when their data is empty, and the wrapper collapses with them. */
@@ -22,37 +22,37 @@ export default function Home() {
   return (
     <div className="pb-4">
       <section className="mt-4 lg:mt-6">
-        <PromoSlider />
+        {SHOW("slider") && <PromoSlider />}
       </section>
       <section className="mt-4 empty:hidden lg:mt-6">
-        <FindNextBook />
+        {SHOW("find_book") && <FindNextBook />}
       </section>
       <section className={S}>
-        <MoodPanel />
+        {SHOW("moods") && <MoodPanel />}
       </section>
       <section className={S}>
-        <ExamStrip />
+        {SHOW("exams") && <ExamStrip />}
       </section>
       <section className={S}>
-        <BudgetBand />
+        {SHOW("budget") && <BudgetBand />}
       </section>
       <section className={S}>
-        <CategoryShelf tiles={CATEGORIES} />
+        {SHOW("categories") && <CategoryShelf tiles={CATEGORIES} />}
       </section>
       <section className={S}>
-        <NewArrivals />
+        {SHOW("new_arrivals") && <NewArrivals />}
       </section>
       <section className={S}>
-        <Trending />
+        {SHOW("trending") && <Trending />}
       </section>
       <section className={S}>
-        <GiftBoxes />
+        {SHOW("gift_boxes") && <GiftBoxes />}
       </section>
       <section className={S}>
-        <BookOfDay />
+        {SHOW("book_of_day") && <BookOfDay />}
       </section>
       <section className={S}>
-        <ReaderReviews />
+        {SHOW("reviews") && <ReaderReviews />}
       </section>
       <section className={S}>
         <RecentlyViewed />

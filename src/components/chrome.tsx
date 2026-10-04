@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useId, useRef, useState } from "react";
 import { BOOKS, inr, searchBooks, type Book } from "@/data/books";
-import { BUDGETS, CATEGORIES, EXAMS, MOODS } from "@/data/taxonomy";
+import { ANNOUNCEMENTS, BUDGETS, CATEGORIES, EXAMS, MOODS } from "@/data/taxonomy";
 import { useShop } from "@/lib/store";
 import { Icon, I, Price } from "./ui";
 import { Bump, Press } from "./motion";
@@ -18,11 +18,8 @@ const NAV = [
   { label: "Bookstores", href: "/bookstores" },
 ];
 
-const NOTES = [
-  { t: "Free shipping on orders above ₹499", icon: I.truck },
-  { t: "100% original books", icon: I.shield },
-  { t: "Verified physical bookstores", icon: I.store },
-];
+const NOTE_ICONS = [I.truck, I.shield, I.store];
+const NOTES = ANNOUNCEMENTS.map((t, i) => ({ t, icon: NOTE_ICONS[i % NOTE_ICONS.length] }));
 
 export function Announcement() {
   const [i, setI] = useState(0);
