@@ -20,6 +20,7 @@ const sans = Mukta({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://aapkikitab.in"),
   title: "Aapki Kitab — Your Next Book Awaits",
   description: "A premium independent online bookstore. Discover books by mood, interest, exam and budget.",
 };
@@ -27,6 +28,14 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${display.variable} ${sans.variable}`}>
+      <head>
+        {/* One official address: www and the pages.dev preview hop to aapkikitab.in, same path. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `if(/^(www\\.aapkikitab\\.in|aapkikitab\\.pages\\.dev)$/.test(location.hostname))location.replace("https://aapkikitab.in"+location.pathname+location.search+location.hash)`,
+          }}
+        />
+      </head>
       <body className="min-h-screen font-sans">
         <Analytics />
         <ShopProvider>
