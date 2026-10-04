@@ -81,8 +81,8 @@ export function Price({ value, mrp, big = false }: { value: number; mrp?: number
       {mrp && mrp > value && (
         <>
           <span className={`tnum text-muted line-through ${big ? "text-lg" : "text-[13px]"}`}>{inr(mrp)}</span>
-          <span className="tnum whitespace-nowrap rounded-full bg-leaf/10 px-2 py-0.5 text-[11px] font-bold text-leaf">
-            {Math.round(((mrp - value) / mrp) * 100)}% off
+          <span className="tnum whitespace-nowrap rounded-full bg-rose-50 px-2 py-0.5 text-[11px] font-bold text-rose">
+            {Math.round(((mrp - value) / mrp) * 100)}% OFF
           </span>
         </>
       )}
