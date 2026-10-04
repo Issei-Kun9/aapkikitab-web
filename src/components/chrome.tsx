@@ -151,7 +151,7 @@ export function SearchBar({ compact = false }: { compact?: boolean }) {
     <div ref={boxRef} className="relative w-full">
       <form
         role="search"
-        className={`flex w-full items-stretch overflow-hidden rounded-lg border border-line bg-white transition-[border-color,box-shadow] focus-within:border-ak-800 focus-within:shadow-[0_0_0_4px_rgba(75,15,138,0.08)] ${compact ? "h-11" : "h-12"}`}
+        className={`flex w-full items-center rounded-full border border-transparent bg-ak-50 pl-1 pr-1 transition-[border-color,background-color,box-shadow] focus-within:border-ak-800 focus-within:bg-white focus-within:shadow-[0_0_0_4px_rgba(91,15,168,0.1)] ${compact ? "h-11" : "h-12"}`}
         onSubmit={(e) => {
           e.preventDefault();
           if (open && active >= 0 && suggestions[active]) goBook(suggestions[active].slug);
@@ -172,11 +172,11 @@ export function SearchBar({ compact = false }: { compact?: boolean }) {
           aria-controls={listId}
           aria-activedescendant={active >= 0 ? `${listId}-${active}` : undefined}
           aria-autocomplete="list"
-          placeholder="Search books, authors or ISBN…"
+          placeholder="Search books, authors, ISBN"
           aria-label="Search books, authors or ISBN"
           className="w-full bg-transparent px-4 text-sm text-ink outline-none placeholder:text-muted"
         />
-        <button type="submit" aria-label="Search" className="grid w-12 shrink-0 place-items-center bg-ak-800 text-white transition-colors hover:bg-ak-900 lg:w-14">
+        <button type="submit" aria-label="Search" className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-ak-800 text-white transition-[background-color,transform] hover:bg-ak-900 active:scale-95">
           <Icon size={18} d={I.search} />
         </button>
       </form>
@@ -270,13 +270,13 @@ function NavMenu({
     };
   }, [open]);
   return (
-    <div ref={ref} className="relative" onMouseEnter={() => setOpen(true)} onMouseLeave={() => setOpen(false)}>
+    <div ref={ref} className="relative h-full" onMouseEnter={() => setOpen(true)} onMouseLeave={() => setOpen(false)}>
       <button
         type="button"
         aria-expanded={open}
         aria-haspopup="true"
         onClick={() => setOpen((o) => !o)}
-        className={`flex items-center gap-2 border-b-2 py-3 text-[15px] font-semibold transition-colors ${active || open ? "border-ak-800 text-ak-800" : "border-transparent text-ink hover:text-ak-800"}`}
+        className={`flex h-full items-center gap-1.5 border-b-2 text-[15px] font-semibold transition-colors ${active || open ? "border-ak-800 text-ak-800" : "border-transparent text-ink hover:text-ak-800"}`}
       >
         {leading}
         {label}
@@ -285,7 +285,7 @@ function NavMenu({
         </span>
       </button>
       {open && (
-        <div className="ak-menu absolute left-0 top-full z-50 pt-2" style={{ width }}>
+        <div className="ak-menu absolute left-0 top-full z-50 pt-1" style={{ width }}>
           <div className="rounded-2xl border border-line bg-white p-6 shadow-[0_30px_60px_-30px_rgba(35,5,74,0.45)]">{children}</div>
         </div>
       )}
@@ -315,13 +315,13 @@ function HeaderAction({ href, label, icon, n, className = "" }: { href: string; 
     <Link
       href={href}
       aria-label={label}
-      className={`relative flex flex-col items-center gap-0.5 rounded-xl px-2 py-1 text-ink transition-colors hover:text-ak-800 lg:px-3 ${className}`}
+      className={`relative grid h-11 w-11 place-items-center rounded-full text-ink transition-colors hover:bg-ak-50 hover:text-ak-800 ${className}`}
     >
       <span className="relative">
         <Icon size={23} d={icon} />
         {n !== undefined && <Count n={n} />}
       </span>
-      <span className="hidden text-[12.5px] font-semibold lg:block">{label}</span>
+      
     </Link>
   );
 }
@@ -334,28 +334,16 @@ export function Header() {
     pathname === "/browse" || pathname.startsWith("/category/") || pathname.startsWith("/mood/") || pathname.startsWith("/budget/");
   const examActive = pathname.startsWith("/exam/") || pathname === "/category/education-exams";
   const linkCls = (href: string) =>
-    `border-b-2 py-3 text-[15px] font-semibold transition-colors ${pathname === href ? "border-ak-800 text-ak-800" : "border-transparent text-ink hover:text-ak-800"}`;
+    `flex h-full items-center border-b-2 text-[15px] font-semibold transition-colors ${pathname === href ? "border-ak-800 text-ak-800" : "border-transparent text-ink hover:text-ak-800"}`;
   return (
-    <header className="sticky top-0 z-40 border-b border-line bg-white">
-      <div className="mx-auto flex max-w-7xl items-center gap-3 px-4 py-2.5 lg:gap-10 lg:py-4">
-        <Link href="/" className="flex min-w-0 shrink items-center gap-2.5 lg:gap-3" aria-label="Aapki Kitab home">
-          <img src="/logo.webp" alt="" width={64} height={64} className="h-11 w-11 shrink-0 lg:h-16 lg:w-16" />
-          <span className="leading-none">
-            <span className="block whitespace-nowrap font-display text-[19px] font-bold tracking-[0.02em] text-ak-900 lg:text-[26px]">AAPKI KITAB</span>
-            <span className="mt-1 block whitespace-nowrap text-[11.5px] text-muted lg:text-[14px]">Your Next Book Awaits.</span>
-          </span>
+    <header className="sticky top-0 z-40 border-b border-line bg-white/95 backdrop-blur-md">
+      <div className="mx-auto flex h-16 max-w-7xl items-center gap-4 px-4 lg:h-[72px] lg:gap-8">
+        <Link href="/" className="flex shrink-0 items-center gap-2.5" aria-label="Aapki Kitab home">
+          <img src="/logo.webp" alt="" width={44} height={44} className="h-10 w-10 lg:h-11 lg:w-11" />
+          <span className="font-display text-[21px] font-semibold tracking-[-0.02em] text-ink lg:text-[23px]">Aapki Kitab</span>
         </Link>
-        <div className="hidden flex-1 md:block"><SearchBar /></div>
-        <nav className="ml-auto flex shrink-0 items-center md:ml-0" aria-label="Account">
-          <HeaderAction href="/wishlist" label="Wishlist" icon={I.heart()} n={wishlist.length} />
-          <HeaderAction href="/cart" label="Cart" icon={I.cart} n={cartCount} />
-          <HeaderAction href="/account" label="Account" icon={I.user} className="hidden md:flex" />
-        </nav>
-      </div>
-      <div className="px-4 pb-3 md:hidden"><SearchBar compact /></div>
-      <nav className="hidden border-t border-line/70 lg:block" aria-label="Primary">
-        <div className="mx-auto flex max-w-7xl items-center gap-12 px-4">
-          <NavMenu label="All books" leading={<Icon size={20} d={I.menu} />} active={browseActive} width={760}>
+        <nav className="hidden h-full items-center gap-5 lg:flex xl:gap-7" aria-label="Primary">
+          <NavMenu label="Books" active={browseActive} width={760}>
             <div className="grid grid-cols-[1fr_1fr_1fr_200px] gap-6">
               <MenuList title="Categories" items={CATEGORIES.slice(0, 7)} />
               <MenuList title="Moods" items={MOODS} />
@@ -376,7 +364,7 @@ export function Header() {
               </Link>
             </div>
           </NavMenu>
-          <NavMenu label="Education & Exams" active={examActive} width={420}>
+          <NavMenu label="Exams" active={examActive} width={420}>
             <div className="grid grid-cols-2 gap-x-4">
               <MenuList title="Competitive exams" items={EXAMS.slice(0, 6)} />
               <MenuList title="More" items={EXAMS.slice(6)} />
@@ -387,8 +375,16 @@ export function Header() {
               {n.label}
             </Link>
           ))}
-        </div>
-      </nav>
+        </nav>
+        <div className="ml-auto hidden w-full max-w-[300px] md:block lg:hidden xl:block"><SearchBar compact /></div>
+        <nav className="ml-auto flex shrink-0 items-center md:ml-0 lg:ml-auto xl:ml-0" aria-label="Account">
+          <HeaderAction href="/search" label="Search" icon={I.search} className="hidden lg:grid xl:hidden" />
+          <HeaderAction href="/wishlist" label="Wishlist" icon={I.heart()} n={wishlist.length} />
+          <HeaderAction href="/cart" label="Cart" icon={I.cart} n={cartCount} />
+          <HeaderAction href="/account" label="Account" icon={I.user} className="hidden md:flex" />
+        </nav>
+      </div>
+      <div className="px-4 pb-3 md:hidden"><SearchBar compact /></div>
     </header>
   );
 }
@@ -496,30 +492,30 @@ function NewsletterForm() {
 
 export function Footer() {
   const cols: { h: string; links: [string, string][] }[] = [
-    { h: "Shop", links: [["Browse books", "/browse"], ["New arrivals", "/new"], ["Trending", "/trending"], ["Offers", "/offers"], ["Book of the day", "/book/parth-the-promise"]] },
-    { h: "Discover", links: [["Find my book", "/find-my-book"], ["Education & exams", "/category/education-exams"], ["Bookstores", "/bookstores"], ["Request a book", "/request-book"]] },
-    { h: "Help", links: [["Contact", "/request-book"], ["Shipping policy", "/policies"], ["Returns & refunds", "/policies"], ["Privacy & terms", "/policies"]] },
+    { h: "Shop", links: [["All books", "/browse"], ["New arrivals", "/new"], ["Bestsellers", "/trending"], ["Art & craft", "/art-craft"], ["Offers", "/offers"]] },
+    { h: "Discover", links: [["Find my book", "/find-my-book"], ["Exams & education", "/category/education-exams"], ["Partner bookshops", "/bookstores"], ["Request a book", "/request-book"]] },
+    { h: "Help", links: [["Contact us", "/request-book"], ["Shipping", "/policies"], ["Returns & refunds", "/policies"], ["Privacy & terms", "/policies"]] },
   ];
   return (
-    <footer className="mt-20 bg-ak-950 pb-20 text-white lg:pb-0">
-      <div className="mx-auto grid max-w-7xl grid-cols-2 gap-x-6 gap-y-10 px-4 pb-12 pt-14 sm:grid-cols-3 lg:grid-cols-5 lg:pt-16">
-        <div className="col-span-2 sm:col-span-3 lg:col-span-2">
+    <footer className="relative mt-24 overflow-hidden bg-ak-950 pb-20 text-white lg:pb-0">
+      <div className="mx-auto grid max-w-7xl grid-cols-2 gap-x-6 gap-y-10 px-4 pb-14 pt-16 sm:grid-cols-3 lg:grid-cols-[minmax(0,1.6fr)_repeat(3,minmax(0,1fr))] lg:pt-20">
+        <div className="col-span-2 sm:col-span-3 lg:col-span-1">
           <div className="flex items-center gap-3">
-            <img src="/logo.webp" alt="" width={52} height={52} className="h-13 w-13" />
-            <p className="font-display text-2xl font-bold tracking-[0.04em]">AAPKI KITAB</p>
+            <img src="/logo.webp" alt="" width={48} height={48} className="h-12 w-12" />
+            <p className="font-display text-[26px] font-semibold tracking-[-0.02em]">Aapki Kitab</p>
           </div>
-          <p className="mt-4 max-w-sm text-[15px] leading-relaxed text-ak-100">
-            A premium independent bookstore. Real books from verified Indian bookstores, at honest prices.
+          <p className="mt-5 max-w-sm text-[15.5px] leading-relaxed text-white/70">
+            An independent online bookshop. Original books from real Indian bookshops, at honest prices.
           </p>
           <NewsletterForm />
         </div>
         {cols.map((c) => (
           <nav key={c.h} aria-label={c.h}>
-            <p className="mb-3 text-sm font-bold text-white">{c.h}</p>
-            <ul className="space-y-2">
+            <p className="mb-4 text-[14px] font-semibold text-marigold">{c.h}</p>
+            <ul className="space-y-2.5">
               {c.links.map(([label, href]) => (
                 <li key={href + label}>
-                  <Link href={href} className="text-[15px] text-ak-100 transition-colors hover:text-white hover:underline">
+                  <Link href={href} className="text-[15px] text-white/75 transition-colors hover:text-white">
                     {label}
                   </Link>
                 </li>
@@ -528,15 +524,22 @@ export function Footer() {
           </nav>
         ))}
       </div>
+      {/* signature: the name in both scripts, set as the floor of the page */}
+      <div aria-hidden="true" className="pointer-events-none mx-auto max-w-7xl select-none overflow-hidden px-4">
+        <p className="flex items-baseline gap-6 whitespace-nowrap leading-[0.8] text-white/[0.07]">
+          <span className="shrink-0 whitespace-nowrap font-display text-[clamp(4rem,13vw,11rem)] font-semibold tracking-[-0.04em]">Aapki Kitab</span>
+          <span className="shrink-0 whitespace-nowrap font-deva text-[clamp(3.5rem,11vw,9rem)]">आपकी किताब</span>
+        </p>
+      </div>
       <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 border-t border-white/10 px-4 py-6">
         <div className="flex flex-wrap items-center gap-2" aria-label="Accepted payments">
           {PAYMENTS.map((p) => (
-            <span key={p} className="rounded-full border border-white/15 px-3 py-1 text-xs font-bold text-ak-100">
+            <span key={p} className="rounded-md border border-white/15 px-2.5 py-1 text-[12px] font-semibold text-white/70">
               {p}
             </span>
           ))}
         </div>
-        <p className="text-xs text-ak-100">© 2026 Aapki Kitab · Made with care in India</p>
+        <p className="text-[13px] text-white/55">© 2026 Aapki Kitab. Made in India.</p>
       </div>
     </footer>
   );
