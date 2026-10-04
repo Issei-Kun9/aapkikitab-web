@@ -2,9 +2,9 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState, type ReactNode } from "react";
-import { BOOKS, getBook, inr, type Book } from "@/data/books";
+import { BOOKS, CRAFT, getBook, inr, type Book } from "@/data/books";
 import { BUDGETS, EXAMS, GIFT_BOXES, MOODS, PROMOS, type Tile } from "@/data/taxonomy";
-import { BookCard, Cover, Icon, I, Price, Rating, SectionHead } from "./ui";
+import { BookCard, Cover, CraftCard, Icon, I, Price, Rating, SectionHead } from "./ui";
 
 const coversFor = (tag: string, n = 3) =>
   BOOKS.filter((b) => b.cover && (b.moods.includes(tag) || b.categories.includes(tag) || b.exams.includes(tag))).slice(0, n);
@@ -331,6 +331,50 @@ export function BudgetBand() {
               </span>
               <span className="transition-transform duration-300 group-hover:translate-x-1"><Icon size={20} d={I.arrow} /></span>
             </Link>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ---------- art & craft: the stationery corner of the shop ---------- */
+export const CRAFT_GROUPS = [
+  { slug: "art-supplies", label: "Art supplies" },
+  { slug: "notebooks", label: "Notebooks & journals" },
+  { slug: "craft-kits", label: "Craft kits" },
+  { slug: "pens", label: "Pens" },
+];
+
+export function ArtCraft() {
+  if (CRAFT.length === 0) return null;
+  const hero = CRAFT.find((c) => c.cover) ?? CRAFT[0];
+  return (
+    <div className="grid gap-8 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,2fr)] lg:gap-10">
+      <Link href="/art-craft" className="group relative flex min-h-[320px] flex-col justify-end overflow-hidden rounded-3xl bg-ak-950 p-7 text-white lg:min-h-0">
+        {hero.cover && (
+          <img src={hero.cover} alt="" loading="lazy" className="absolute inset-0 h-full w-full object-cover opacity-60 transition-transform duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.05]" />
+        )}
+        <div aria-hidden="true" className="absolute inset-0 bg-ak-950/45" />
+        <div className="relative">
+          <h2 className="font-display text-[36px] font-semibold leading-[1] tracking-[-0.03em] lg:text-[46px]">Art &amp; craft</h2>
+          <p className="mt-3 max-w-xs text-[15px] leading-relaxed text-white/80">Paints, brushes, journals and craft kits, chosen by readers who make things.</p>
+          <span className="mt-5 inline-flex h-11 items-center rounded-lg bg-marigold px-5 text-[14.5px] font-bold text-ak-950 transition-colors group-hover:bg-[#ffb83d]">
+            Shop the craft corner
+          </span>
+        </div>
+      </Link>
+      <div>
+        <div className="mb-5 flex flex-wrap gap-2">
+          {CRAFT_GROUPS.filter((g) => CRAFT.some((c) => c.categories.includes(g.slug))).map((g) => (
+            <Link key={g.slug} href={`/art-craft?type=${g.slug}`} className="rounded-full border border-line px-4 py-2 text-[14px] font-semibold text-ink transition-colors hover:border-ak-800 hover:text-ak-800">
+              {g.label}
+            </Link>
+          ))}
+        </div>
+        <div className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-4">
+          {CRAFT.slice(0, 4).map((c) => (
+            <CraftCard key={c.slug} item={c} />
           ))}
         </div>
       </div>

@@ -14,6 +14,7 @@ const NAV = [
   { label: "Browse Books", href: "/browse" },
   { label: "Education & Exams", href: "/category/education-exams" },
   { label: "New Arrivals", href: "/new" },
+  { label: "Art & Craft", href: "/art-craft" },
   { label: "Offers", href: "/offers" },
   { label: "Bookstores", href: "/bookstores" },
 ];

@@ -15,7 +15,7 @@ if (!domain || !token) {
 const query = `{
   products(first: 100) {
     nodes {
-      handle title vendor tags
+      handle title vendor tags productType
       description(truncateAt: 220)
       featuredImage { url altText }
       priceRange { minVariantPrice { amount } }
@@ -59,7 +59,9 @@ const books = (json.data?.products?.nodes ?? []).map((p) => {
   const mrpRaw = parseFloat(p.compareAtPriceRange?.minVariantPrice?.amount ?? "0");
   const pick = (list) => list.filter((x) => tags.includes(x));
   const isNew = tags.includes("newarrival") || tags.includes("new");
+  const isCraft = (p.productType ?? "").toLowerCase().replace(/\s+/g, "") === "art&craft" || tags.includes("art-craft");
   return {
+    kind: isCraft ? "craft" : "book",
     slug: p.handle,
     title: p.title,
     author: p.vendor || "Aapki Kitab",
@@ -78,7 +80,7 @@ const books = (json.data?.products?.nodes ?? []).map((p) => {
     coverTint: "#4b0f8a",
     moods: pick(MOODS),
     exams: tags.filter((t) => !MOODS.includes(t) && !CATS.includes(t) && !["newarrival", "new", "bestseller", "featured", "trending", "book-of-the-day"].includes(t) && !t.startsWith("store:")),
-    categories: pick(CATS),
+    categories: isCraft ? tags.filter((t) => ["art-supplies", "notebooks", "craft-kits", "pens"].includes(t)) : pick(CATS),
     badges: [
       ...(tags.includes("bestseller") ? ["BESTSELLER"] : []),
       ...(tags.includes("featured") ? ["FEATURED"] : []),

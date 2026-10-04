@@ -183,6 +183,46 @@ export function BookCard({ book }: { book: Book }) {
   );
 }
 
+/* ---------- art & craft card: photo-led, same buying row as books ---------- */
+export function CraftCard({ item }: { item: Book }) {
+  const { addToCart } = useShop();
+  const [added, setAdded] = useState(false);
+  const add = () => {
+    addToCart(item.slug, 1);
+    track("add_to_cart", { items: [{ item_id: item.slug, price: item.price, quantity: 1 }] });
+    setAdded(true);
+    window.setTimeout(() => setAdded(false), 1400);
+  };
+  return (
+    <div className="group flex flex-col">
+      <Link href={`/book/${item.slug}`} className="relative block overflow-hidden rounded-xl bg-ak-50" aria-label={item.title}>
+        {item.cover ? (
+          <img src={item.cover} alt="" loading="lazy" className="aspect-square w-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.05]" />
+        ) : (
+          <span className="grid aspect-square place-items-center font-display text-4xl text-ak-800">{item.title.charAt(0)}</span>
+        )}
+      </Link>
+      <div className="flex flex-1 flex-col pt-3">
+        <Link href={`/book/${item.slug}`} className="line-clamp-2 font-display text-[16px] font-semibold leading-snug text-ink transition-colors hover:text-ak-800">
+          {item.title}
+        </Link>
+        <div className="mb-3 mt-2"><Price value={item.price} mrp={item.mrp} /></div>
+        <button
+          type="button"
+          onClick={add}
+          aria-label={`Add ${item.title} to cart`}
+          className={`mt-auto flex h-10 w-full items-center justify-center gap-1.5 rounded-lg text-[14px] font-bold transition-[background-color,color,border-color,transform] active:scale-[0.97] ${
+            added ? "bg-leaf text-white" : "border border-ak-800/30 text-ak-800 hover:border-ak-800 hover:bg-ak-800 hover:text-white"
+          }`}
+        >
+          <Icon size={15} d={added ? I.check : I.cart} />
+          {added ? "Added" : "Add to cart"}
+        </button>
+      </div>
+    </div>
+  );
+}
+
 /* ---------- section heading ---------- */
 export function SectionHead({ title, href, sub }: { title: string; href?: string; sub?: string }) {
   return (

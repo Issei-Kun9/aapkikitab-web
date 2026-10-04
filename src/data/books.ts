@@ -26,7 +26,8 @@ export interface Book {
   trending: boolean;
   bookOfDay?: boolean;
   store: string;
-  variantId?: string; // Shopify variant (numeric id) — present once the catalog is synced
+  variantId?: string;
+  kind?: "book" | "craft"; // "craft" = Art & Craft / stationery (Shopify product type "Art & Craft") // Shopify variant (numeric id) — present once the catalog is synced
   blurb: string;
 }
 
@@ -466,15 +467,19 @@ import { SHOPIFY_BOOKS } from "./shopify-catalog";
 
 // Live Shopify catalog when synced, demo seed otherwise.
 // Admin flow: edit products in Shopify admin → rebuild (Pages deploy hook) → live.
-export const BOOKS: Book[] = SHOPIFY_BOOKS.length > 0 ? SHOPIFY_BOOKS : DEMO_BOOKS;
+const ALL_PRODUCTS: Book[] = SHOPIFY_BOOKS.length > 0 ? SHOPIFY_BOOKS : DEMO_BOOKS;
+export const BOOKS: Book[] = ALL_PRODUCTS.filter((b) => b.kind !== "craft");
+/* Art & Craft: stationery, art supplies, craft kits — same product shape, no author/ISBN. */
+export const CRAFT: Book[] = ALL_PRODUCTS.filter((b) => b.kind === "craft");
+export const PRODUCTS: Book[] = ALL_PRODUCTS;
 
-export const getBook = (slug: string) => BOOKS.find((b) => b.slug === slug);
+export const getBook = (slug: string) => ALL_PRODUCTS.find((b) => b.slug === slug);
 
 export const searchBooks = (q: string) => {
   const needle = q.trim().toLowerCase();
   if (!needle) return [];
   const digits = needle.replace(/[^0-9x]/gi, "");
-  return BOOKS.filter((b) => {
+  return ALL_PRODUCTS.filter((b) => {
     if (digits.length >= 4 && b.isbn && b.isbn.replace(/[^0-9x]/gi, "").includes(digits)) return true;
     return (
       b.title.toLowerCase().includes(needle) || b.author.toLowerCase().includes(needle)

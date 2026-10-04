@@ -2,6 +2,7 @@
 import type { Book } from "./books";
 export const SHOPIFY_BOOKS: Book[] = [
   {
+    "kind": "book",
     "slug": "parth-the-promise",
     "title": "Parth: The Promise",
     "author": "Himanshu Sharma",
@@ -38,6 +39,7 @@ export const SHOPIFY_BOOKS: Book[] = [
     "blurb": "Discover the magic of Udaipur in this tale of faith, mystery and a promise waiting to be fulfilled. Book 1 of the Duology."
   },
   {
+    "kind": "book",
     "slug": "atomic-habits",
     "title": "Atomic Habits",
     "author": "James Clear",
@@ -71,6 +73,7 @@ export const SHOPIFY_BOOKS: Book[] = [
     "blurb": "Tiny changes, remarkable results — the definitive guide to building good habits and breaking bad ones."
   },
   {
+    "kind": "book",
     "slug": "the-alchemist",
     "title": "The Alchemist",
     "author": "Paulo Coelho",
@@ -107,6 +110,7 @@ export const SHOPIFY_BOOKS: Book[] = [
     "blurb": "Santiago's journey to find treasure becomes a fable about following your dream."
   },
   {
+    "kind": "book",
     "slug": "ikigai",
     "title": "Ikigai: The Japanese Secret to a Long and Happy Life",
     "author": "Héctor García & Francesc Miralles",
@@ -139,6 +143,7 @@ export const SHOPIFY_BOOKS: Book[] = [
     "blurb": "The Japanese philosophy of purpose and joy, from the centenarians of Okinawa."
   },
   {
+    "kind": "book",
     "slug": "psychology-of-money",
     "title": "The Psychology of Money",
     "author": "Morgan Housel",
@@ -173,6 +178,7 @@ export const SHOPIFY_BOOKS: Book[] = [
     "blurb": "Timeless lessons on wealth, greed, and happiness — doing well with money has surprisingly little to do with how smart you are."
   },
   {
+    "kind": "book",
     "slug": "rich-dad-poor-dad",
     "title": "Rich Dad Poor Dad",
     "author": "Robert T. Kiyosaki",
@@ -206,6 +212,7 @@ export const SHOPIFY_BOOKS: Book[] = [
     "blurb": "What the rich teach their kids about money that the poor and middle class do not."
   },
   {
+    "kind": "book",
     "slug": "the-silent-patient",
     "title": "The Silent Patient",
     "author": "Alex Michaelides",
@@ -240,6 +247,7 @@ export const SHOPIFY_BOOKS: Book[] = [
     "blurb": "Alicia Berenson shot her husband five times and never spoke another word. A psychotherapist is determined to unravel her mystery."
   },
   {
+    "kind": "book",
     "slug": "sapiens",
     "title": "Sapiens: A Brief History of Humankind",
     "author": "Yuval Noah Harari",
@@ -275,6 +283,7 @@ export const SHOPIFY_BOOKS: Book[] = [
     "blurb": "How did our species conquer the world? A provocative history of humankind."
   },
   {
+    "kind": "book",
     "slug": "wings-of-fire",
     "title": "Wings of Fire: An Autobiography",
     "author": "A. P. J. Abdul Kalam",
@@ -310,6 +319,7 @@ export const SHOPIFY_BOOKS: Book[] = [
     "blurb": "The inspiring life story of Dr. Kalam, from Rameswaram to Rashtrapati Bhavan."
   },
   {
+    "kind": "book",
     "slug": "train-to-pakistan",
     "title": "Train to Pakistan",
     "author": "Khushwant Singh",
@@ -343,6 +353,7 @@ export const SHOPIFY_BOOKS: Book[] = [
     "blurb": "A searing Partition novel set in the village of Mano Majra — Singh's finest."
   },
   {
+    "kind": "book",
     "slug": "godan",
     "title": "Godan (गोदान)",
     "author": "Munshi Premchand",
@@ -379,6 +390,7 @@ export const SHOPIFY_BOOKS: Book[] = [
     "blurb": "Premchand's immortal classic of peasant India — the novel every Hindi reader returns to."
   },
   {
+    "kind": "book",
     "slug": "harry-potter-1",
     "title": "Harry Potter and the Philosopher's Stone",
     "author": "J. K. Rowling",
@@ -415,6 +427,7 @@ export const SHOPIFY_BOOKS: Book[] = [
     "blurb": "Harry discovers he is a wizard and begins his first year at Hogwarts."
   },
   {
+    "kind": "book",
     "slug": "matilda",
     "title": "Matilda",
     "author": "Roald Dahl",
@@ -450,6 +463,7 @@ export const SHOPIFY_BOOKS: Book[] = [
     "blurb": "Matilda's parents think she's a nuisance, but she is a genius — with extraordinary powers."
   },
   {
+    "kind": "book",
     "slug": "quantitative-aptitude",
     "title": "Quantitative Aptitude for Competitive Examinations",
     "author": "R. S. Aggarwal",
@@ -486,6 +500,7 @@ export const SHOPIFY_BOOKS: Book[] = [
     "blurb": "The bible of aptitude preparation — SSC, Banking, Railway and all competitive exams."
   },
   {
+    "kind": "book",
     "slug": "pride-and-prejudice",
     "title": "Pride and Prejudice",
     "author": "Jane Austen",
@@ -519,6 +534,7 @@ export const SHOPIFY_BOOKS: Book[] = [
     "blurb": "Elizabeth Bennet spars with Mr. Darcy in Austen's sparkling comedy of manners."
   },
   {
+    "kind": "book",
     "slug": "word-power-made-easy",
     "title": "Word Power Made Easy",
     "author": "Norman Lewis",
@@ -556,6 +572,7 @@ export const SHOPIFY_BOOKS: Book[] = [
     "blurb": "The legendary vocabulary builder — essential for Banking, SSC, CAT and all competitive exams."
   },
   {
+    "kind": "book",
     "slug": "indian-polity",
     "title": "Indian Polity for Civil Services Examinations",
     "author": "M. Laxmikanth",
@@ -587,6 +604,244 @@ export const SHOPIFY_BOOKS: Book[] = [
     "variantId": "53671524499745",
     "store": "kitab-ghar",
     "blurb": "The definitive UPSC polity reference — constitution, governance and current updates."
+  },
+  {
+    "kind": "craft",
+    "slug": "paint-brush-set",
+    "title": "Artist Paint Brush Set (12 pcs)",
+    "author": "Aapki Kitab",
+    "isbn": null,
+    "publisher": "",
+    "pages": 0,
+    "language": "English",
+    "edition": "",
+    "genre": "",
+    "price": 349,
+    "mrp": 450,
+    "rating": 0,
+    "reviews": 0,
+    "cover": "https://cdn.shopify.com/s/files/1/1003/3237/2257/files/photo-1460661419201-fd4cecdf8a8b.jpg?v=1791117270",
+    "coverTint": "#4b0f8a",
+    "moods": [],
+    "exams": [
+      "art-craft",
+      "art-supplies",
+      "demo-item"
+    ],
+    "categories": [
+      "art-supplies"
+    ],
+    "badges": [],
+    "isNew": false,
+    "trending": false,
+    "bookOfDay": false,
+    "variantId": "53671699120417",
+    "store": "abc-bookstore",
+    "blurb": "Twelve brushes in round, flat and filbert shapes for acrylic, watercolour and gouache."
+  },
+  {
+    "kind": "craft",
+    "slug": "acrylic-colour-set",
+    "title": "Acrylic Colour Set (12 shades)",
+    "author": "Aapki Kitab",
+    "isbn": null,
+    "publisher": "",
+    "pages": 0,
+    "language": "English",
+    "edition": "",
+    "genre": "",
+    "price": 549,
+    "mrp": 699,
+    "rating": 0,
+    "reviews": 0,
+    "cover": "https://cdn.shopify.com/s/files/1/1003/3237/2257/files/photo-1513364776144-60967b0f800f.jpg?v=1791117271",
+    "coverTint": "#4b0f8a",
+    "moods": [],
+    "exams": [
+      "art-craft",
+      "art-supplies",
+      "demo-item"
+    ],
+    "categories": [
+      "art-supplies"
+    ],
+    "badges": [],
+    "isNew": false,
+    "trending": false,
+    "bookOfDay": false,
+    "variantId": "53671699153185",
+    "store": "abc-bookstore",
+    "blurb": "Rich, fast-drying acrylics in twelve mixable shades, with a starter brush."
+  },
+  {
+    "kind": "craft",
+    "slug": "art-supplies-case",
+    "title": "Complete Art Supplies Case",
+    "author": "Aapki Kitab",
+    "isbn": null,
+    "publisher": "",
+    "pages": 0,
+    "language": "English",
+    "edition": "",
+    "genre": "",
+    "price": 1299,
+    "mrp": 1599,
+    "rating": 0,
+    "reviews": 0,
+    "cover": "https://cdn.shopify.com/s/files/1/1003/3237/2257/files/photo-1456735190827-d1262f71b8a3.jpg?v=1791117271",
+    "coverTint": "#4b0f8a",
+    "moods": [],
+    "exams": [
+      "art-craft",
+      "art-supplies",
+      "demo-item"
+    ],
+    "categories": [
+      "art-supplies"
+    ],
+    "badges": [],
+    "isNew": false,
+    "trending": false,
+    "bookOfDay": false,
+    "variantId": "53671699317025",
+    "store": "abc-bookstore",
+    "blurb": "Pencils, markers, crayons and colours in one portable case for school and hobby artists."
+  },
+  {
+    "kind": "craft",
+    "slug": "journal-and-pen-set",
+    "title": "Ruled Journal & Fountain Pen Set",
+    "author": "Aapki Kitab",
+    "isbn": null,
+    "publisher": "",
+    "pages": 0,
+    "language": "English",
+    "edition": "",
+    "genre": "",
+    "price": 449,
+    "mrp": 599,
+    "rating": 0,
+    "reviews": 0,
+    "cover": "https://cdn.shopify.com/s/files/1/1003/3237/2257/files/photo-1517842645767-c639042777db.jpg?v=1791117272",
+    "coverTint": "#4b0f8a",
+    "moods": [],
+    "exams": [
+      "art-craft",
+      "demo-item",
+      "notebooks"
+    ],
+    "categories": [
+      "notebooks"
+    ],
+    "badges": [],
+    "isNew": false,
+    "trending": false,
+    "bookOfDay": false,
+    "variantId": "53671699349793",
+    "store": "abc-bookstore",
+    "blurb": "A hardbound ruled journal paired with a smooth fountain pen. A thoughtful gift for writers."
+  },
+  {
+    "kind": "craft",
+    "slug": "spiral-sketchbooks",
+    "title": "Spiral Sketchbooks, A4 (pack of 3)",
+    "author": "Aapki Kitab",
+    "isbn": null,
+    "publisher": "",
+    "pages": 0,
+    "language": "English",
+    "edition": "",
+    "genre": "",
+    "price": 299,
+    "mrp": 399,
+    "rating": 0,
+    "reviews": 0,
+    "cover": "https://cdn.shopify.com/s/files/1/1003/3237/2257/files/photo-1531346878377-a5be20888e57.jpg?v=1791117273",
+    "coverTint": "#4b0f8a",
+    "moods": [],
+    "exams": [
+      "art-craft",
+      "demo-item",
+      "notebooks"
+    ],
+    "categories": [
+      "notebooks"
+    ],
+    "badges": [],
+    "isNew": false,
+    "trending": false,
+    "bookOfDay": false,
+    "variantId": "53671699382561",
+    "store": "abc-bookstore",
+    "blurb": "Thick 140 gsm pages that take pencil, ink and light washes."
+  },
+  {
+    "kind": "craft",
+    "slug": "craft-starter-kit",
+    "title": "Craft Starter Kit",
+    "author": "Aapki Kitab",
+    "isbn": null,
+    "publisher": "",
+    "pages": 0,
+    "language": "English",
+    "edition": "",
+    "genre": "",
+    "price": 399,
+    "mrp": 499,
+    "rating": 0,
+    "reviews": 0,
+    "cover": "https://cdn.shopify.com/s/files/1/1003/3237/2257/files/photo-1452860606245-08befc0ff44b.jpg?v=1791117273",
+    "coverTint": "#4b0f8a",
+    "moods": [],
+    "exams": [
+      "art-craft",
+      "craft-kits",
+      "demo-item"
+    ],
+    "categories": [
+      "craft-kits"
+    ],
+    "badges": [],
+    "isNew": false,
+    "trending": false,
+    "bookOfDay": false,
+    "variantId": "53671699415329",
+    "store": "abc-bookstore",
+    "blurb": "Washi tape, scissors, a craft knife, sticky notes and a ruler for school projects and journaling."
+  },
+  {
+    "kind": "craft",
+    "slug": "classic-fountain-pen",
+    "title": "Classic Fountain Pen",
+    "author": "Aapki Kitab",
+    "isbn": null,
+    "publisher": "",
+    "pages": 0,
+    "language": "English",
+    "edition": "",
+    "genre": "",
+    "price": 249,
+    "mrp": 349,
+    "rating": 0,
+    "reviews": 0,
+    "cover": "https://cdn.shopify.com/s/files/1/1003/3237/2257/files/photo-1585336261022-680e295ce3fe.jpg?v=1791117274",
+    "coverTint": "#4b0f8a",
+    "moods": [],
+    "exams": [
+      "art-craft",
+      "demo-item",
+      "pens"
+    ],
+    "categories": [
+      "pens"
+    ],
+    "badges": [],
+    "isNew": false,
+    "trending": false,
+    "bookOfDay": false,
+    "variantId": "53671699448097",
+    "store": "abc-bookstore",
+    "blurb": "A balanced steel-nib fountain pen with a converter. Writes smooth from the first line."
   }
 ];
 export const SHOPIFY_DOMAIN = "aapkikitab.myshopify.com";

@@ -70,7 +70,6 @@ export function Reviews({ book }: { book: Book }) {
     setUserReviews(readAll()[book.slug] ?? []);
   }, [book.slug]);
 
-  const bars = useMemo(() => snapshotDistribution(book.rating), [book.rating]);
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -104,36 +103,30 @@ export function Reviews({ book }: { book: Book }) {
 
   return (
     <section id="reviews" aria-labelledby="reviews-heading" className="mt-8 scroll-mt-40">
-      <h2 id="reviews-heading" className="mb-3 font-display text-[22px] text-ink">
-        Ratings & Reviews
+      <h2 id="reviews-heading" className="mb-5 font-display text-[26px] font-semibold tracking-[-0.02em] text-ink lg:text-[32px]">
+        Ratings &amp; reviews
       </h2>
       <div className="grid gap-4 lg:grid-cols-[280px_1fr]">
-        {/* Aggregate panel: real average + real count, illustrative bars */}
-        <div className="rounded-2xl border border-line bg-white p-5">
-          <p className="text-sm font-bold text-ink">Rating snapshot</p>
-          <p className="mt-1 flex items-baseline gap-2">
-            <span className="tnum font-display text-5xl text-ink">{book.rating.toFixed(1)}</span>
-            <span className="text-gold">
-              <Icon size={18} d={I.star} />
-            </span>
-          </p>
-          <p className="tnum mt-1 text-sm text-muted">
-            {book.reviews.toLocaleString("en-IN")} verified ratings
-          </p>
-          <div className="mt-4 space-y-1.5" aria-label="Illustrative rating distribution">
-            {bars.map((b) => (
-              <div key={b.star} className="flex items-center gap-2">
-                <span className="tnum w-3 text-xs font-bold text-ink">{b.star}</span>
-                <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-ak-50">
-                  <div className="h-full rounded-full bg-ak-800" style={{ width: `${b.pct}%` }} />
-                </div>
-                <span className="tnum w-9 text-right text-xs text-muted">{b.pct}%</span>
-              </div>
-            ))}
-          </div>
-          <p className="mt-3 text-xs text-muted">
-            Bars illustrate the average rating; they are not individual reviews.
-          </p>
+        {/* Aggregate panel: only real numbers, never an invented distribution */}
+        <div className="rounded-2xl bg-ak-50 p-6">
+          {book.reviews > 0 && book.rating > 0 ? (
+            <>
+              <p className="flex items-baseline gap-2">
+                <span className="tnum font-display text-[56px] font-semibold leading-none text-ink">{book.rating.toFixed(1)}</span>
+                <span className="text-marigold"><Icon size={22} d={I.star} /></span>
+              </p>
+              <p className="tnum mt-2 text-[14px] text-muted">
+                From {book.reviews.toLocaleString("en-IN")} verified {book.reviews === 1 ? "rating" : "ratings"}
+              </p>
+            </>
+          ) : (
+            <>
+              <p className="font-display text-[22px] font-semibold leading-tight text-ink">No ratings yet</p>
+              <p className="mt-2 text-[14.5px] leading-relaxed text-muted">
+                Bought this from us? Your rating will be the first one other readers see.
+              </p>
+            </>
+          )}
         </div>
 
         {/* Write a review + reader reviews (local only, never seeded) */}

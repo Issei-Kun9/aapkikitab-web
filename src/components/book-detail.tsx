@@ -83,7 +83,9 @@ export default function BookDetail({
           <li><Link href="/" className="hover:text-ak-800">Home</Link></li>
           <li aria-hidden="true">/</li>
           <li>
-            <Link href={category?.href ?? "/browse"} className="hover:text-ak-800">{category?.label ?? book.genre}</Link>
+            <Link href={book.kind === "craft" ? "/art-craft" : category?.href ?? "/browse"} className="hover:text-ak-800">
+              {book.kind === "craft" ? "Art & craft" : category?.label ?? (book.genre || "Books")}
+            </Link>
           </li>
           <li aria-hidden="true">/</li>
           <li aria-current="page" className="truncate font-semibold text-ink">{book.title}</li>
@@ -117,7 +119,7 @@ export default function BookDetail({
             ))}
           </div>
           <h1 className="mt-2 font-display text-[32px]! leading-[1.1]! text-ink lg:text-[44px]!">{book.title}</h1>
-          <p className="mt-1 text-sm text-muted">by {book.author}</p>
+          {book.kind !== "craft" && <p className="mt-1 text-sm text-muted">by {book.author}</p>}
           <div className="mt-2">
             <Rating value={book.rating} count={book.reviews} />
           </div>
@@ -192,9 +194,11 @@ export default function BookDetail({
           </ul>
 
           <div className="mt-6 border-t border-line">
-            <Section title="About the book" open>
+            <Section title={book.kind === "craft" ? "About this item" : "About the book"} open>
               <p className="ak-prose text-ink/80">{book.blurb}</p>
             </Section>
+            {book.kind !== "craft" && (
+
             <Section title="Details">
               <dl className="grid grid-cols-[8rem_1fr] gap-y-2 text-sm">
                 {[
@@ -212,7 +216,7 @@ export default function BookDetail({
                   </div>
                 ))}
               </dl>
-            </Section>
+            </Section>)}
             <Section title="Sold by">
               {store ? (
                 <div className="flex items-center justify-between gap-3">

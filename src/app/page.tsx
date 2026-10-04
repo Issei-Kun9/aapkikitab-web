@@ -1,5 +1,6 @@
 import {
   BookOfDay,
+  ArtCraft,
   BudgetBand,
   CategoryShelf,
   ExamStrip,
@@ -32,6 +33,7 @@ export default function Home() {
       <section className={BAND}>{SHOW("exams") && <ExamStrip />}</section>
       <section className={S}>{SHOW("new_arrivals") && <NewArrivals />}</section>
       <section className={BAND}>{SHOW("budget") && <BudgetBand />}</section>
+      <section className={S}>{SHOW("art_craft") && <ArtCraft />}</section>
       <section className={S}>{SHOW("gift_boxes") && <GiftBoxes />}</section>
       <section className={BAND}>{SHOW("book_of_day") && <BookOfDay />}</section>
       <section className={S}>{SHOW("reviews") && <ReaderReviews />}</section>
