@@ -13,6 +13,7 @@ import {
   Trending,
 } from "@/components/home";
 import { CATEGORIES, SHOW } from "@/data/taxonomy";
+import { ShelfHero } from "@/components/shelf-hero";
 
 /* Homepage order follows the client brief (§6/§48). Sections render nothing
    when their data is empty, and the wrapper collapses with them. */
@@ -21,7 +22,8 @@ const S = "mt-10 empty:hidden lg:mt-14";
 export default function Home() {
   return (
     <div className="pb-4">
-      <section className="mt-4 lg:mt-6">
+      <ShelfHero />
+      <section className="mt-10 empty:hidden lg:mt-14">
         {SHOW("slider") && <PromoSlider />}
       </section>
       <section className="mt-4 empty:hidden lg:mt-6">

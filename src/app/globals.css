@@ -1,21 +1,24 @@
 @import "tailwindcss";
 
 @theme {
-  --color-ak-950: #23054a;
-  --color-ak-900: #360873;
-  --color-ak-800: #4b0f8a;
-  --color-ak-700: #5e1ba8;
-  --color-ak-600: #7130c2;
-  --color-ak-100: #ede6f9;
-  --color-ak-50: #f6f1fd;
-  --color-ink: #1d1430;
-  --color-muted: #6d6480;
-  --color-line: #e7e0f3;
+  --color-ak-950: #170a2e;
+  --color-ak-900: #2c0d5c;
+  --color-ak-800: #5b0fa8;
+  --color-ak-700: #6d22bd;
+  --color-ak-600: #8b4fd6;
+  --color-ak-100: #e4d8f7;
+  --color-ak-50: #f1ebfa;
+  --color-ink: #170a2e;
+  --color-muted: #675d78;
+  --color-line: #e6def2;
   --color-paper: #ffffff;
-  --color-gold: #b8860b;
-  --color-leaf: #2f7d57;
+  --color-gold: #e0900b;
+  --color-marigold: #f4a51c;
+  --color-marigold-50: #fff4dc;
+  --color-leaf: #1f7a55;
 
-  --font-display: var(--font-eczar), "Georgia", serif;
+  --font-display: var(--font-literata), "Georgia", serif;
+  --font-deva: var(--font-deva), serif;
   --font-sans: var(--font-mukta), system-ui, sans-serif;
 }
 
@@ -56,7 +59,8 @@ body {
 .font-display {
   text-wrap: balance;
   font-weight: 600;
-  letter-spacing: -0.015em;
+  letter-spacing: -0.02em;
+  font-optical-sizing: auto;
 }
 
 /* Horizontal swipe rail: snap scroll on mobile, grid on desktop */
@@ -210,4 +214,55 @@ body {
 }
 @media (min-width: 1024px) {
   .ak-rail-cat { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+}
+
+.ak-shelf::-webkit-scrollbar { display: none; }
+
+/* 3D books on the hero shelf: each rests turned so its spine shows, and turns
+   face-on and lifts when you reach for it. Pure CSS transforms (GPU, no WebGL). */
+.ak-book {
+  perspective: 1100px;
+}
+.ak-book-inner {
+  transform-style: preserve-3d;
+  transform: rotateY(26deg);
+  transform-origin: center bottom;
+  transition: transform 650ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.group:hover .ak-book-inner,
+.group:focus-within .ak-book-inner {
+  transform: rotateY(2deg) translateY(-16px) translateZ(14px);
+}
+.ak-book-cover {
+  border-radius: 1px 3px 3px 1px;
+  box-shadow: 10px 6px 18px -8px rgb(0 0 0 / 0.7);
+  backface-visibility: hidden;
+}
+.ak-book-spine {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: var(--t);
+  transform-origin: left center;
+  transform: rotateY(-90deg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  box-shadow: inset -3px 0 6px rgb(0 0 0 / 0.35), inset 2px 0 0 rgb(255 255 255 / 0.12);
+}
+.ak-book-spine-text {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  white-space: nowrap;
+  font-family: var(--font-display);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: rgb(255 255 255 / 0.85);
+  max-height: 90%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+@media (prefers-reduced-motion: reduce) {
+  .ak-book-inner { transition: none; }
 }

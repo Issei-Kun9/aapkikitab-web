@@ -135,7 +135,7 @@ export default function Listing({
   const filterBody = (
     <div className="flex flex-col gap-5">
       <div>
-        <p className="mb-1 text-xs font-bold uppercase tracking-wider text-muted">Category</p>
+        <p className="mb-1.5 text-[13.5px] font-semibold text-ink">Category</p>
         {facets.cats.map(([slug, n]) => (
           <CheckRow
             key={slug}
@@ -147,7 +147,7 @@ export default function Listing({
       </div>
       {facets.moods.length > 0 && (
         <div>
-          <p className="mb-1 text-xs font-bold uppercase tracking-wider text-muted">Mood</p>
+          <p className="mb-1.5 text-[13.5px] font-semibold text-ink">Mood</p>
           {facets.moods.map(([slug, n]) => (
             <CheckRow
               key={slug}
@@ -160,7 +160,7 @@ export default function Listing({
       )}
       {facets.exams.length > 0 && (
         <div>
-          <p className="mb-1 text-xs font-bold uppercase tracking-wider text-muted">Exam</p>
+          <p className="mb-1.5 text-[13.5px] font-semibold text-ink">Exam</p>
           {facets.exams.map(([slug, n]) => (
             <CheckRow
               key={slug}
@@ -172,7 +172,7 @@ export default function Listing({
         </div>
       )}
       <div>
-        <p className="mb-1 text-xs font-bold uppercase tracking-wider text-muted">Language</p>
+        <p className="mb-1.5 text-[13.5px] font-semibold text-ink">Language</p>
         {facets.langs.map(([slug, n]) => (
           <CheckRow
             key={slug}
@@ -183,7 +183,7 @@ export default function Listing({
         ))}
       </div>
       <div>
-        <p className="mb-1 text-xs font-bold uppercase tracking-wider text-muted">Availability</p>
+        <p className="mb-1.5 text-[13.5px] font-semibold text-ink">Availability</p>
         <CheckRow
           label="In Stock"
           checked={inStockOnly}
@@ -192,7 +192,7 @@ export default function Listing({
         <p className="mt-1 text-xs text-muted">All books shown are new, in-stock copies.</p>
       </div>
       <div>
-        <p className="mb-1 text-xs font-bold uppercase tracking-wider text-muted">Max Price</p>
+        <p className="mb-1.5 text-[13.5px] font-semibold text-ink">Max Price</p>
         <input
           type="range"
           min={99}
@@ -232,7 +232,7 @@ export default function Listing({
         <button
           type="button"
           onClick={clearAll}
-          className="rounded-full border border-line px-4 py-2 text-xs font-bold text-ink"
+          className="rounded-lg border border-line px-4 py-2 text-xs font-bold text-ink transition-colors hover:border-ak-800 hover:text-ak-800"
         >
           Clear all filters ({activeCount})
         </button>
@@ -242,7 +242,7 @@ export default function Listing({
 
   return (
     <div className="py-6">
-      <h1 className="font-display text-3xl text-ink lg:text-4xl">{title}</h1>
+      <h1 className="font-display text-[30px] font-bold leading-tight text-ink lg:text-[40px]">{title}</h1>
       {sub && <p className="mt-1 text-sm text-muted">{sub}</p>}
       <div className="mt-4 flex items-center justify-between gap-3">
         <p className="tnum text-sm text-muted">
@@ -267,12 +267,12 @@ export default function Listing({
       <div className="mt-4 flex gap-6">
         {showFilters && (
           <aside className="hidden w-60 shrink-0 lg:block">
-            <div className="rounded-xl border border-line bg-white p-4">{filterBody}</div>
+            <div className="rounded-2xl border border-line bg-white p-4">{filterBody}</div>
           </aside>
         )}
         <div className="min-w-0 flex-1">
           {showFilters && (
-            <details className="mb-4 rounded-xl border border-line bg-white p-4 lg:hidden">
+            <details className="mb-4 rounded-2xl border border-line bg-white p-4 lg:hidden">
               <summary className="cursor-pointer text-sm font-bold text-ink">
                 Filters{activeCount > 0 ? ` (${activeCount})` : ""}
               </summary>

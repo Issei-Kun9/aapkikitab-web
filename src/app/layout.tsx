@@ -1,14 +1,24 @@
 import type { Metadata } from "next";
-import { Eczar, Mukta } from "next/font/google";
+import { Literata, Mukta, Tiro_Devanagari_Hindi } from "next/font/google";
 import "./globals.css";
 import { ShopProvider } from "@/lib/store";
 import { Announcement, Header, BottomNav, Footer } from "@/components/chrome";
 import { Analytics } from "@/components/Analytics";
+import { MoreBooks } from "@/components/more-books";
 
-const display = Eczar({
-  weight: ["500", "600", "700"],
-  subsets: ["latin", "devanagari"],
-  variable: "--font-eczar",
+/* Literata was drawn for long-form reading on screens — a bookseller's typeface.
+   Tiro Devanagari carries the bilingual moments; Mukta runs the interface. */
+const display = Literata({
+  subsets: ["latin"],
+  axes: ["opsz"],
+  variable: "--font-literata",
+  display: "swap",
+});
+
+const deva = Tiro_Devanagari_Hindi({
+  weight: "400",
+  subsets: ["devanagari", "latin"],
+  variable: "--font-deva",
   display: "swap",
 });
 
@@ -27,7 +37,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${display.variable} ${sans.variable}`}>
+    <html lang="en" className={`${display.variable} ${deva.variable} ${sans.variable}`}>
       <head>
         {/* One official address: www and the pages.dev preview hop to aapkikitab.in, same path. */}
         <script
@@ -41,7 +51,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ShopProvider>
           <Announcement />
           <Header />
-          <main className="mx-auto w-full max-w-7xl flex-1 px-4 pb-24 lg:pb-10">{children}</main>
+          <main className="mx-auto w-full max-w-7xl flex-1 px-4 pb-24 lg:pb-10">
+            {children}
+            <MoreBooks />
+          </main>
           <Footer />
           <BottomNav />
         </ShopProvider>

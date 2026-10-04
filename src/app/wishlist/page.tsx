@@ -13,7 +13,7 @@ export default function WishlistPage() {
 
   return (
     <div className="py-6">
-      <h1 className="font-display text-3xl text-ink">Your Wishlist</h1>
+      <h1 className="font-display text-[30px] font-bold leading-tight text-ink lg:text-[40px]">Your Wishlist</h1>
       <p className="mt-1 text-sm text-muted">
         {books.length > 0 ? `${books.length} saved ${books.length === 1 ? "book" : "books"}` : "Nothing saved yet."}
       </p>

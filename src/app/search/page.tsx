@@ -12,7 +12,7 @@ function SearchBody() {
   if (!q.trim()) {
     return (
       <div className="py-6">
-        <h1 className="font-display text-3xl text-ink">Search</h1>
+        <h1 className="font-display text-[30px] font-bold leading-tight text-ink lg:text-[40px]">Search</h1>
         <p className="mt-1 text-sm text-muted">Type a title, author or ISBN in the search bar above.</p>
       </div>
     );
@@ -20,17 +20,17 @@ function SearchBody() {
   if (results.length === 0) {
     return (
       <div className="py-6">
-        <h1 className="font-display text-3xl text-ink">No results for &ldquo;{q}&rdquo;</h1>
-        <div className="mx-auto mt-6 max-w-md rounded-xl border border-line bg-white p-6 text-center">
-          <h2 className="font-display text-2xl text-ink">Can&apos;t Find Your Book?</h2>
+        <h1 className="font-display text-[30px] font-bold leading-tight text-ink lg:text-[40px]">No results for &ldquo;{q}&rdquo;</h1>
+        <div className="mx-auto mt-6 max-w-md rounded-2xl border border-line bg-white p-6 text-center">
+          <h2 className="font-display font-bold text-2xl text-ink">Can&apos;t Find Your Book?</h2>
           <p className="mt-2 text-sm text-muted">
             Tell us what you&apos;re looking for and we&apos;ll try to arrange it.
           </p>
           <Link
             href="/request-book"
-            className="mt-4 inline-block rounded-full bg-ak-800 px-6 py-2.5 text-sm font-bold text-white"
+            className="mt-4 inline-block rounded-lg bg-ak-800 px-6 py-3.5 text-[15px] font-bold text-white transition-colors hover:bg-ak-900"
           >
-            REQUEST THIS BOOK
+            Request this book
           </Link>
         </div>
       </div>

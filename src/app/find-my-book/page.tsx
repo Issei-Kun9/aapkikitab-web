@@ -6,12 +6,12 @@ import { BUDGETS, CATEGORIES, EXAMS, MOODS } from "@/data/taxonomy";
 import { BookCard, EmptyState } from "@/components/ui";
 
 const inputCls =
-  "w-full rounded-xl border border-line bg-white px-4 py-2.5 text-sm text-ink focus:border-ak-800 focus:outline-none";
+  "h-12 w-full rounded-lg border border-line bg-white px-4 text-[15px] text-ink outline-none transition-[border-color,box-shadow] placeholder:text-muted/70 focus:border-ak-800 focus:shadow-[0_0_0_4px_rgba(75,15,138,0.08)]";
 
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div>
-      <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-muted">{label}</label>
+      <label className="mb-1.5 block text-[13.5px] font-semibold text-ink">{label}</label>
       {children}
     </div>
   );
@@ -47,9 +47,9 @@ export default function FindMyBookPage() {
 
   return (
     <div className="py-6">
-      <h1 className="font-display text-3xl text-ink">Find My Book</h1>
+      <h1 className="font-display text-[30px] font-bold leading-tight text-ink lg:text-[40px]">Find My Book</h1>
       <p className="mt-1 text-sm text-muted">Answer five quick questions — we&apos;ll match books for you.</p>
-      <div className="mt-5 grid max-w-2xl gap-4 rounded-xl border border-line bg-white p-5">
+      <div className="mt-5 grid max-w-2xl gap-4 rounded-2xl border border-line bg-white p-5">
         <Field label="Interest">
           <select className={inputCls} value={mood} onChange={(e) => setMood(e.target.value)}>
             <option value="">Any interest</option>
@@ -95,9 +95,9 @@ export default function FindMyBookPage() {
         <button
           type="button"
           onClick={go}
-          className="rounded-full bg-ak-800 px-6 py-3 text-sm font-bold text-white"
+          className="rounded-lg bg-ak-800 px-6 py-3 text-[15px] font-bold text-white transition-colors hover:bg-ak-900"
         >
-          SHOW BOOKS
+          Show books
         </button>
       </div>
 

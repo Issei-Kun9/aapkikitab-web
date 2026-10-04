@@ -12,7 +12,7 @@ export default function OffersPage() {
   );
   return (
     <main className="mx-auto max-w-7xl bg-white px-4 py-6">
-      <h1 className="font-display text-3xl text-ink lg:text-4xl">Offers</h1>
+      <h1 className="font-display text-[30px] font-bold leading-tight text-ink lg:text-[40px]">Offers</h1>
       <p className="mt-1 text-sm text-muted">
         Honest discounts on new copies — biggest savings first.
       </p>
@@ -23,7 +23,7 @@ export default function OffersPage() {
         {books.map((b) => (
           <li
             key={b.slug}
-            className="flex items-center gap-3 rounded-xl border border-line bg-white p-3 sm:gap-4 sm:p-4"
+            className="flex items-center gap-3 rounded-2xl border border-line bg-white p-3 sm:gap-4 sm:p-4"
           >
             <Link
               href={`/book/${b.slug}`}
@@ -65,10 +65,10 @@ export default function OffersPage() {
             </div>
             <Link
               href={`/book/${b.slug}`}
-              className="shrink-0 rounded-full bg-ak-800 px-4 py-2 text-xs font-bold text-white sm:px-5 sm:py-2.5 sm:text-sm"
+              className="shrink-0 rounded-lg bg-ak-800 px-6 py-3 text-[15px] font-bold text-white sm:px-6 sm:py-3.5 sm:text-[15px] transition-colors hover:bg-ak-900"
               aria-label={`View ${b.title}`}
             >
-              VIEW BOOK
+              View book
             </Link>
           </li>
         ))}

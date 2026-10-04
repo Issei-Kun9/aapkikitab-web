@@ -20,11 +20,11 @@ const SECTIONS = [
 export default function PoliciesPage() {
   return (
     <div className="py-6">
-      <h1 className="font-display text-3xl text-ink">Policies</h1>
+      <h1 className="font-display text-[30px] font-bold leading-tight text-ink lg:text-[40px]">Policies</h1>
       <div className="mt-4 grid max-w-3xl gap-4">
         {SECTIONS.map((s) => (
-          <section key={s.h} className="rounded-xl border border-line bg-white p-5">
-            <h2 className="font-display text-xl text-ink">{s.h}</h2>
+          <section key={s.h} className="rounded-2xl border border-line bg-white p-5">
+            <h2 className="font-display font-bold text-xl text-ink">{s.h}</h2>
             <p className="ak-prose mt-1 text-ink/80">{s.p}</p>
           </section>
         ))}

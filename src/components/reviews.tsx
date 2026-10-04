@@ -109,7 +109,7 @@ export function Reviews({ book }: { book: Book }) {
       </h2>
       <div className="grid gap-4 lg:grid-cols-[280px_1fr]">
         {/* Aggregate panel: real average + real count, illustrative bars */}
-        <div className="rounded-xl border border-line bg-white p-5">
+        <div className="rounded-2xl border border-line bg-white p-5">
           <p className="text-sm font-bold text-ink">Rating snapshot</p>
           <p className="mt-1 flex items-baseline gap-2">
             <span className="tnum font-display text-5xl text-ink">{book.rating.toFixed(1)}</span>
@@ -137,7 +137,7 @@ export function Reviews({ book }: { book: Book }) {
         </div>
 
         {/* Write a review + reader reviews (local only, never seeded) */}
-        <div className="rounded-xl border border-line bg-white p-5">
+        <div className="rounded-2xl border border-line bg-white p-5">
           <p className="text-sm font-bold text-ink">Write a review</p>
           <form onSubmit={submit} className="mt-3 space-y-3">
             <div className="grid gap-3 sm:grid-cols-[1fr_auto] sm:items-center">
@@ -148,7 +148,7 @@ export function Reviews({ book }: { book: Book }) {
                   onChange={(e) => setName(e.target.value)}
                   placeholder="Your name"
                   maxLength={60}
-                  className="h-10 w-full rounded-full border border-line bg-white px-4 text-sm text-ink outline-none placeholder:text-muted focus:border-ak-800"
+                  className="h-11 w-full rounded-lg border border-line bg-white px-4 text-[15px] text-ink outline-none transition-[border-color,box-shadow] placeholder:text-muted focus:border-ak-800 focus:shadow-[0_0_0_4px_rgba(75,15,138,0.08)]"
                 />
               </label>
               <StarInput value={stars} onChange={setStars} />
@@ -161,7 +161,7 @@ export function Reviews({ book }: { book: Book }) {
                 placeholder="What did you think of this book?"
                 rows={3}
                 maxLength={2000}
-                className="w-full rounded-xl border border-line bg-white px-4 py-2.5 text-sm text-ink outline-none placeholder:text-muted focus:border-ak-800"
+                className="h-12 w-full rounded-lg border border-line bg-white px-4 text-[15px] text-ink outline-none transition-[border-color,box-shadow] placeholder:text-muted/70 focus:border-ak-800 focus:shadow-[0_0_0_4px_rgba(75,15,138,0.08)]"
               />
             </label>
             {error && (
@@ -171,9 +171,9 @@ export function Reviews({ book }: { book: Book }) {
             )}
             <button
               type="submit"
-              className="rounded-full bg-ak-800 px-6 py-2.5 text-sm font-bold text-white"
+              className="rounded-lg bg-ak-800 px-6 py-3.5 text-[15px] font-bold text-white transition-colors hover:bg-ak-900"
             >
-              {thanks ? "SAVED" : "SUBMIT REVIEW"}
+              {thanks ? "Saved" : "Submit review"}
             </button>
             <p className="text-xs text-muted">Reviews you write are stored on this device only.</p>
           </form>
@@ -185,7 +185,7 @@ export function Reviews({ book }: { book: Book }) {
             ) : (
               <ul className="mt-2 space-y-3">
                 {userReviews.map((r, i) => (
-                  <li key={`${r.date}-${i}`} className="rounded-xl border border-line p-3">
+                  <li key={`${r.date}-${i}`} className="rounded-2xl border border-line p-3">
                     <p className="flex flex-wrap items-center gap-2 text-sm">
                       <span className="font-bold text-ink">{r.name}</span>
                       <span className="rounded-full bg-ak-800 px-2 py-0.5 text-[10px] font-bold tracking-wider text-white">

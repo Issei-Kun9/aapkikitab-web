@@ -18,7 +18,7 @@ export default function CartPage() {
   if (lines.length === 0) {
     return (
       <div className="py-6">
-        <h1 className="font-display text-3xl text-ink">Your Cart</h1>
+        <h1 className="font-display text-[30px] font-bold leading-tight text-ink lg:text-[40px]">Your Cart</h1>
         <EmptyState
           title="Your cart is empty"
           text="Every great library starts with a single book."
@@ -35,13 +35,13 @@ export default function CartPage() {
 
   return (
     <div className="py-6">
-      <h1 className="font-display text-3xl text-ink">Your Cart</h1>
+      <h1 className="font-display text-[30px] font-bold leading-tight text-ink lg:text-[40px]">Your Cart</h1>
       <div className="mt-4 grid gap-6 lg:grid-cols-[1fr_320px]">
         <ul className="flex flex-col gap-3">
           {lines.map(({ line, book }) => (
             <li
               key={line.slug}
-              className="flex gap-3 rounded-xl border border-line bg-white p-3"
+              className="flex gap-3 rounded-2xl border border-line bg-white p-3"
             >
               <Link href={`/book/${book!.slug}`} className="w-16 shrink-0 overflow-hidden rounded-lg">
                 <Cover book={book!} />
@@ -89,8 +89,8 @@ export default function CartPage() {
             </li>
           ))}
         </ul>
-        <div className="h-fit rounded-xl border border-line bg-white p-4 lg:sticky lg:top-4">
-          <h2 className="font-display text-xl text-ink">Summary</h2>
+        <div className="h-fit rounded-2xl border border-line bg-white p-4 lg:sticky lg:top-4">
+          <h2 className="font-display font-bold text-xl text-ink">Summary</h2>
           <dl className="mt-2 flex flex-col gap-1.5 text-sm">
             <div className="flex justify-between">
               <dt className="text-muted">Subtotal</dt>
@@ -128,9 +128,9 @@ export default function CartPage() {
               track("begin_checkout", { value: subtotal, currency: "INR" });
               router.push("/checkout");
             }}
-            className="mt-4 w-full rounded-full bg-ak-800 px-6 py-3 text-sm font-bold text-white"
+            className="mt-4 w-full rounded-lg bg-ak-800 px-6 py-3 text-[15px] font-bold text-white transition-colors hover:bg-ak-900"
           >
-            PROCEED TO CHECKOUT
+            Proceed to checkout
           </button>
           <p className="mt-2 text-center text-xs text-muted">100% Original · Easy 7-day returns · Secure UPI payment</p>
         </div>

@@ -8,8 +8,8 @@ import { useShop } from "@/lib/store";
 import { track } from "@/lib/analytics";
 
 const inputCls =
-  "w-full rounded-xl border border-line bg-white px-4 py-2.5 text-sm text-ink placeholder:text-muted/70 focus:border-ak-800 focus:outline-none";
-const labelCls = "mb-1 block text-xs font-bold uppercase tracking-wider text-muted";
+  "h-12 w-full rounded-lg border border-line bg-white px-4 text-[15px] text-ink outline-none transition-[border-color,box-shadow] placeholder:text-muted/70 focus:border-ak-800 focus:shadow-[0_0_0_4px_rgba(75,15,138,0.08)]";
+const labelCls = "mb-1.5 block text-[13.5px] font-semibold text-ink";
 
 export default function CheckoutPage() {
   const { cart, subtotal, removeFromCart } = useShop();
@@ -90,9 +90,9 @@ export default function CheckoutPage() {
 
   return (
     <div className="py-6">
-      <h1 className="font-display text-3xl text-ink">Checkout</h1>
+      <h1 className="font-display text-[30px] font-bold leading-tight text-ink lg:text-[40px]">Checkout</h1>
       <div className="mt-4 grid gap-6 lg:grid-cols-[1fr_320px]">
-        <form onSubmit={pay} className="flex flex-col gap-4 rounded-xl border border-line bg-white p-5">
+        <form onSubmit={pay} className="flex flex-col gap-4 rounded-2xl border border-line bg-white p-5">
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div>
               <label htmlFor="co-name" className={labelCls}>Full name *</label>
@@ -126,15 +126,15 @@ export default function CheckoutPage() {
             </div>
           </div>
           {error && <p className="text-sm font-semibold text-red-700">{error}</p>}
-          <button type="submit" className="rounded-full bg-ak-800 px-6 py-3 text-sm font-bold text-white">
-            PAY NOW · {inr(total)}
+          <button type="submit" className="rounded-lg bg-ak-800 px-6 py-3 text-[15px] font-bold text-white transition-colors hover:bg-ak-900">
+            Pay now · {inr(total)}
           </button>
           <p className="text-center text-xs text-muted">
             Secure checkout · UPI · Cards · NetBanking · COD available on the live store
           </p>
         </form>
-        <aside className="h-fit rounded-xl border border-line bg-white p-4">
-          <h2 className="font-display text-xl text-ink">Order Summary</h2>
+        <aside className="h-fit rounded-2xl border border-line bg-white p-4">
+          <h2 className="font-display font-bold text-xl text-ink">Order Summary</h2>
           <ul className="mt-2 flex flex-col gap-2 text-sm">
             {lines.map(({ line, book }) => (
               <li key={line.slug} className="flex justify-between gap-2">

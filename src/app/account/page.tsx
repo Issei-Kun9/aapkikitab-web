@@ -27,9 +27,9 @@ export default function AccountPage() {
 
   return (
     <div className="py-6">
-      <h1 className="font-display text-3xl text-ink">My Account</h1>
+      <h1 className="font-display text-[30px] font-bold leading-tight text-ink lg:text-[40px]">My Account</h1>
       <div className="mt-4 grid gap-6 lg:grid-cols-[280px_1fr]">
-        <nav className="h-fit overflow-hidden rounded-xl border border-line bg-white">
+        <nav className="h-fit overflow-hidden rounded-2xl border border-line bg-white">
           {ROWS.map((r) => (
             <Link
               key={r}
@@ -41,8 +41,8 @@ export default function AccountPage() {
             </Link>
           ))}
         </nav>
-        <div className="rounded-xl border border-line bg-white p-5">
-          <h2 className="font-display text-xl text-ink">My Orders</h2>
+        <div className="rounded-2xl border border-line bg-white p-5">
+          <h2 className="font-display font-bold text-xl text-ink">My Orders</h2>
           {orders.length === 0 ? (
             <p className="mt-2 text-sm text-muted">
               You have not placed any orders yet. Your orders will appear here.
@@ -50,7 +50,7 @@ export default function AccountPage() {
           ) : (
             <ul className="mt-3 flex flex-col gap-3">
               {orders.map((o) => (
-                <li key={o.id} className="rounded-xl border border-line p-3">
+                <li key={o.id} className="rounded-2xl border border-line p-3">
                   <div className="flex items-center justify-between text-sm">
                     <Link href={`/order-success?id=${o.id}`} className="font-bold text-ak-800">
                       {o.id}
