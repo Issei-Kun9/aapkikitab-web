@@ -133,6 +133,7 @@ export interface GiftBox {
   items: string[];
   price: number;
   photo: string;
+  product?: string;
 }
 
 const STATIC_GIFT_BOXES: GiftBox[]  = [

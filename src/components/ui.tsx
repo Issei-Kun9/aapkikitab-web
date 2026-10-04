@@ -116,7 +116,7 @@ export function Cover({ book, className = "", sizes }: { book: Book; className?:
   );
 }
 
-/* ---------- universal book card: one design everywhere, whole card opens the book ---------- */
+/* ---------- universal book card: the book stands on a plinth and turns toward you ---------- */
 export function BookCard({ book }: { book: Book }) {
   const { toggleWish, isWished, addToCart } = useShop();
   const [added, setAdded] = useState(false);
@@ -129,46 +129,50 @@ export function BookCard({ book }: { book: Book }) {
     window.setTimeout(() => setAdded(false), 1400);
   };
   return (
-    <div className="group relative flex flex-col rounded-xl border border-line bg-white p-2.5 transition-[border-color,box-shadow] duration-300 hover:border-ak-800/30 hover:shadow-[0_18px_30px_-20px_rgba(54,8,115,0.55)]">
-      <Link href={`/book/${book.slug}`} className="relative block overflow-hidden rounded-lg bg-ak-50" aria-label={`${book.title} by ${book.author}`}>
-        <Cover book={book} className="transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]" />
+    <div className="group relative flex flex-col">
+      <Link
+        href={`/book/${book.slug}`}
+        aria-label={`${book.title} by ${book.author}`}
+        className="ak-plinth relative flex aspect-[4/5] items-end justify-center overflow-hidden rounded-xl bg-ak-50 px-[14%] pt-[12%] transition-colors duration-500 group-hover:bg-ak-100"
+      >
+        <span className="ak-card-book block w-full">
+          <span className="block overflow-hidden rounded-[2px_4px_4px_2px] shadow-[8px_10px_22px_-10px_rgba(23,10,46,0.55)]">
+            <Cover book={book} sizes="(max-width: 768px) 40vw, 200px" />
+          </span>
+        </span>
         {top && (
-          <span className="absolute left-0 top-2 rounded-r-md bg-ak-800 px-2 py-0.5 text-[10.5px] font-bold capitalize tracking-wide text-white">
+          <span className="absolute left-3 top-3 rounded-md bg-white px-2 py-0.5 text-[11.5px] font-bold capitalize text-ak-800 shadow-sm">
             {top.toLowerCase()}
           </span>
         )}
       </Link>
-      <span className="absolute right-4 top-4">
+      <span className="absolute right-2.5 top-2.5">
         <Press>
           <button
             type="button"
             onClick={() => toggleWish(book.slug)}
             aria-label={wished ? "Remove from wishlist" : "Add to wishlist"}
             aria-pressed={wished}
-            className={`grid h-9 w-9 place-items-center rounded-full bg-white/95 shadow-sm transition-colors hover:text-ak-800 ${wished ? "text-ak-800" : "text-muted"}`}
+            className={`grid h-9 w-9 place-items-center rounded-full bg-white shadow-sm transition-colors hover:text-ak-800 ${wished ? "text-ak-800" : "text-muted"}`}
           >
             <Icon size={17} d={I.heart(wished)} />
           </button>
         </Press>
       </span>
-      <div className="flex flex-1 flex-col px-0.5 pt-2.5">
-        <Link href={`/book/${book.slug}`} className="line-clamp-2 text-[14.5px] font-bold leading-snug text-ink transition-colors hover:text-ak-800">
+      <div className="flex flex-1 flex-col pt-3">
+        <Link href={`/book/${book.slug}`} className="line-clamp-2 font-display text-[16px] font-semibold leading-snug text-ink transition-colors hover:text-ak-800">
           {book.title}
         </Link>
-        <p className="truncate text-[12.5px] text-muted">{book.author}</p>
-        <div className="mb-1.5 mt-1">
+        <p className="mt-0.5 truncate text-[13px] text-muted">{book.author}</p>
+        <div className="mb-3 mt-2">
           <Price value={book.price} mrp={book.mrp} />
         </div>
-        <p className="mb-2.5 flex items-center gap-1 whitespace-nowrap text-[11.5px] font-semibold text-leaf">
-          <Icon size={12} d={I.check} />
-          <span className="truncate"><span className="hidden sm:inline">New copy · </span>Verified store</span>
-        </p>
         <button
           type="button"
           onClick={add}
           aria-label={`Add ${book.title} to cart`}
-          className={`mt-auto flex h-10 w-full items-center justify-center gap-1.5 rounded-lg text-[13.5px] font-bold text-white transition-colors ${
-            added ? "bg-leaf" : "bg-ak-800 hover:bg-ak-900"
+          className={`mt-auto flex h-10 w-full items-center justify-center gap-1.5 rounded-lg text-[14px] font-bold transition-[background-color,color,border-color,transform] active:scale-[0.97] ${
+            added ? "bg-leaf text-white" : "border border-ak-800/30 text-ak-800 hover:border-ak-800 hover:bg-ak-800 hover:text-white"
           }`}
         >
           <Icon size={15} d={added ? I.check : I.cart} />
@@ -182,9 +186,9 @@ export function BookCard({ book }: { book: Book }) {
 /* ---------- section heading ---------- */
 export function SectionHead({ title, href, sub }: { title: string; href?: string; sub?: string }) {
   return (
-    <div className="mb-4 flex items-end justify-between gap-3 lg:mb-5">
+    <div className="mb-5 flex items-end justify-between gap-3 lg:mb-7">
       <div className="min-w-0">
-        <h2 className="font-display text-[24px] font-bold leading-tight text-ink sm:text-[28px] lg:text-[32px]">{title}</h2>
+        <h2 className="font-display text-[26px] font-semibold leading-tight tracking-[-0.02em] text-ink sm:text-[30px] lg:text-[36px]">{title}</h2>
         {sub && <p className="mt-0.5 text-[14.5px] text-muted">{sub}</p>}
       </div>
       {href && (

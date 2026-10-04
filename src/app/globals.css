@@ -266,3 +266,54 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .ak-book-inner { transition: none; }
 }
+
+/* Book cards: the cover leans back a touch and turns upright when reached for. */
+.ak-plinth { perspective: 900px; }
+.ak-card-book {
+  transform: rotateX(4deg) rotateY(-10deg);
+  transform-origin: center bottom;
+  transition: transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.group:hover .ak-card-book,
+.group:focus-within .ak-card-book {
+  transform: rotateX(0) rotateY(0) translateY(-8px);
+}
+@media (prefers-reduced-motion: reduce) {
+  .ak-card-book { transition: none; }
+}
+
+/* Mood tiles: peek-swipe on phones, 2 then 4 across */
+.ak-rail-mood { grid-auto-columns: 62%; gap: 12px; }
+@media (min-width: 640px) {
+  .ak-rail-mood { grid-auto-flow: row; grid-template-columns: repeat(2, minmax(0, 1fr)); overflow: visible; }
+}
+@media (min-width: 1024px) {
+  .ak-rail-mood { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+}
+/* Cover fans open up when the tile is reached for */
+.ak-fan {
+  transform: translateX(0) rotate(var(--r, 0deg));
+  transform-origin: bottom center;
+  transition: transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.group:hover .ak-fan { transform: translateX(var(--x, 0px)) translateY(-10px) rotate(calc(var(--r, 0deg) * 1.6)); }
+/* Product carousel: snap, drag, no scrollbar */
+.ak-carousel {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 46%;
+  gap: 16px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  padding-bottom: 4px;
+}
+.ak-carousel::-webkit-scrollbar { display: none; }
+.ak-carousel > * { scroll-snap-align: start; }
+@media (min-width: 640px) { .ak-carousel { grid-auto-columns: calc((100% - 48px) / 4); } }
+@media (min-width: 1024px) { .ak-carousel { grid-auto-columns: calc((100% - 100px) / 6); gap: 20px; } }
+/* Featured slide change: text rises in, photo settles */
+.ak-slide-in { animation: ak-rise 700ms cubic-bezier(0.16, 1, 0.3, 1) both; }
+.ak-slide-photo { animation: ak-settle 1200ms cubic-bezier(0.16, 1, 0.3, 1) both; }
+@keyframes ak-rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+@keyframes ak-settle { from { opacity: 0.4; transform: scale(1.06); } to { opacity: 1; transform: scale(1); } }
