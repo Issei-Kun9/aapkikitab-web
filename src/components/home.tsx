@@ -57,7 +57,7 @@ export function Hero() {
       />
       <div className="relative grid items-center gap-10 px-6 py-10 sm:px-10 lg:grid-cols-[1.05fr_1fr] lg:gap-6 lg:px-14 lg:py-14">
         <div>
-          <h1 className="font-display text-[44px]! leading-[1.02]! tracking-[-0.01em] text-white! sm:text-[60px]! lg:text-[72px]!">
+          <h1 className="font-display text-[44px]! leading-[1.02]! font-bold tracking-[-0.03em] text-white! sm:text-[60px]! lg:text-[72px]!">
             Your next book <span className="text-[#c9b4ef]">awaits.</span>
           </h1>
           <p className="mt-5 max-w-[30rem] text-[17px] leading-relaxed text-ak-100! sm:text-lg">

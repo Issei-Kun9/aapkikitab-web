@@ -9,8 +9,8 @@
   --color-text-accent: #4b0f8a;
   --color-on-accent: #ffffff;
   --color-icon-accent: #4b0f8a;
-  --font-family-heading: "Rozha One", Georgia, serif;
-  --font-family-body: "Mukta", system-ui, sans-serif;
+  --font-family-heading: var(--font-eczar), Georgia, serif;
+  --font-family-body: var(--font-mukta), system-ui, sans-serif;
 }
 
 @theme {
@@ -28,8 +28,8 @@
   --color-gold: #b8860b;
   --color-leaf: #2f7d57;
 
-  --font-display: "Rozha One", "Georgia", serif;
-  --font-sans: "Mukta", "Inter", system-ui, sans-serif;
+  --font-display: var(--font-eczar), "Georgia", serif;
+  --font-sans: var(--font-mukta), system-ui, sans-serif;
 }
 
 html {
@@ -68,6 +68,8 @@ body {
 /* Display headings never strand orphan words */
 .font-display {
   text-wrap: balance;
+  font-weight: 600;
+  letter-spacing: -0.015em;
 }
 
 /* Horizontal swipe rail: snap scroll on mobile, grid on desktop */

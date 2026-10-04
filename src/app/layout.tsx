@@ -1,21 +1,21 @@
 import type { Metadata } from "next";
-import { Rozha_One, Mukta } from "next/font/google";
+import { Eczar, Mukta } from "next/font/google";
 import "./globals.css";
 import { ShopProvider } from "@/lib/store";
 import { Announcement, Header, BottomNav, Footer } from "@/components/chrome";
 import { Analytics } from "@/components/Analytics";
 
-const display = Rozha_One({
-  weight: "400",
+const display = Eczar({
+  weight: ["500", "600", "700"],
   subsets: ["latin", "devanagari"],
-  variable: "--font-display",
+  variable: "--font-eczar",
   display: "swap",
 });
 
 const sans = Mukta({
-  weight: ["400", "600", "700"],
+  weight: ["400", "500", "600", "700"],
   subsets: ["latin", "devanagari"],
-  variable: "--font-sans",
+  variable: "--font-mukta",
   display: "swap",
 });
 
