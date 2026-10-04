@@ -156,8 +156,9 @@ console.log(`sync-shopify: wrote ${books.length} products.`);
 
 // ---- Store policies (Shopify admin → Settings → Policies) ----
 let policies = [];
+let accountUrl = "";
 try {
-  const d = await gql(`{ shop {
+  const d = await gql(`{ shop { id
     shippingPolicy { title body } refundPolicy { title body } privacyPolicy { title body } termsOfService { title body } } }`);
   policies = [
     ["shipping", d.shop.shippingPolicy],
@@ -165,6 +166,8 @@ try {
     ["privacy", d.shop.privacyPolicy],
     ["terms", d.shop.termsOfService],
   ].filter(([, p]) => p?.body?.trim()).map(([id, p]) => ({ id, title: p.title, body: p.body }));
+  const shopId = (d.shop.id ?? "").split("/").pop();
+  if (shopId) accountUrl = `https://shopify.com/${shopId}/account`;
 } catch (e) {
   console.error(`sync-shopify: could not read policies (${e.message}) — using site defaults.`);
 }
@@ -196,6 +199,7 @@ const content = {
   promoTiles: promoTiles.filter(on).sort(byPos).map((t) => ({ title: t.title, sub: t.subtitle ?? "", cta: t.button_text || "Shop Now", href: t.link || "/browse", photo: t.photo ?? "", colour: t.colour ?? "Lavender" })),
   links: links.filter(on).sort(byPos).map((l) => ({ label: l.label, href: l.link, placement: l.placement })),
   policies,
+  accountUrl,
 };
 writeFileSync(
   new URL("../src/data/site-content.ts", import.meta.url),

@@ -7,7 +7,8 @@ import { useShop } from "@/lib/store";
 import { Cover, EmptyState, Icon, Price } from "@/components/ui";
 import { EMPTY_SHELF_IMAGE } from "@/data/taxonomy";
 import { track } from "@/lib/analytics";
-import { DELIVERY, PAYMENT, SHIPPING, shippingFor } from "@/data/settings";
+import { PAYMENT, SHIPPING, shippingFor } from "@/data/settings";
+import { DeliveryFee } from "@/components/delivery-fee";
 
 export default function CartPage() {
   const { cart, setQty, removeFromCart, subtotal } = useShop();
@@ -97,11 +98,8 @@ export default function CartPage() {
               <dt className="text-muted">Subtotal</dt>
               <dd className="tnum font-semibold">{inr(subtotal)}</dd>
             </div>
-            <div className="flex justify-between">
-              <dt className="text-muted">Shipping</dt>
-              <dd className="tnum font-semibold">{shipping === 0 ? "Free" : inr(shipping)}</dd>
-            </div>
-            {shipping > 0 ? (
+            <DeliveryFee fee={shipping} />
+            {shipping > 0 && (
               <div className="mt-1">
                 <div
                   className="h-2 overflow-hidden rounded-full bg-ak-100"
@@ -109,14 +107,12 @@ export default function CartPage() {
                   aria-valuenow={Math.round((subtotal / SHIPPING.freeAbove) * 100)}
                   aria-valuemin={0}
                   aria-valuemax={100}
-                  aria-label="Progress to free shipping"
+                  aria-label="Progress to free delivery"
                 >
                   <div className="h-full rounded-full bg-ak-800" style={{ width: `${Math.min(100, (subtotal / SHIPPING.freeAbove) * 100)}%` }} />
                 </div>
-                <p className="mt-1 text-xs font-semibold text-ak-800">Add {inr(SHIPPING.freeAbove - subtotal)} more for FREE shipping.</p>
+                <p className="mt-1 text-xs font-semibold text-ak-800">Add {inr(SHIPPING.freeAbove - subtotal)} more for FREE delivery.</p>
               </div>
-            ) : (
-              <p className="mt-1 text-xs font-bold text-leaf">{SHIPPING.freeAll ? `${DELIVERY.headline.charAt(0)}${DELIVERY.headline.slice(1).toLowerCase()} · ${DELIVERY.subline}` : "You unlocked FREE shipping."}</p>
             )}
             <div className="mt-1 flex justify-between border-t border-line pt-2 text-base font-bold">
               <dt>Total</dt>
