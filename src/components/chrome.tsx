@@ -2,11 +2,12 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useId, useRef, useState } from "react";
+import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { BOOKS, inr, searchBooks, type Book } from "@/data/books";
-import { ANNOUNCEMENTS, BUDGETS, CATEGORIES, EXAMS, MOODS } from "@/data/taxonomy";
+import { BUDGETS, CATEGORIES, EXAMS, MOODS } from "@/data/taxonomy";
 import { useShop } from "@/lib/store";
 import { Icon, I, Price } from "./ui";
+import { DeliveryBar, Drawer, VoiceButton } from "./header-bits";
 import { Bump, Press } from "./motion";
 
 const NAV = [
@@ -18,42 +19,6 @@ const NAV = [
   { label: "Offers", href: "/offers" },
   { label: "Bookstores", href: "/bookstores" },
 ];
-
-const NOTE_ICONS = [I.truck, I.shield, I.store];
-const NOTES = ANNOUNCEMENTS.map((t, i) => ({ t, icon: NOTE_ICONS[i % NOTE_ICONS.length] }));
-
-export function Announcement() {
-  const [i, setI] = useState(0);
-  useEffect(() => {
-    const id = window.setInterval(() => setI((n) => (n + 1) % NOTES.length), 4000);
-    return () => window.clearInterval(id);
-  }, []);
-  return (
-    <div className="bg-ak-900 text-white">
-      {/* phones: one rotating note */}
-      <p className="overflow-hidden px-4 py-2 text-center text-[12.5px] font-semibold md:hidden" aria-live="polite">
-        <span key={i} className="ak-note inline-flex items-center gap-1.5">
-          <Icon size={15} d={NOTES[i].icon} />
-          {NOTES[i].t}
-        </span>
-      </p>
-      <ul className="mx-auto hidden max-w-7xl items-center justify-between px-4 py-2 text-[13px] font-semibold md:flex">
-        {NOTES.map((n) => (
-          <li key={n.t} className="flex items-center gap-2">
-            <Icon size={16} d={n.icon} />
-            {n.t}
-          </li>
-        ))}
-        <li>
-          <Link href="/request-book" className="flex items-center gap-2 hover:underline">
-            <Icon size={16} d={I.headset} />
-            Need help?
-          </Link>
-        </li>
-      </ul>
-    </div>
-  );
-}
 
 function SuggestThumb({ book }: { book: Book }) {
   if (book.cover) {
@@ -151,13 +116,16 @@ export function SearchBar({ compact = false }: { compact?: boolean }) {
     <div ref={boxRef} className="relative w-full">
       <form
         role="search"
-        className={`flex w-full items-center rounded-full border border-transparent bg-ak-50 pl-1 pr-1 transition-[border-color,background-color,box-shadow] focus-within:border-ak-800 focus-within:bg-white focus-within:shadow-[0_0_0_4px_rgba(91,15,168,0.1)] ${compact ? "h-11" : "h-12"}`}
+        className={`flex w-full items-center rounded-full border border-line bg-white pl-4 pr-1.5 shadow-[0_8px_24px_-14px_rgba(46,18,143,0.35)] transition-[border-color,box-shadow] focus-within:border-ak-800 focus-within:shadow-[0_0_0_4px_rgba(74,31,196,0.12)] ${compact ? "h-12" : "h-[52px]"}`}
         onSubmit={(e) => {
           e.preventDefault();
           if (open && active >= 0 && suggestions[active]) goBook(suggestions[active].slug);
           else submitSearch();
         }}
       >
+        <button type="submit" aria-label="Search" className="shrink-0 text-ink transition-colors hover:text-ak-800">
+          <Icon size={22} d={I.search} />
+        </button>
         <input
           ref={inputRef}
           value={q}
@@ -172,13 +140,18 @@ export function SearchBar({ compact = false }: { compact?: boolean }) {
           aria-controls={listId}
           aria-activedescendant={active >= 0 ? `${listId}-${active}` : undefined}
           aria-autocomplete="list"
-          placeholder="Search books, authors, ISBN"
-          aria-label="Search books, authors or ISBN"
-          className="w-full bg-transparent px-4 text-sm text-ink outline-none placeholder:text-muted"
+          placeholder="Search for books, gifts, art & craft..."
+          aria-label="Search books, gifts, art and craft"
+          className="w-full bg-transparent px-3 text-[15px] text-ink outline-none placeholder:text-muted"
         />
-        <button type="submit" aria-label="Search" className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-ak-800 text-white transition-[background-color,transform] hover:bg-ak-900 active:scale-95">
-          <Icon size={18} d={I.search} />
-        </button>
+        <VoiceButton
+          onResult={(text) => {
+            setQ(text);
+            setOpen(false);
+            router.push(`/search?q=${encodeURIComponent(text)}`);
+          }}
+          onUnsupported={() => inputRef.current?.focus()}
+        />
       </form>
       {showDropdown && (
         <ul
@@ -231,7 +204,7 @@ function Count({ n }: { n: number }) {
   if (!n) return null;
   return (
     <Bump value={n}>
-      <span className="tnum absolute -right-1 -top-1 grid h-4 min-w-4 place-items-center rounded-full bg-ak-800 px-1 text-[10px] font-bold text-white">
+      <span className="tnum absolute -right-2 -top-2 grid h-[18px] min-w-[18px] place-items-center rounded-full bg-ak-800 px-1 text-[10.5px] font-bold text-white ring-2 ring-white">
         {n > 99 ? "99+" : n}
       </span>
     </Bump>
@@ -315,13 +288,24 @@ function HeaderAction({ href, label, icon, n, className = "" }: { href: string; 
     <Link
       href={href}
       aria-label={label}
-      className={`relative grid h-11 w-11 place-items-center rounded-full text-ink transition-colors hover:bg-ak-50 hover:text-ak-800 ${className}`}
+      className={`relative grid h-11 w-11 place-items-center rounded-full text-ink transition-colors hover:bg-white/70 hover:text-ak-800 ${className}`}
     >
       <span className="relative">
-        <Icon size={23} d={icon} />
+        <Icon size={25} d={icon} />
         {n !== undefined && <Count n={n} />}
       </span>
-      
+    </Link>
+  );
+}
+
+export function Logo() {
+  return (
+    <Link href="/" className="flex shrink-0 items-center gap-2" aria-label="Aapki Kitab home">
+      <img src="/logo.webp" alt="" width={44} height={44} className="h-10 w-10 lg:h-11 lg:w-11" />
+      <span className="leading-none">
+        <span className="block text-[22px] font-bold tracking-[-0.02em] text-ak-900 lg:text-[24px]">AapkiKitab</span>
+        <span className="mt-1 block text-[10.5px] font-medium text-ink/80">Books • Gifts • Art &amp; Craft • More</span>
+      </span>
     </Link>
   );
 }
@@ -329,6 +313,8 @@ function HeaderAction({ href, label, icon, n, className = "" }: { href: string; 
 export function Header() {
   const { cartCount, wishlist } = useShop();
   const pathname = usePathname();
+  const [menu, setMenu] = useState(false);
+  const closeMenu = useCallback(() => setMenu(false), []);
   const bookOfDay = BOOKS.find((b) => b.bookOfDay) ?? BOOKS[0];
   const browseActive =
     pathname === "/browse" || pathname.startsWith("/category/") || pathname.startsWith("/mood/") || pathname.startsWith("/budget/");
@@ -336,13 +322,28 @@ export function Header() {
   const linkCls = (href: string) =>
     `flex h-full items-center border-b-2 text-[15px] font-semibold transition-colors ${pathname === href ? "border-ak-800 text-ak-800" : "border-transparent text-ink hover:text-ak-800"}`;
   return (
-    <header className="sticky top-0 z-40 border-b border-line bg-white/95 backdrop-blur-md">
-      <div className="mx-auto flex h-16 max-w-7xl items-center gap-4 px-4 lg:h-[72px] lg:gap-8">
-        <Link href="/" className="flex shrink-0 items-center gap-2.5" aria-label="Aapki Kitab home">
-          <img src="/logo.webp" alt="" width={44} height={44} className="h-10 w-10 lg:h-11 lg:w-11" />
-          <span className="font-display text-[21px] font-semibold tracking-[-0.02em] text-ink lg:text-[23px]">Aapki Kitab</span>
-        </Link>
-        <nav className="hidden h-full items-center gap-5 lg:flex xl:gap-7" aria-label="Primary">
+    <>
+      <header className="sticky top-0 z-40 bg-[#efe9ff]/90 backdrop-blur-md lg:border-b lg:border-line lg:bg-white/90">
+        <div className="mx-auto flex h-16 max-w-7xl items-center gap-2 px-4 lg:h-[76px] lg:gap-8">
+          <button
+            type="button"
+            onClick={() => setMenu(true)}
+            aria-label="Open menu"
+            aria-expanded={menu}
+            className="-ml-2 grid h-11 w-11 shrink-0 place-items-center rounded-full text-ink transition-colors hover:bg-white/70 lg:hidden"
+          >
+            <Icon size={26} d={I.menu} />
+          </button>
+          <Logo />
+          <div className="ml-auto hidden w-full max-w-[560px] lg:block"><SearchBar compact /></div>
+          <nav className="ml-auto flex shrink-0 items-center gap-1 lg:ml-0" aria-label="Account">
+            <HeaderAction href="/wishlist" label="Wishlist" icon={I.heart()} n={wishlist.length} />
+            <HeaderAction href="/cart" label="Cart" icon={I.cart} n={cartCount} />
+            <HeaderAction href="/account" label="Account" icon={I.user} className="hidden lg:grid" />
+          </nav>
+        </div>
+        <div className="px-4 pb-3 lg:hidden"><SearchBar compact /></div>
+        <nav className="mx-auto hidden h-12 max-w-7xl items-center gap-7 px-4 lg:flex" aria-label="Primary">
           <NavMenu label="Books" active={browseActive} width={760}>
             <div className="grid grid-cols-[1fr_1fr_1fr_200px] gap-6">
               <MenuList title="Categories" items={CATEGORIES.slice(0, 7)} />
@@ -375,46 +376,41 @@ export function Header() {
               {n.label}
             </Link>
           ))}
+          <span className="ml-auto"><DeliveryBar inline /></span>
         </nav>
-        <div className="ml-auto hidden w-full max-w-[300px] md:block lg:hidden xl:block"><SearchBar compact /></div>
-        <nav className="ml-auto flex shrink-0 items-center md:ml-0 lg:ml-auto xl:ml-0" aria-label="Account">
-          <HeaderAction href="/search" label="Search" icon={I.search} className="hidden lg:grid xl:hidden" />
-          <HeaderAction href="/wishlist" label="Wishlist" icon={I.heart()} n={wishlist.length} />
-          <HeaderAction href="/cart" label="Cart" icon={I.cart} n={cartCount} />
-          <HeaderAction href="/account" label="Account" icon={I.user} className="hidden md:flex" />
-        </nav>
-      </div>
-      <div className="px-4 pb-3 md:hidden"><SearchBar compact /></div>
-    </header>
+      </header>
+      <div className="lg:hidden"><DeliveryBar /></div>
+      {menu && <Drawer nav={NAV} onClose={closeMenu} />}
+    </>
   );
 }
 
 const TABS = [
   { label: "Home", href: "/", icon: I.home },
-  { label: "Search", href: "/search", icon: I.search },
-  { label: "Browse", href: "/browse", icon: I.grid },
+  { label: "Categories", href: "/browse", icon: I.grid },
   { label: "Wishlist", href: "/wishlist", icon: I.heart() },
   { label: "Cart", href: "/cart", icon: I.cart },
+  { label: "Account", href: "/account", icon: I.user },
 ];
 
 export function BottomNav() {
   const pathname = usePathname();
-  const { cartCount, wishlist } = useShop();
+  const { cartCount } = useShop();
   return (
-    <nav className="fixed inset-x-0 bottom-0 z-40 border-t border-line bg-white pb-[env(safe-area-inset-bottom)] lg:hidden" aria-label="Mobile">
+    <nav className="fixed inset-x-0 bottom-0 z-40 border-t border-line bg-white pb-[env(safe-area-inset-bottom)] shadow-[0_-8px_24px_-16px_rgba(46,18,143,0.3)] lg:hidden" aria-label="Mobile">
       <div className="grid grid-cols-5">
         {TABS.map((t) => {
-          const active = pathname === t.href;
-          const n = t.href === "/cart" ? cartCount : t.href === "/wishlist" ? wishlist.length : 0;
+          const active = t.href === "/" ? pathname === "/" : pathname === t.href || pathname.startsWith(`${t.href}/`);
+          const n = t.href === "/cart" ? cartCount : 0;
           return (
             <Link
               key={t.href}
               href={t.href}
               aria-current={active ? "page" : undefined}
-              className={`relative flex flex-col items-center gap-0.5 py-2 text-[11px] font-semibold ${active ? "text-ak-800" : "text-muted"}`}
+              className={`relative flex flex-col items-center gap-1 pb-2 pt-2.5 text-[11.5px] font-semibold ${active ? "ak-tab-on text-ak-800" : "text-ink/75"}`}
             >
               <span className="relative">
-                <Icon size={21} d={t.icon} />
+                <Icon size={25} d={t.icon} />
                 <Count n={n} />
               </span>
               {t.label}

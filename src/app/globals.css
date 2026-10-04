@@ -1,21 +1,24 @@
 @import "tailwindcss";
 
 @theme {
-  --color-ak-950: #170a2e;
-  --color-ak-900: #2c0d5c;
-  --color-ak-800: #5b0fa8;
-  --color-ak-700: #6d22bd;
-  --color-ak-600: #8b4fd6;
-  --color-ak-100: #e4d8f7;
-  --color-ak-50: #f1ebfa;
-  --color-ink: #170a2e;
-  --color-muted: #675d78;
-  --color-line: #e6def2;
-  --color-paper: #ffffff;
+  --color-ak-950: #170b45;
+  --color-ak-900: #2e128f;
+  --color-ak-800: #4a1fc4;
+  --color-ak-700: #5b30d9;
+  --color-ak-600: #7b55e8;
+  --color-ak-100: #e6defc;
+  --color-ak-50: #f3effe;
+  --color-ink: #17122e;
+  --color-muted: #6b6585;
+  --color-line: #e9e3f7;
+  --color-paper: #faf8ff;
   --color-gold: #e0900b;
   --color-marigold: #f4a51c;
   --color-marigold-50: #fff4dc;
   --color-leaf: #1f7a55;
+  --color-rose: #e3326c;
+  --color-rose-50: #ffe0eb;
+  --color-peach: #fcebd8;
 
   --font-display: var(--font-literata), "Georgia", serif;
   --font-deva: var(--font-deva), serif;
@@ -27,7 +30,7 @@ html {
 }
 
 body {
-  background: var(--color-paper);
+  background: linear-gradient(180deg, #ece5ff 0, #f5f1ff 380px, var(--color-paper) 900px) no-repeat, var(--color-paper);
   color: var(--color-ink);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
@@ -317,3 +320,38 @@ body {
 .ak-slide-photo { animation: ak-settle 1200ms cubic-bezier(0.16, 1, 0.3, 1) both; }
 @keyframes ak-rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
 @keyframes ak-settle { from { opacity: 0.4; transform: scale(1.06); } to { opacity: 1; transform: scale(1); } }
+
+/* ---------- storefront redesign ---------- */
+/* Product rails: three across on phones (swipe for more), six on desktop */
+.ak-prod-rail {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: calc((100% - 20px) / 3);
+  gap: 10px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  padding: 4px 2px 12px;
+  margin-inline: -2px;
+}
+.ak-prod-rail::-webkit-scrollbar { display: none; }
+.ak-prod-rail > * { scroll-snap-align: start; }
+@media (min-width: 640px) { .ak-prod-rail { grid-auto-columns: calc((100% - 48px) / 4); gap: 16px; } }
+@media (min-width: 1024px) { .ak-prod-rail { grid-auto-columns: calc((100% - 100px) / 6); gap: 20px; } }
+
+.ak-card {
+  background: #fff;
+  box-shadow: 0 1px 2px rgb(46 18 143 / 0.05), 0 10px 24px -14px rgb(46 18 143 / 0.22);
+}
+
+/* Bottom tab bar: the active tab's glyph is filled */
+.ak-tab-on svg :is(path, circle, rect) { fill: currentColor; }
+
+/* Hero slide change */
+.ak-hero-in { animation: ak-rise 600ms cubic-bezier(0.16, 1, 0.3, 1) both; }
+
+/* Side drawer */
+.ak-drawer { animation: ak-drawer-in 0.32s cubic-bezier(0.16, 1, 0.3, 1); }
+@keyframes ak-drawer-in { from { transform: translateX(-100%); } to { transform: none; } }
+.ak-fade { animation: ak-fade-in 0.25s ease-out; }
+@keyframes ak-fade-in { from { opacity: 0; } to { opacity: 1; } }
