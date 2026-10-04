@@ -1,12 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { BOOKS, getBook, type Book } from "@/data/books";
-import { GIFT_BOXES, PROMOS, SHOW } from "@/data/taxonomy";
+import { PROMOS, SHOW } from "@/data/taxonomy";
+import { HEADINGS, HERO, PROMO_TILES, SHORTCUTS, TRUST } from "@/data/settings";
 import { BookCard, Cover, Icon, I, SectionHead, Solid } from "./ui";
-
-const us = (id: string, w = 1200) => `https://images.unsplash.com/photo-${id}?q=80&w=${w}&auto=format&fit=crop`;
 
 /* ---------- hero: lavender banner, one book standing on the right ---------- */
 interface Slide {
@@ -22,17 +21,9 @@ interface Slide {
 const HERO_MS = 5500;
 
 export function HeroCarousel() {
-  const lead = BOOKS.find((b) => b.bookOfDay) ?? BOOKS.find((b) => b.trending) ?? BOOKS[0];
+  const lead = (HERO.book && getBook(HERO.book)) || BOOKS.find((b) => b.bookOfDay) || BOOKS.find((b) => b.trending) || BOOKS[0];
   const slides: Slide[] = [
-    {
-      eyebrow: "Discover stories",
-      title: "Books for a Better You",
-      lines: ["Fiction | Self-Help | Academic", "Gifts | Art & Craft | Stationery"],
-      cta: "Shop Now",
-      href: "/browse",
-      book: lead,
-      photo: us("1512820790803-83ca734da794"),
-    },
+    { eyebrow: HERO.eyebrow, title: HERO.title, lines: HERO.lines, cta: HERO.cta, href: HERO.href, book: lead, photo: HERO.photo },
   ];
   if (SHOW("slider")) {
     for (const p of PROMOS) {
@@ -125,23 +116,28 @@ export function HeroCarousel() {
   );
 }
 
-/* ---------- round shortcuts under the hero ---------- */
-const SHORTCUTS = [
-  { label: "Books", icon: "books", href: "/browse" },
-  { label: "Gifts", icon: "gifts", href: "/#gift-boxes" },
-  { label: "Art & Craft", icon: "craft", href: "/art-craft" },
-  { label: "Stationery", icon: "stationery", href: "/art-craft?type=notebooks" },
-  { label: "Exams", icon: "exams", href: "/category/education-exams" },
-  { label: "More", icon: "more", href: "/browse" },
-];
+/* ---------- round shortcuts under the hero (Shopify: Homepage shortcut button) ---------- */
+const SHORTCUT_ICON: Record<string, string> = {
+  Books: "books",
+  Gifts: "gifts",
+  "Art & Craft": "craft",
+  Stationery: "stationery",
+  Exams: "exams",
+  Home: "decor",
+  Star: "more",
+};
 
 export function CategoryCircles() {
   return (
-    <nav aria-label="Shop by category" className="grid grid-cols-6 gap-1 sm:gap-4">
-      {SHORTCUTS.map((c) => (
+    <nav
+      aria-label="Shop by category"
+      className="grid gap-1 sm:gap-4"
+      style={{ gridTemplateColumns: `repeat(${Math.min(SHORTCUTS.length, 6)}, minmax(0, 1fr))` }}
+    >
+      {SHORTCUTS.slice(0, 6).map((c) => (
         <Link key={c.label} href={c.href} className="group flex flex-col items-center gap-2 text-center">
           <span className="grid aspect-square w-full max-w-[84px] place-items-center rounded-full bg-[radial-gradient(circle_at_30%_25%,#f7f3ff,#e6ddff)] text-ak-800 shadow-[0_6px_16px_-10px_rgba(46,18,143,0.5)] transition-[transform,background-color] duration-300 group-hover:-translate-y-1">
-            <span className="scale-[0.85] sm:scale-110"><Solid name={c.icon} size={28} /></span>
+            <span className="scale-[0.85] sm:scale-110"><Solid name={SHORTCUT_ICON[c.icon] ?? "more"} size={28} /></span>
           </span>
           <span className="text-[11.5px] font-semibold leading-tight text-ink sm:text-[14.5px]">{c.label}</span>
         </Link>
@@ -150,66 +146,83 @@ export function CategoryCircles() {
   );
 }
 
-/* ---------- reassurance strip ---------- */
-const TRUST = [
-  { icon: I.truck, title: "Free Delivery", sub: "Above ₹499" },
-  { icon: I.shield, title: "Secure Payments", sub: "100% Safe" },
-  { icon: I.box, title: "Easy Returns", sub: "7 Days" },
-  { icon: I.headset, title: "Customer Support", sub: "Always Here", href: "/request-book" },
-];
+/* ---------- reassurance strip (Shopify: Trust strip item) ---------- */
+const TRUST_ICON: Record<string, ReactNode> = {
+  Truck: I.truck,
+  Shield: I.shield,
+  Box: I.box,
+  Headset: I.headset,
+  Store: I.store,
+  Star: I.star,
+  Check: I.check,
+};
 
 export function TrustStrip() {
   return (
-    <ul className="grid grid-cols-4 divide-x divide-line rounded-2xl border border-line bg-white/80 py-3 sm:py-4">
-      {TRUST.map((t) => (
-        <li key={t.title} className="flex flex-col items-center gap-1.5 px-1 text-center sm:flex-row sm:justify-center sm:gap-3 sm:text-left">
-          <span className="shrink-0 text-ak-800"><Icon size={28} d={t.icon} /></span>
-          <span className="leading-tight">
-            <span className="block text-[11.5px] font-semibold text-ink sm:text-[15px]">{t.title}</span>
-            <span className="block text-[10.5px] text-muted sm:text-[13px]">{t.sub}</span>
-          </span>
-        </li>
-      ))}
+    <ul
+      className="grid divide-x divide-line rounded-2xl border border-line bg-white/80 py-3 sm:py-4"
+      style={{ gridTemplateColumns: `repeat(${TRUST.length}, minmax(0, 1fr))` }}
+    >
+      {TRUST.map((t) => {
+        const body = (
+          <>
+            <span className="shrink-0 text-ak-800"><Icon size={28} d={TRUST_ICON[t.icon] ?? I.check} /></span>
+            <span className="leading-tight">
+              <span className="block text-[11.5px] font-semibold text-ink sm:text-[15px]">{t.title}</span>
+              {t.sub && <span className="block text-[10.5px] text-muted sm:text-[13px]">{t.sub}</span>}
+            </span>
+          </>
+        );
+        const cls = "flex flex-col items-center gap-1.5 px-1 text-center sm:flex-row sm:justify-center sm:gap-3 sm:text-left";
+        return (
+          <li key={t.title}>
+            {t.href ? <Link href={t.href} className={`${cls} transition-opacity hover:opacity-75`}>{body}</Link> : <div className={cls}>{body}</div>}
+          </li>
+        );
+      })}
     </ul>
   );
 }
 
-/* ---------- two promo tiles ---------- */
+/* ---------- promo cards (Shopify: Homepage promo card) ---------- */
+const TILE_COLOUR: Record<string, { bg: string; title: string }> = {
+  Peach: { bg: "bg-peach", title: "text-[#7b3a10]" },
+  Lavender: { bg: "bg-[linear-gradient(110deg,#efe8ff,#e0d4ff)]", title: "text-ak-900" },
+  Mint: { bg: "bg-[#ddf3e8]", title: "text-[#155c3f]" },
+  Rose: { bg: "bg-rose-50", title: "text-[#9c1f4b]" },
+  Sky: { bg: "bg-[#dcecfb]", title: "text-[#174a7c]" },
+};
+
 export function PromoTiles() {
-  const giftPhoto = GIFT_BOXES[0]?.photo ?? us("1512909006721-3d6018887383", 600);
+  const tiles = PROMO_TILES.slice(0, 4);
   return (
-    <div className="grid grid-cols-2 gap-3 sm:gap-5">
-      <Link href="/trending" className="group relative flex h-[150px] items-center overflow-hidden rounded-2xl bg-peach sm:h-[200px] lg:h-[230px]">
-        <img
-          src={us("1495446815901-a7297e633e8d", 600)}
-          alt=""
-          loading="lazy"
-          className="absolute inset-y-0 left-0 h-full w-[52%] object-cover transition-transform duration-700 [mask-image:linear-gradient(to_left,transparent,#000_40%)] group-hover:scale-[1.04]"
-        />
-        <span className="relative ml-auto w-[54%] pr-3 sm:pr-6">
-          <span className="block font-display text-[18px] font-bold leading-[1.1] text-[#7b3a10] sm:text-[28px] lg:text-[34px]">Best Selling Books</span>
-          <span className="mt-2 inline-flex items-center gap-1 text-[12.5px] font-semibold text-ink sm:mt-4 sm:text-[15px]">
-            Explore Now
-            <span className="transition-transform group-hover:translate-x-1"><Icon size={15} d={I.arrow} /></span>
-          </span>
-        </span>
-      </Link>
-      <Link href="/#gift-boxes" className="group relative flex h-[150px] items-center overflow-hidden rounded-2xl bg-[linear-gradient(110deg,#efe8ff,#e0d4ff)] sm:h-[200px] lg:h-[230px]">
-        <img
-          src={giftPhoto}
-          alt=""
-          loading="lazy"
-          className="absolute inset-y-0 right-0 h-full w-[50%] object-cover transition-transform duration-700 [mask-image:linear-gradient(to_right,transparent,#000_40%)] group-hover:scale-[1.04]"
-        />
-        <span className="relative w-[58%] pl-3 sm:pl-6">
-          <span className="block font-display text-[18px] font-bold leading-[1.1] text-ak-900 sm:text-[28px] lg:text-[34px]">Unique Gifts</span>
-          <span className="mt-1 block text-[11.5px] text-ink/75 sm:text-[14px]">For Every Occasion</span>
-          <span className="mt-2 inline-flex items-center gap-1 text-[12.5px] font-semibold text-ink sm:mt-3 sm:text-[15px]">
-            Shop Now
-            <span className="transition-transform group-hover:translate-x-1"><Icon size={15} d={I.arrow} /></span>
-          </span>
-        </span>
-      </Link>
+    <div className={`grid gap-3 sm:gap-5 ${tiles.length === 1 ? "grid-cols-1" : "grid-cols-2"}`}>
+      {tiles.map((t, i) => {
+        const c = TILE_COLOUR[t.colour] ?? TILE_COLOUR.Lavender;
+        const photoLeft = i % 2 === 0; // alternate sides so a pair mirrors, as in the design
+        return (
+          <Link key={t.title + i} href={t.href} className={`group relative flex h-[150px] items-center overflow-hidden rounded-2xl sm:h-[200px] lg:h-[230px] ${c.bg}`}>
+            {t.photo && (
+              <img
+                src={t.photo}
+                alt=""
+                loading="lazy"
+                className={`absolute inset-y-0 h-full w-[50%] object-cover transition-transform duration-700 group-hover:scale-[1.04] ${
+                  photoLeft ? "left-0 [mask-image:linear-gradient(to_left,transparent,#000_40%)]" : "right-0 [mask-image:linear-gradient(to_right,transparent,#000_40%)]"
+                }`}
+              />
+            )}
+            <span className={`relative w-[56%] ${photoLeft ? "ml-auto pr-3 sm:pr-6" : "pl-3 sm:pl-6"}`}>
+              <span className={`block font-display text-[18px] font-bold leading-[1.1] sm:text-[28px] lg:text-[34px] ${c.title}`}>{t.title}</span>
+              {t.sub && <span className="mt-1 block text-[11.5px] text-ink/75 sm:text-[14px]">{t.sub}</span>}
+              <span className="mt-2 inline-flex items-center gap-1 text-[12.5px] font-semibold text-ink sm:mt-3 sm:text-[15px]">
+                {t.cta}
+                <span className="transition-transform group-hover:translate-x-1"><Icon size={15} d={I.arrow} /></span>
+              </span>
+            </span>
+          </Link>
+        );
+      })}
     </div>
   );
 }
@@ -233,11 +246,11 @@ const coverFirst = (list: Book[]) => [...list.filter((b) => b.cover), ...list.fi
 
 export function BestSellers() {
   const ranked = BOOKS.filter((b) => b.trending);
-  return <ProductRail title="Best Sellers" href="/trending" books={ranked.slice(0, 12)} />;
+  return <ProductRail title={HEADINGS.bestSellers} href="/trending" books={ranked.slice(0, 12)} />;
 }
 
 export function NewArrivals() {
   const fresh = BOOKS.filter((b) => b.isNew);
   const fill = coverFirst(BOOKS.filter((b) => !b.isNew));
-  return <ProductRail title="New Arrivals" href="/new" books={[...fresh, ...fill].slice(0, 12)} />;
+  return <ProductRail title={HEADINGS.newArrivals} href="/new" books={[...fresh, ...fill].slice(0, 12)} />;
 }

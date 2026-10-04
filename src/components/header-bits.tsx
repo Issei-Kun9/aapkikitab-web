@@ -4,10 +4,11 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { CATEGORIES, EXAMS } from "@/data/taxonomy";
+import { CONTACT, HEADER, SHIPPING } from "@/data/settings";
 import { Icon, I } from "./ui";
 
 /* ---------- delivery pincode: remembered on this device ---------- */
-const DEFAULT_PLACE = "Udaipur, 313001";
+const DEFAULT_PLACE = HEADER.deliveryPlace;
 
 export function DeliveryBar({ inline = false }: { inline?: boolean }) {
   const [place, setPlace] = useState(DEFAULT_PLACE);
@@ -89,7 +90,7 @@ export function DeliveryBar({ inline = false }: { inline?: boolean }) {
         <Icon size={26} d={I.truck} />
         <span className="leading-tight">
           <span className="block text-[13.5px] font-semibold text-ink">Free Delivery</span>
-          <span className="block text-[12px] text-muted">Above ₹499</span>
+          <span className="block text-[12px] text-muted">Above ₹{SHIPPING.freeAbove}</span>
         </span>
       </span>
     </div>
@@ -167,6 +168,15 @@ export function Drawer({ nav, onClose }: { nav: { label: string; href: string }[
     };
   }, [onClose]);
 
+  /* fixed entry points around the admin-managed header links, without repeats */
+  const links = [
+    { label: "Home", href: "/" },
+    { label: "Browse books", href: "/browse" },
+    { label: "Education & exams", href: "/category/education-exams" },
+    ...nav,
+    { label: "Find my book", href: "/find-my-book" },
+    { label: "My account", href: "/account" },
+  ].filter((l, i, all) => all.findIndex((x) => x.href === l.href) === i);
   const linkCls = (href: string) =>
     `block rounded-xl px-3 py-2.5 text-[15.5px] font-semibold transition-colors ${pathname === href ? "bg-ak-50 text-ak-800" : "text-ink hover:bg-ak-50"}`;
 
@@ -184,12 +194,9 @@ export function Drawer({ nav, onClose }: { nav: { label: string; href: string }[
           </button>
         </div>
         <nav aria-label="Menu" className="px-2">
-          {nav.map((n) => (
-            <Link key={n.href} href={n.href} className={linkCls(n.href)}>{n.label}</Link>
+          {links.map((n) => (
+            <Link key={n.href + n.label} href={n.href} className={linkCls(n.href)}>{n.label}</Link>
           ))}
-          <Link href="/trending" className={linkCls("/trending")}>Bestsellers</Link>
-          <Link href="/find-my-book" className={linkCls("/find-my-book")}>Find my book</Link>
-          <Link href="/account" className={linkCls("/account")}>My account</Link>
         </nav>
         <p className="mb-1 mt-5 px-5 text-[12px] font-bold uppercase tracking-[0.12em] text-muted">Categories</p>
         <nav aria-label="Categories" className="px-2">
@@ -209,6 +216,12 @@ export function Drawer({ nav, onClose }: { nav: { label: string; href: string }[
           <Icon size={18} d={I.headset} />
           Need help? Contact us
         </Link>
+        {CONTACT.phone && (
+          <a href={CONTACT.phoneHref} className="mx-4 mt-2 flex items-center justify-center gap-2 rounded-xl border border-line py-3 text-[15px] font-bold text-ak-800">
+            <Icon size={18} d={I.phone} />
+            {CONTACT.phone}
+          </a>
+        )}
       </div>
     </div>
   );

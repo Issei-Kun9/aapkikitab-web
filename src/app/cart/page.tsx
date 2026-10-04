@@ -7,6 +7,7 @@ import { useShop } from "@/lib/store";
 import { Cover, EmptyState, Icon, Price } from "@/components/ui";
 import { EMPTY_SHELF_IMAGE } from "@/data/taxonomy";
 import { track } from "@/lib/analytics";
+import { SHIPPING, shippingFor } from "@/data/settings";
 
 export default function CartPage() {
   const { cart, setQty, removeFromCart, subtotal } = useShop();
@@ -30,7 +31,7 @@ export default function CartPage() {
     );
   }
 
-  const shipping = subtotal >= 499 ? 0 : 49;
+  const shipping = shippingFor(subtotal);
   const total = subtotal + shipping;
 
   return (
@@ -105,14 +106,14 @@ export default function CartPage() {
                 <div
                   className="h-2 overflow-hidden rounded-full bg-ak-100"
                   role="progressbar"
-                  aria-valuenow={Math.round((subtotal / 499) * 100)}
+                  aria-valuenow={Math.round((subtotal / SHIPPING.freeAbove) * 100)}
                   aria-valuemin={0}
                   aria-valuemax={100}
                   aria-label="Progress to free shipping"
                 >
-                  <div className="h-full rounded-full bg-ak-800" style={{ width: `${Math.min(100, (subtotal / 499) * 100)}%` }} />
+                  <div className="h-full rounded-full bg-ak-800" style={{ width: `${Math.min(100, (subtotal / SHIPPING.freeAbove) * 100)}%` }} />
                 </div>
-                <p className="mt-1 text-xs font-semibold text-ak-800">Add {inr(499 - subtotal)} more for FREE shipping.</p>
+                <p className="mt-1 text-xs font-semibold text-ak-800">Add {inr(SHIPPING.freeAbove - subtotal)} more for FREE shipping.</p>
               </div>
             ) : (
               <p className="mt-1 text-xs font-bold text-leaf">You unlocked FREE shipping.</p>
