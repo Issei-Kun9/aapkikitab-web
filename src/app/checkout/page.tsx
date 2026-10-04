@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { getBook, inr } from "@/data/books";
 import { SHOPIFY_DOMAIN } from "@/data/shopify-catalog";
 import { useShop } from "@/lib/store";
@@ -26,6 +26,16 @@ export default function CheckoutPage() {
     state: "",
     pincode: "",
   });
+
+  /* signed-in customers: fill in what their Shopify account already knows */
+  useEffect(() => {
+    try {
+      const saved = JSON.parse(localStorage.getItem("ak_profile") ?? "null") as Partial<typeof form> | null;
+      if (saved) setForm((f) => Object.fromEntries(Object.entries(f).map(([k, v]) => [k, v || (saved[k as keyof typeof form] ?? "")])) as typeof form);
+    } catch {
+      /* nothing saved */
+    }
+  }, []);
 
   const set = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement>) =>
     setForm((f) => ({ ...f, [k]: e.target.value }));
