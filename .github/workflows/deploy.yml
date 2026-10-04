@@ -19,6 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       SHOPIFY_STORE_DOMAIN: aapkikitab.myshopify.com
+      SHOPIFY_CHECKOUT_DOMAIN: shop.aapkikitab.in
       SHOPIFY_STOREFRONT_TOKEN: ${{ secrets.SHOPIFY_STOREFRONT_TOKEN }}
       CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
     steps:
