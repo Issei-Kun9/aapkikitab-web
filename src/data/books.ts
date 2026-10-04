@@ -26,6 +26,7 @@ export interface Book {
   trending: boolean;
   bookOfDay?: boolean;
   store: string;
+  variantId?: string; // Shopify variant (numeric id) — present once the catalog is synced
   blurb: string;
 }
 

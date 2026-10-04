@@ -70,6 +70,7 @@ export function Price({ value, mrp, big = false }: { value: number; mrp?: number
 
 /* ---------- rating ---------- */
 export function Rating({ value, count }: { value: number; count?: number }) {
+  if (!value || count === 0) return <span className="text-[13px] text-muted">No ratings yet</span>;
   return (
     <span className="flex items-center gap-1 text-[13px]">
       <span className="text-gold"><Icon size={14} d={I.star} /></span>

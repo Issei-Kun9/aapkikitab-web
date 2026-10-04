@@ -3,3 +3,4 @@
 import type { Book } from "./books";
 
 export const SHOPIFY_BOOKS: Book[] = [];
+export const SHOPIFY_DOMAIN: string | null = null;

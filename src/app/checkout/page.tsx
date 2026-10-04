@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { getBook, inr } from "@/data/books";
+import { SHOPIFY_DOMAIN } from "@/data/shopify-catalog";
 import { useShop } from "@/lib/store";
 import { track } from "@/lib/analytics";
 
@@ -44,6 +45,27 @@ export default function CheckoutPage() {
     if (!/^\d{6}$/.test(form.pincode.trim())) return setError("Please enter a valid 6-digit pincode.");
     if (lines.length === 0) return setError("Your cart is empty.");
     setError("");
+
+    /* Live store: hand the cart to Shopify's secure checkout (UPI, cards, net banking),
+       prefilled with what the customer just typed. Orders land in Shopify admin. */
+    if (SHOPIFY_DOMAIN && lines.every(({ book }) => book!.variantId)) {
+      const items = lines.map(({ line, book }) => `${book!.variantId}:${line.qty}`).join(",");
+      const [first, ...rest] = form.name.trim().split(/\s+/);
+      const q = new URLSearchParams({
+        "checkout[email]": form.email.trim(),
+        "checkout[shipping_address][first_name]": first ?? "",
+        "checkout[shipping_address][last_name]": rest.join(" "),
+        "checkout[shipping_address][address1]": form.address.trim(),
+        "checkout[shipping_address][city]": form.city.trim(),
+        "checkout[shipping_address][province]": form.state.trim(),
+        "checkout[shipping_address][zip]": form.pincode.trim(),
+        "checkout[shipping_address][country]": "India",
+        "checkout[shipping_address][phone]": `+91${form.mobile.trim()}`,
+      });
+      track("begin_checkout", { value: total, currency: "INR" });
+      window.location.assign(`https://${SHOPIFY_DOMAIN}/cart/${items}?${q.toString()}`);
+      return;
+    }
 
     const id = `AK${Date.now().toString().slice(-8)}`;
     const order = {

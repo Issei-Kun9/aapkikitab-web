@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "sync": "node scripts/sync-shopify.mjs",
+    "prebuild": "node scripts/sync-shopify.mjs"
   },
   "dependencies": {
     "@opennextjs/cloudflare": "^1.20.8",
