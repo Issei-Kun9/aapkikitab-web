@@ -1,10 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { BOOKS, CRAFT, getBook, inr, type Book } from "@/data/books";
-import { BUDGETS, EXAMS, GIFT_BOXES, MOODS, PROMOS, type Tile } from "@/data/taxonomy";
-import { BookCard, Cover, CraftCard, Icon, I, Price, Rating, SectionHead } from "./ui";
+import { BUDGETS, EXAMS, GIFT_BOXES, MOODS, type Tile } from "@/data/taxonomy";
+import { Cover, CraftCard, Icon, I, Rating, SectionHead } from "./ui";
 
 const coversFor = (tag: string, n = 3) =>
   BOOKS.filter((b) => b.cover && (b.moods.includes(tag) || b.categories.includes(tag) || b.exams.includes(tag))).slice(0, n);
@@ -59,133 +59,6 @@ export function MoodPanel() {
             </Link>
           );
         })}
-      </div>
-    </div>
-  );
-}
-
-/* ---------- bestsellers: ranked, because the order is the information ---------- */
-export function Trending() {
-  // lead with a real cover: the ranked spread is a picture-first moment
-  const ranked = BOOKS.filter((b) => b.trending);
-  const books = [...ranked.filter((b) => b.cover), ...ranked.filter((b) => !b.cover)].slice(0, 6);
-  if (books.length === 0) return null;
-  const [lead, ...rest] = books;
-  return (
-    <div>
-      <SectionHead title="Bestsellers this week" href="/trending" />
-      <div className="grid gap-8 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] lg:gap-14">
-        <Link href={`/book/${lead.slug}`} className="group grid items-center gap-6 rounded-3xl bg-ak-950 p-6 text-white sm:grid-cols-[180px_minmax(0,1fr)] sm:p-8 lg:grid-cols-[220px_minmax(0,1fr)]">
-          <span className="ak-plinth relative mx-auto block w-[160px] sm:w-full">
-            <span className="absolute -left-3 -top-3 z-10 grid h-12 w-12 place-items-center rounded-full bg-marigold font-display text-[22px] font-bold text-ak-950">1</span>
-            <span className="ak-card-book block overflow-hidden rounded-[2px_4px_4px_2px] shadow-[12px_16px_30px_-12px_rgba(0,0,0,0.8)]">
-              <Cover book={lead} sizes="220px" />
-            </span>
-          </span>
-          <span className="block min-w-0">
-            <span className="block font-display text-[30px] font-semibold leading-[1.05] tracking-[-0.02em] lg:text-[38px]">{lead.title}</span>
-            <span className="mt-1.5 block text-[15px] text-white/65">{lead.author}</span>
-            <span className="mt-4 block max-w-sm text-[15px] leading-relaxed text-white/80">{lead.blurb}</span>
-            <span className="mt-5 flex items-center gap-4">
-              <span className="tnum text-[26px] font-bold">{inr(lead.price)}</span>
-              {lead.mrp > lead.price && <span className="tnum text-[15px] text-white/50 line-through">{inr(lead.mrp)}</span>}
-            </span>
-            <span className="mt-5 inline-flex h-12 items-center rounded-lg bg-marigold px-6 text-[15px] font-bold text-ak-950 transition-colors group-hover:bg-[#ffb83d]">
-              See the book
-            </span>
-          </span>
-        </Link>
-        <ol className="divide-y divide-line self-center">
-          {rest.map((b, i) => (
-            <li key={b.slug}>
-              <Link href={`/book/${b.slug}`} className="group flex items-center gap-4 py-3.5">
-                <span className="tnum w-9 shrink-0 font-display text-[34px] font-semibold leading-none text-ak-100 transition-colors group-hover:text-ak-800">
-                  {i + 2}
-                </span>
-                <span className="w-12 shrink-0 overflow-hidden rounded-[2px] shadow-[4px_6px_12px_-6px_rgba(23,10,46,0.5)] transition-transform duration-300 group-hover:-translate-y-0.5">
-                  <Cover book={b} sizes="48px" />
-                </span>
-                <span className="min-w-0 flex-1">
-                  <span className="block truncate font-display text-[17px] font-semibold text-ink transition-colors group-hover:text-ak-800">{b.title}</span>
-                  <span className="block truncate text-[13.5px] text-muted">{b.author}</span>
-                </span>
-                <span className="tnum shrink-0 text-[16px] font-bold text-ink">{inr(b.price)}</span>
-              </Link>
-            </li>
-          ))}
-        </ol>
-      </div>
-    </div>
-  );
-}
-
-/* ---------- featured slides (managed in Shopify): editorial split, auto-advancing ---------- */
-const SLIDE_MS = 6000;
-
-export function PromoSlider() {
-  const slides = PROMOS.flatMap((p) => {
-    const b = getBook(p.book);
-    return b ? [{ ...p, b }] : [];
-  });
-  const [active, setActive] = useState(0);
-  const [paused, setPaused] = useState(false);
-  const touchX = useRef<number | null>(null);
-  const n = slides.length;
-  useEffect(() => {
-    if (n <= 1 || paused) return;
-    const id = window.setInterval(() => setActive((a) => (a + 1) % n), SLIDE_MS);
-    return () => window.clearInterval(id);
-  }, [n, paused]);
-  if (n === 0) return null;
-  const go = (i: number) => setActive(((i % n) + n) % n);
-  const s = slides[active];
-
-  return (
-    <div
-      className="relative grid overflow-hidden rounded-3xl bg-ak-50 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)]"
-      aria-roledescription="carousel"
-      aria-label="Featured books"
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
-      onTouchStart={(e) => (touchX.current = e.touches[0].clientX)}
-      onTouchEnd={(e) => {
-        if (touchX.current === null) return;
-        const dx = e.changedTouches[0].clientX - touchX.current;
-        if (Math.abs(dx) > 40) go(active + (dx < 0 ? 1 : -1));
-        touchX.current = null;
-      }}
-    >
-      <div key={`t-${active}`} className="ak-slide-in flex flex-col justify-center p-7 sm:p-10 lg:p-14">
-        <h2 className="font-display text-[32px] font-semibold leading-[1.02] tracking-[-0.025em] text-ink sm:text-[44px]">{s.heading}</h2>
-        <p className="mt-4 text-[16px] text-muted">{s.lead}</p>
-        <p className="mt-1 font-display text-[22px] font-semibold text-ak-800">{s.b.title}</p>
-        <p className="mt-1 text-[14px] text-muted">{s.note}</p>
-        <div className="mt-7 flex flex-wrap items-center gap-5">
-          <Link href={`/book/${s.b.slug}`} className="inline-flex h-12 items-center rounded-lg bg-ak-800 px-7 text-[15px] font-bold text-white transition-[background-color,transform] hover:bg-ak-900 active:scale-[0.97]">
-            {s.cta}
-          </Link>
-          <span className="tnum text-[22px] font-bold text-ink">{inr(s.b.price)}</span>
-        </div>
-        {n > 1 && (
-          <div className="mt-8 flex items-center gap-3">
-            <button type="button" onClick={() => go(active - 1)} aria-label="Previous" className="grid h-10 w-10 place-items-center rounded-full border border-ak-800/25 text-ak-800 transition-colors hover:bg-ak-800 hover:text-white">
-              <span className="rotate-180"><Icon size={16} d={I.arrow} /></span>
-            </button>
-            <button type="button" onClick={() => go(active + 1)} aria-label="Next" className="grid h-10 w-10 place-items-center rounded-full border border-ak-800/25 text-ak-800 transition-colors hover:bg-ak-800 hover:text-white">
-              <Icon size={16} d={I.arrow} />
-            </button>
-            <span className="tnum ml-2 text-[14px] font-semibold text-muted">{active + 1} of {n}</span>
-          </div>
-        )}
-      </div>
-      <div className="relative min-h-[260px] overflow-hidden sm:min-h-[340px]">
-        <img key={`p-${active}`} src={s.photo} alt="" className="ak-slide-photo absolute inset-0 h-full w-full object-cover" />
-        <div aria-hidden="true" className="absolute inset-0 bg-ak-950/35" />
-        <Link href={`/book/${s.b.slug}`} tabIndex={-1} aria-hidden="true" className="ak-plinth absolute inset-0 grid place-items-center">
-          <span key={`b-${active}`} className="ak-card-book ak-slide-in block w-[42%] max-w-[210px] overflow-hidden rounded-[2px_4px_4px_2px] shadow-[16px_22px_40px_-14px_rgba(0,0,0,0.75)]">
-            <Cover book={s.b} sizes="210px" />
-          </span>
-        </Link>
       </div>
     </div>
   );
@@ -280,40 +153,6 @@ export function ExamStrip() {
   );
 }
 
-/* ---------- just in: a draggable carousel of the newest books ---------- */
-function Carousel({ title, href, books }: { title: string; href: string; books: Book[] }) {
-  const ref = useRef<HTMLDivElement>(null);
-  if (books.length === 0) return null;
-  const nudge = (dir: number) => ref.current?.scrollBy({ left: dir * ref.current.clientWidth * 0.8, behavior: "smooth" });
-  return (
-    <div>
-      <div className="mb-5 flex items-end justify-between gap-3">
-        <h2 className="font-display text-[26px] font-semibold leading-tight tracking-[-0.02em] text-ink sm:text-[30px] lg:text-[36px]">{title}</h2>
-        <div className="flex items-center gap-2">
-          <Link href={href} className="mr-2 text-[14.5px] font-bold text-ak-800 hover:underline">View all</Link>
-          <button type="button" onClick={() => nudge(-1)} aria-label="Scroll back" className="hidden h-10 w-10 place-items-center rounded-full border border-line text-ink transition-colors hover:border-ak-800 hover:text-ak-800 sm:grid">
-            <span className="rotate-180"><Icon size={16} d={I.arrow} /></span>
-          </button>
-          <button type="button" onClick={() => nudge(1)} aria-label="Scroll forward" className="hidden h-10 w-10 place-items-center rounded-full border border-line text-ink transition-colors hover:border-ak-800 hover:text-ak-800 sm:grid">
-            <Icon size={16} d={I.arrow} />
-          </button>
-        </div>
-      </div>
-      <div ref={ref} className="ak-carousel">
-        {books.map((b) => (
-          <BookCard key={b.slug} book={b} />
-        ))}
-      </div>
-    </div>
-  );
-}
-
-export function NewArrivals() {
-  const fresh = BOOKS.filter((b) => b.isNew);
-  const fill = BOOKS.filter((b) => !b.isNew && b.cover);
-  return <Carousel title="Just in" href="/new" books={[...fresh, ...fill].slice(0, 10)} />;
-}
-
 /* ---------- budget: the numbers are the design ---------- */
 export function BudgetBand() {
   if (BUDGETS.length === 0) return null;
@@ -386,7 +225,7 @@ export function ArtCraft() {
 export function GiftBoxes() {
   if (GIFT_BOXES.length === 0) return null;
   return (
-    <div>
+    <div id="gift-boxes" className="scroll-mt-40">
       <SectionHead title="Gift a book, beautifully" sub="Curated boxes with a book, a bookmark and a handwritten-style card." />
       <div className="ak-rail ak-rail-gift">
         {GIFT_BOXES.map((g) => (

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Literata, Mukta, Tiro_Devanagari_Hindi } from "next/font/google";
 import "./globals.css";
 import { ShopProvider } from "@/lib/store";
-import { Announcement, Header, BottomNav, Footer } from "@/components/chrome";
+import { Header, BottomNav, Footer } from "@/components/chrome";
 import { Analytics } from "@/components/Analytics";
 import { MoreBooks } from "@/components/more-books";
 
@@ -31,8 +31,8 @@ const sans = Mukta({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://aapkikitab.in"),
-  title: "Aapki Kitab — Your Next Book Awaits",
-  description: "A premium independent online bookstore. Discover books by mood, interest, exam and budget.",
+  title: "AapkiKitab — Books, Gifts, Art & Craft",
+  description: "Books, gifts, art & craft and stationery from real Indian bookshops. Discover books by mood, interest, exam and budget.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -49,7 +49,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="min-h-screen font-sans">
         <Analytics />
         <ShopProvider>
-          <Announcement />
           <Header />
           <main className="mx-auto w-full max-w-7xl flex-1 px-4 pb-24 lg:pb-10">
             {children}
