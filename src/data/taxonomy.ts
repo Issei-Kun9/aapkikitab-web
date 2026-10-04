@@ -159,9 +159,5 @@ export const STORES: Store[] = C?.stores?.length ? C.stores : STATIC_STORES;
 export const PROMOS: Promo[] = C ? C.promos : STATIC_PROMOS;
 export const GIFT_BOXES: GiftBox[] = C ? C.giftBoxes : STATIC_GIFT_BOXES;
 
-/* Homepage section switches + top-bar messages (all on / defaults when not synced). */
-const H = C?.home as Record<string, string> | null | undefined;
-export const SHOW = (key: string) => (H?.[`show_${key}`] ?? "true") !== "false";
-export const ANNOUNCEMENTS: string[] = H
-  ? [H.announcement_1, H.announcement_2, H.announcement_3].filter(Boolean)
-  : ["Free shipping on orders above ₹499", "100% original books", "Verified physical bookstores"];
+/* Section switches and top-bar messages live with the other admin settings. */
+export { SHOW, ANNOUNCEMENTS } from "./settings";

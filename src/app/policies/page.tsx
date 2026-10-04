@@ -1,31 +1,64 @@
-const SECTIONS = [
+import type { Metadata } from "next";
+import { CONTACT, SHIPPING, SHOPIFY_POLICIES } from "@/data/settings";
+
+export const metadata: Metadata = {
+  title: "Policies — Aapki Kitab",
+  description: "Shipping, returns, privacy and terms for Aapki Kitab.",
+};
+
+const contactLine = CONTACT.email ? ` You can reach us at ${CONTACT.email}.` : "";
+
+/* Used only where no policy has been written in Shopify admin (Settings → Policies). */
+const DEFAULTS: { id: string; title: string; text: string }[] = [
   {
-    h: "Shipping",
-    p: "Orders are dispatched from our partner bookstores within 24–48 hours. Shipping is a flat ₹49, and free on orders above ₹499. Delivery usually takes 3–7 working days depending on your pincode.",
+    id: "shipping",
+    title: "Shipping",
+    text: `${SHIPPING.dispatch.replace(/\.$/, "")}. Shipping is a flat ₹${SHIPPING.fee}, and free on orders above ₹${SHIPPING.freeAbove}.`,
   },
   {
-    h: "Returns",
-    p: "Every copy we sell is new. If your book arrives damaged or you receive the wrong title, write to us within 7 days of delivery with your order ID and photos, and we will arrange a replacement or refund.",
+    id: "returns",
+    title: "Returns",
+    text: `Every copy we sell is new. If your order arrives damaged or you receive the wrong title, write to us within ${SHIPPING.returnDays} days of delivery with your order ID and photos, and we will arrange a replacement or refund.${contactLine}`,
   },
   {
-    h: "Privacy",
-    p: "We collect only what we need to fulfil your order — name, contact and address. We never sell your data. Demo features on this site store carts, wishlists and requests only in your own browser (localStorage).",
+    id: "privacy",
+    title: "Privacy",
+    text: "We collect only what we need to fulfil your order: name, contact details and address. We never sell your data. Your cart and wishlist are stored only in your own browser.",
   },
   {
-    h: "Terms",
-    p: "Prices and availability shown here are from our demo catalog and may differ on the live Shopify store, which is the final source of truth at checkout. By placing an order you agree to be contacted about sourcing and delivery.",
+    id: "terms",
+    title: "Terms",
+    text: "Prices and availability are confirmed at checkout, which is handled securely by Shopify. By placing an order you agree to be contacted about sourcing and delivery.",
   },
 ];
 
 export default function PoliciesPage() {
+  const sections = DEFAULTS.map((d) => {
+    const live = SHOPIFY_POLICIES.find((p) => p.id === d.id);
+    return { id: d.id, title: live?.title ?? d.title, html: live?.body ?? "", text: d.text };
+  });
   return (
     <div className="py-6">
       <h1 className="font-display text-[30px] font-bold leading-tight text-ink lg:text-[40px]">Policies</h1>
-      <div className="mt-4 grid max-w-3xl gap-4">
-        {SECTIONS.map((s) => (
-          <section key={s.h} className="rounded-2xl border border-line bg-white p-5">
-            <h2 className="font-display font-bold text-xl text-ink">{s.h}</h2>
-            <p className="ak-prose mt-1 text-ink/80">{s.p}</p>
+      <nav aria-label="Policies" className="mt-4 flex flex-wrap gap-2">
+        {sections.map((s) => (
+          <a key={s.id} href={`#${s.id}`} className="rounded-full border border-line bg-white px-4 py-2 text-[14px] font-semibold text-ink hover:border-ak-800 hover:text-ak-800">
+            {s.title}
+          </a>
+        ))}
+      </nav>
+      <div className="mt-5 grid max-w-3xl gap-4">
+        {sections.map((s) => (
+          <section key={s.id} id={s.id} className="scroll-mt-40 rounded-2xl border border-line bg-white p-5">
+            <h2 className="font-display text-xl font-bold text-ink">{s.title}</h2>
+            {s.html ? (
+              <div
+                className="ak-prose mt-2 text-ink/80 [&_a]:text-ak-800 [&_a]:underline [&_h2]:mt-5 [&_h2]:font-display [&_h2]:text-lg [&_h2]:font-bold [&_h2]:text-ink [&_li]:mt-1 [&_p]:mt-3 [&_ul]:list-disc [&_ul]:pl-5"
+                dangerouslySetInnerHTML={{ __html: s.html }}
+              />
+            ) : (
+              <p className="ak-prose mt-1 text-ink/80">{s.text}</p>
+            )}
           </section>
         ))}
       </div>

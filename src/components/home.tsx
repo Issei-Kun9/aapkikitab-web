@@ -5,6 +5,7 @@ import { useEffect, useState, type ReactNode } from "react";
 import { BOOKS, CRAFT, getBook, inr, type Book } from "@/data/books";
 import { BUDGETS, EXAMS, GIFT_BOXES, MOODS, type Tile } from "@/data/taxonomy";
 import { Cover, CraftCard, Icon, I, Rating, SectionHead } from "./ui";
+import { CRAFT_TYPES } from "@/data/settings";
 
 const coversFor = (tag: string, n = 3) =>
   BOOKS.filter((b) => b.cover && (b.moods.includes(tag) || b.categories.includes(tag) || b.exams.includes(tag))).slice(0, n);
@@ -178,12 +179,8 @@ export function BudgetBand() {
 }
 
 /* ---------- art & craft: the stationery corner of the shop ---------- */
-export const CRAFT_GROUPS = [
-  { slug: "art-supplies", label: "Art supplies" },
-  { slug: "notebooks", label: "Notebooks & journals" },
-  { slug: "craft-kits", label: "Craft kits" },
-  { slug: "pens", label: "Pens" },
-];
+/* Art & craft types come from Shopify (Discovery tile → "Art & Craft type"). */
+export const CRAFT_GROUPS = CRAFT_TYPES;
 
 export function ArtCraft() {
   if (CRAFT.length === 0) return null;

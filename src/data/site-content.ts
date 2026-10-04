@@ -314,9 +314,9 @@ export const SITE_CONTENT: Record<string, any> | null = {
   ],
   "home": {
     "handle": "homepage",
-    "announcement_1": "Free shipping on orders above ₹499",
-    "announcement_2": "100% original books",
-    "announcement_3": "Verified physical bookstores",
+    "announcement_1": null,
+    "announcement_2": null,
+    "announcement_3": null,
     "show_book_of_day": "true",
     "show_budget": "true",
     "show_categories": "true",
@@ -327,6 +327,225 @@ export const SITE_CONTENT: Record<string, any> | null = {
     "show_new_arrivals": "true",
     "show_reviews": "true",
     "show_slider": "true",
-    "show_trending": "true"
-  }
+    "show_trending": "true",
+    "header_tagline": "Books • Gifts • Art & Craft • More",
+    "search_placeholder": "Search for books, gifts, art & craft...",
+    "default_delivery_place": "Udaipur, 313001",
+    "hero_eyebrow": "Discover stories",
+    "hero_title": "Books for a Better You",
+    "hero_lines": "Fiction | Self-Help | Academic\nGifts | Art & Craft | Stationery",
+    "hero_button_text": "Shop Now",
+    "hero_button_link": "/browse",
+    "best_sellers_title": "Best Sellers",
+    "new_arrivals_title": "New Arrivals",
+    "show_shortcuts": "true",
+    "show_trust_strip": "true",
+    "show_promo_tiles": "true"
+  },
+  "shop": {
+    "free_shipping_above": 499,
+    "shipping_fee": 49,
+    "dispatch_text": "Dispatched in 24–48 hours, delivered in 3–7 working days",
+    "return_days": 7,
+    "footer_about": "An independent online bookshop. Original books from real Indian bookshops, at honest prices.",
+    "newsletter_heading": "New arrivals, every Sunday",
+    "payment_methods": [
+      "UPI",
+      "Visa",
+      "Mastercard",
+      "RuPay",
+      "NetBanking",
+      "COD"
+    ],
+    "copyright_text": "© 2026 Aapki Kitab. Made in India.",
+    "seo_title": "AapkiKitab — Books, Gifts, Art & Craft",
+    "seo_description": "Books, gifts, art & craft and stationery from real Indian bookshops. Discover books by mood, interest, exam and budget."
+  },
+  "shortcuts": [
+    {
+      "label": "Books",
+      "icon": "Books",
+      "href": "/browse"
+    },
+    {
+      "label": "Gifts",
+      "icon": "Gifts",
+      "href": "/#gift-boxes"
+    },
+    {
+      "label": "Art & Craft",
+      "icon": "Art & Craft",
+      "href": "/art-craft"
+    },
+    {
+      "label": "Stationery",
+      "icon": "Stationery",
+      "href": "/art-craft?type=notebooks"
+    },
+    {
+      "label": "Exams",
+      "icon": "Exams",
+      "href": "/category/education-exams"
+    },
+    {
+      "label": "More",
+      "icon": "Star",
+      "href": "/browse"
+    }
+  ],
+  "trust": [
+    {
+      "title": "Free Delivery",
+      "sub": "Above ₹499",
+      "icon": "Truck",
+      "href": ""
+    },
+    {
+      "title": "Secure Payments",
+      "sub": "100% Safe",
+      "icon": "Shield",
+      "href": ""
+    },
+    {
+      "title": "Easy Returns",
+      "sub": "7 Days",
+      "icon": "Box",
+      "href": "/policies"
+    },
+    {
+      "title": "Customer Support",
+      "sub": "Always Here",
+      "icon": "Headset",
+      "href": "/request-book"
+    }
+  ],
+  "promoTiles": [
+    {
+      "title": "Best Selling Books",
+      "sub": "",
+      "cta": "Explore Now",
+      "href": "/trending",
+      "photo": "",
+      "colour": "Peach"
+    },
+    {
+      "title": "Unique Gifts",
+      "sub": "For Every Occasion",
+      "cta": "Shop Now",
+      "href": "/#gift-boxes",
+      "photo": "",
+      "colour": "Lavender"
+    }
+  ],
+  "links": [
+    {
+      "label": "New Arrivals",
+      "href": "/new",
+      "placement": "Header menu"
+    },
+    {
+      "label": "Bestsellers",
+      "href": "/trending",
+      "placement": "Header menu"
+    },
+    {
+      "label": "Art & Craft",
+      "href": "/art-craft",
+      "placement": "Header menu"
+    },
+    {
+      "label": "Offers",
+      "href": "/offers",
+      "placement": "Header menu"
+    },
+    {
+      "label": "Bookstores",
+      "href": "/bookstores",
+      "placement": "Header menu"
+    },
+    {
+      "label": "All books",
+      "href": "/browse",
+      "placement": "Footer – Shop"
+    },
+    {
+      "label": "New arrivals",
+      "href": "/new",
+      "placement": "Footer – Shop"
+    },
+    {
+      "label": "Bestsellers",
+      "href": "/trending",
+      "placement": "Footer – Shop"
+    },
+    {
+      "label": "Art & craft",
+      "href": "/art-craft",
+      "placement": "Footer – Shop"
+    },
+    {
+      "label": "Offers",
+      "href": "/offers",
+      "placement": "Footer – Shop"
+    },
+    {
+      "label": "Find my book",
+      "href": "/find-my-book",
+      "placement": "Footer – Discover"
+    },
+    {
+      "label": "Exams & education",
+      "href": "/category/education-exams",
+      "placement": "Footer – Discover"
+    },
+    {
+      "label": "Partner bookshops",
+      "href": "/bookstores",
+      "placement": "Footer – Discover"
+    },
+    {
+      "label": "Request a book",
+      "href": "/request-book",
+      "placement": "Footer – Discover"
+    },
+    {
+      "label": "Contact us",
+      "href": "/request-book",
+      "placement": "Footer – Help"
+    },
+    {
+      "label": "Shipping",
+      "href": "/policies#shipping",
+      "placement": "Footer – Help"
+    },
+    {
+      "label": "Returns & refunds",
+      "href": "/policies#returns",
+      "placement": "Footer – Help"
+    },
+    {
+      "label": "Privacy & terms",
+      "href": "/policies#privacy",
+      "placement": "Footer – Help"
+    }
+  ],
+  "craftTypes": [
+    {
+      "slug": "art-supplies",
+      "label": "Art supplies"
+    },
+    {
+      "slug": "notebooks",
+      "label": "Notebooks & journals"
+    },
+    {
+      "slug": "craft-kits",
+      "label": "Craft kits"
+    },
+    {
+      "slug": "pens",
+      "label": "Pens"
+    }
+  ],
+  "policies": []
 };

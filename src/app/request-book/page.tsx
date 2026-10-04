@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Icon } from "@/components/ui";
+import { CONTACT, mailLink, waLink } from "@/data/settings";
 
 const inputCls =
   "h-12 w-full rounded-lg border border-line bg-white px-4 text-[15px] text-ink outline-none transition-[border-color,box-shadow] placeholder:text-muted/70 focus:border-ak-800 focus:shadow-[0_0_0_4px_rgba(75,15,138,0.08)]";
@@ -41,10 +42,30 @@ export default function RequestBookPage() {
       list.push({ ...form, at: new Date().toISOString() });
       localStorage.setItem("ak_requests", JSON.stringify(list));
     } catch {
-      /* storage unavailable — still confirm */
+      /* storage unavailable — the message below still goes out */
     }
+    /* The request itself goes to the shop's WhatsApp (or email), set in Shopify → Shop details. */
+    const wa = waLink(message);
+    const mail = mailLink(`Book request: ${form.bookName.trim()}`, message);
+    if (wa) window.open(wa, "_blank", "noopener");
+    else if (mail) window.location.href = mail;
     setDone(true);
   };
+
+  const message = [
+    "Hello Aapki Kitab, I'd like to request a book.",
+    `Book: ${form.bookName.trim()}`,
+    form.author.trim() && `Author: ${form.author.trim()}`,
+    form.isbn.trim() && `ISBN: ${form.isbn.trim()}`,
+    `Language: ${form.language}`,
+    `Quantity: ${form.qty || "1"}`,
+    `Name: ${form.name.trim()}`,
+    `Mobile: ${form.mobile.trim()}`,
+  ]
+    .filter(Boolean)
+    .join("\n");
+  const waHref = waLink(message);
+  const mailHref = mailLink(`Book request: ${form.bookName.trim()}`, message);
 
   if (done) {
     return (
@@ -55,23 +76,28 @@ export default function RequestBookPage() {
           </div>
           <h1 className="mt-3 font-display font-bold text-2xl text-ink">Request Received</h1>
           <p className="mt-2 text-sm text-muted">
-            Your request has been received. We will try to arrange this book for you.
+            {waHref
+              ? "Your request is ready in WhatsApp. Press send there and we will try to arrange this book for you."
+              : mailHref
+                ? "Your request is ready in your email app. Press send there and we will try to arrange this book for you."
+                : "Your request has been noted. We will try to arrange this book for you."}
           </p>
           <div className="mt-5 flex flex-col gap-2">
-            <a
-              href="tel:+91-98290-00000"
-              className="rounded-lg bg-ak-800 px-6 py-3.5 text-[15px] font-bold text-white transition-colors hover:bg-ak-900"
-            >
-              Call us
-            </a>
-            <a
-              href="https://wa.me/919829000000"
-              target="_blank"
-              rel="noreferrer"
-              className="rounded-lg border border-ak-800 px-6 py-3.5 text-[15px] font-bold text-ak-800 transition-colors hover:bg-ak-50"
-            >
-              WhatsApp us
-            </a>
+            {waHref && (
+              <a href={waHref} target="_blank" rel="noreferrer" className="rounded-lg bg-ak-800 px-6 py-3.5 text-[15px] font-bold text-white transition-colors hover:bg-ak-900">
+                WhatsApp didn&apos;t open? Tap here
+              </a>
+            )}
+            {mailHref && (
+              <a href={mailHref} className="rounded-lg border border-ak-800 px-6 py-3.5 text-[15px] font-bold text-ak-800 transition-colors hover:bg-ak-50">
+                Send by email instead
+              </a>
+            )}
+            {CONTACT.phone && (
+              <a href={CONTACT.phoneHref} className="rounded-lg border border-line px-6 py-3.5 text-[15px] font-bold text-ink transition-colors hover:bg-ak-50">
+                Call us: {CONTACT.phone}
+              </a>
+            )}
           </div>
         </div>
       </div>
@@ -132,7 +158,7 @@ export default function RequestBookPage() {
           </div>
           {error && <p className="text-sm font-semibold text-red-700">{error}</p>}
           <button type="submit" className="rounded-lg bg-ak-800 px-6 py-3 text-[15px] font-bold text-white transition-colors hover:bg-ak-900">
-            Submit request
+            {CONTACT.whatsappNumber ? "Send request on WhatsApp" : CONTACT.email ? "Send request by email" : "Submit request"}
           </button>
         </form>
       </div>

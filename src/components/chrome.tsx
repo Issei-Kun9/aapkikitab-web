@@ -4,21 +4,34 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { BOOKS, inr, searchBooks, type Book } from "@/data/books";
-import { BUDGETS, CATEGORIES, EXAMS, MOODS } from "@/data/taxonomy";
+import { ANNOUNCEMENTS, BUDGETS, CATEGORIES, EXAMS, MOODS } from "@/data/taxonomy";
+import { CONTACT, FOOTER, FOOTER_COLUMNS, HEADER, HEADER_LINKS, mailLink, waLink } from "@/data/settings";
 import { useShop } from "@/lib/store";
 import { Icon, I, Price } from "./ui";
 import { DeliveryBar, Drawer, VoiceButton } from "./header-bits";
-import { Bump, Press } from "./motion";
+import { Bump } from "./motion";
 
-const NAV = [
-  { label: "Home", href: "/" },
-  { label: "Browse Books", href: "/browse" },
-  { label: "Education & Exams", href: "/category/education-exams" },
-  { label: "New Arrivals", href: "/new" },
-  { label: "Art & Craft", href: "/art-craft" },
-  { label: "Offers", href: "/offers" },
-  { label: "Bookstores", href: "/bookstores" },
-];
+/* Header links come from Shopify (Menu link → "Header menu"); Books and Exams menus are built in. */
+const NAV = HEADER_LINKS;
+
+/* Optional top bar: shown only while a message is set in Homepage settings. */
+export function Announcement() {
+  const [i, setI] = useState(0);
+  const n = ANNOUNCEMENTS.length;
+  useEffect(() => {
+    if (n <= 1) return;
+    const id = window.setInterval(() => setI((k) => (k + 1) % n), 4000);
+    return () => window.clearInterval(id);
+  }, [n]);
+  if (n === 0) return null;
+  return (
+    <div className="bg-ak-900 text-white" aria-live="polite">
+      <p key={i} className="ak-note mx-auto max-w-7xl px-4 py-2 text-center text-[12.5px] font-semibold sm:text-[13px]">
+        {ANNOUNCEMENTS[i % n]}
+      </p>
+    </div>
+  );
+}
 
 function SuggestThumb({ book }: { book: Book }) {
   if (book.cover) {
@@ -140,7 +153,7 @@ export function SearchBar({ compact = false }: { compact?: boolean }) {
           aria-controls={listId}
           aria-activedescendant={active >= 0 ? `${listId}-${active}` : undefined}
           aria-autocomplete="list"
-          placeholder="Search for books, gifts, art & craft..."
+          placeholder={HEADER.searchPlaceholder}
           aria-label="Search books, gifts, art and craft"
           className="w-full bg-transparent px-3 text-[15px] text-ink outline-none placeholder:text-muted"
         />
@@ -304,7 +317,7 @@ export function Logo() {
       <img src="/logo.webp" alt="" width={44} height={44} className="h-10 w-10 lg:h-11 lg:w-11" />
       <span className="leading-none">
         <span className="block text-[22px] font-bold tracking-[-0.02em] text-ak-900 lg:text-[24px]">AapkiKitab</span>
-        <span className="mt-1 block text-[10.5px] font-medium text-ink/80">Books • Gifts • Art &amp; Craft • More</span>
+        <span className="mt-1 block text-[10.5px] font-medium text-ink/80">{HEADER.tagline}</span>
       </span>
     </Link>
   );
@@ -371,7 +384,7 @@ export function Header() {
               <MenuList title="More" items={EXAMS.slice(6)} />
             </div>
           </NavMenu>
-          {NAV.filter((n) => !["/", "/browse", "/category/education-exams"].includes(n.href)).map((n) => (
+          {NAV.map((n) => (
             <Link key={n.href} href={n.href} className={linkCls(n.href)}>
               {n.label}
             </Link>
@@ -422,76 +435,31 @@ export function BottomNav() {
   );
 }
 
-const PAYMENTS = ["UPI", "Visa", "Mastercard", "RuPay", "NetBanking", "COD"];
-
-function NewsletterForm() {
-  const [email, setEmail] = useState("");
-  const [error, setError] = useState<string | null>(null);
-  const [done, setDone] = useState(false);
-
-  const submit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const v = email.trim();
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) {
-      setError("Enter a valid email address.");
-      return;
-    }
-    try {
-      localStorage.setItem("ak_newsletter", v);
-    } catch {
-      /* storage unavailable — still confirm */
-    }
-    setError(null);
-    setDone(true);
-  };
-
-  if (done) {
-    return (
-      <p role="status" className="mt-3 rounded-xl border border-line bg-white px-4 py-2.5 text-sm font-semibold text-ink">
-        You are on the list. New arrivals, every Sunday.
-      </p>
-    );
-  }
-
+/* Sign-ups go to the shop's WhatsApp (or email) so the owner actually receives them. */
+function NewsletterCta() {
+  const wa = waLink("Hi! Please add me to your new-arrivals updates.");
+  const mail = mailLink("New arrivals updates", "Hi! Please add me to your new-arrivals updates.");
+  const href = wa || mail;
+  if (!href) return null;
   return (
-    <form onSubmit={submit} className="mt-6 max-w-sm" noValidate>
-      <label htmlFor="ak-newsletter" className="text-sm font-bold text-white">
-        New arrivals, every Sunday
-      </label>
-      <div className="mt-2 flex items-center overflow-hidden rounded-full bg-white">
-        <input
-          id="ak-newsletter"
-          type="email"
-          autoComplete="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="you@example.in"
-          aria-label="Email address"
-          aria-invalid={error ? true : undefined}
-          aria-describedby={error ? "ak-newsletter-error" : undefined}
-          className="w-full bg-transparent px-4 py-2 text-sm text-ink outline-none placeholder:text-muted"
-        />
-        <Press>
-          <button type="submit" className="m-1 shrink-0 rounded-full bg-ak-800 px-5 py-2 text-sm font-bold text-white transition-colors hover:bg-ak-700">
-            Join
-          </button>
-        </Press>
-      </div>
-      {error && (
-        <p id="ak-newsletter-error" role="alert" className="mt-1.5 text-xs font-semibold text-[#ffb4b4]">
-          {error}
-        </p>
-      )}
-    </form>
+    <div className="mt-6 max-w-sm">
+      <p className="text-sm font-bold text-white">{FOOTER.newsletter}</p>
+      <a
+        href={href}
+        target={wa ? "_blank" : undefined}
+        rel="noreferrer"
+        className="mt-2 inline-flex h-11 items-center gap-2 rounded-full bg-white px-5 text-sm font-bold text-ak-900 transition-colors hover:bg-ak-50"
+      >
+        <Icon size={17} d={I.chat} />
+        {wa ? "Get updates on WhatsApp" : "Get updates by email"}
+      </a>
+    </div>
   );
 }
 
+const isExternal = (href: string) => /^(https?:|mailto:|tel:)/.test(href);
+
 export function Footer() {
-  const cols: { h: string; links: [string, string][] }[] = [
-    { h: "Shop", links: [["All books", "/browse"], ["New arrivals", "/new"], ["Bestsellers", "/trending"], ["Art & craft", "/art-craft"], ["Offers", "/offers"]] },
-    { h: "Discover", links: [["Find my book", "/find-my-book"], ["Exams & education", "/category/education-exams"], ["Partner bookshops", "/bookstores"], ["Request a book", "/request-book"]] },
-    { h: "Help", links: [["Contact us", "/request-book"], ["Shipping", "/policies"], ["Returns & refunds", "/policies"], ["Privacy & terms", "/policies"]] },
-  ];
   return (
     <footer className="relative mt-24 overflow-hidden bg-ak-950 pb-20 text-white lg:pb-0">
       <div className="mx-auto grid max-w-7xl grid-cols-2 gap-x-6 gap-y-10 px-4 pb-14 pt-16 sm:grid-cols-3 lg:grid-cols-[minmax(0,1.6fr)_repeat(3,minmax(0,1fr))] lg:pt-20">
@@ -500,20 +468,38 @@ export function Footer() {
             <img src="/logo.webp" alt="" width={48} height={48} className="h-12 w-12" />
             <p className="font-display text-[26px] font-semibold tracking-[-0.02em]">Aapki Kitab</p>
           </div>
-          <p className="mt-5 max-w-sm text-[15.5px] leading-relaxed text-white/70">
-            An independent online bookshop. Original books from real Indian bookshops, at honest prices.
-          </p>
-          <NewsletterForm />
+          <p className="mt-5 max-w-sm whitespace-pre-line text-[15.5px] leading-relaxed text-white/70">{FOOTER.about}</p>
+          {(CONTACT.phone || CONTACT.email || CONTACT.address) && (
+            <ul className="mt-5 space-y-1.5 text-[14.5px] text-white/75">
+              {CONTACT.phone && <li><a href={CONTACT.phoneHref} className="hover:text-white">{CONTACT.phone}</a></li>}
+              {CONTACT.email && <li><a href={`mailto:${CONTACT.email}`} className="hover:text-white">{CONTACT.email}</a></li>}
+              {CONTACT.address && <li className="whitespace-pre-line">{CONTACT.address}</li>}
+            </ul>
+          )}
+          {FOOTER.social.length > 0 && (
+            <ul className="mt-4 flex flex-wrap gap-2">
+              {FOOTER.social.map((s) => (
+                <li key={s.label}>
+                  <a href={s.href} target="_blank" rel="noreferrer" className="inline-block rounded-full border border-white/20 px-3.5 py-1.5 text-[13px] font-semibold text-white/80 hover:border-white hover:text-white">
+                    {s.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )}
+          <NewsletterCta />
         </div>
-        {cols.map((c) => (
+        {FOOTER_COLUMNS.map((c) => (
           <nav key={c.h} aria-label={c.h}>
             <p className="mb-4 text-[14px] font-semibold text-marigold">{c.h}</p>
             <ul className="space-y-2.5">
-              {c.links.map(([label, href]) => (
-                <li key={href + label}>
-                  <Link href={href} className="text-[15px] text-white/75 transition-colors hover:text-white">
-                    {label}
-                  </Link>
+              {c.links.map((l) => (
+                <li key={l.href + l.label}>
+                  {isExternal(l.href) ? (
+                    <a href={l.href} target="_blank" rel="noreferrer" className="text-[15px] text-white/75 transition-colors hover:text-white">{l.label}</a>
+                  ) : (
+                    <Link href={l.href} className="text-[15px] text-white/75 transition-colors hover:text-white">{l.label}</Link>
+                  )}
                 </li>
               ))}
             </ul>
@@ -529,13 +515,13 @@ export function Footer() {
       </div>
       <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 border-t border-white/10 px-4 py-6">
         <div className="flex flex-wrap items-center gap-2" aria-label="Accepted payments">
-          {PAYMENTS.map((p) => (
+          {FOOTER.payments.map((p) => (
             <span key={p} className="rounded-md border border-white/15 px-2.5 py-1 text-[12px] font-semibold text-white/70">
               {p}
             </span>
           ))}
         </div>
-        <p className="text-[13px] text-white/55">© 2026 Aapki Kitab. Made in India.</p>
+        <p className="text-[13px] text-white/55">{FOOTER.copyright}</p>
       </div>
     </footer>
   );

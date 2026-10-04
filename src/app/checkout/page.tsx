@@ -6,6 +6,7 @@ import { getBook, inr } from "@/data/books";
 import { SHOPIFY_DOMAIN } from "@/data/shopify-catalog";
 import { useShop } from "@/lib/store";
 import { track } from "@/lib/analytics";
+import { shippingFor } from "@/data/settings";
 
 const inputCls =
   "h-12 w-full rounded-lg border border-line bg-white px-4 text-[15px] text-ink outline-none transition-[border-color,box-shadow] placeholder:text-muted/70 focus:border-ak-800 focus:shadow-[0_0_0_4px_rgba(75,15,138,0.08)]";
@@ -31,7 +32,7 @@ export default function CheckoutPage() {
   const lines = cart
     .map((l) => ({ line: l, book: getBook(l.slug) }))
     .filter((x) => x.book !== undefined);
-  const shipping = subtotal >= 499 || lines.length === 0 ? 0 : 49;
+  const shipping = lines.length === 0 ? 0 : shippingFor(subtotal);
   const total = subtotal + shipping;
 
   const pay = (e: React.FormEvent) => {
