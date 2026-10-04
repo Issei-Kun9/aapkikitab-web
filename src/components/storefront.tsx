@@ -212,10 +212,10 @@ export function PromoTiles() {
                 }`}
               />
             )}
-            <span className={`relative w-[56%] ${photoLeft ? "ml-auto pr-3 sm:pr-6" : "pl-3 sm:pl-6"}`}>
-              <span className={`block font-display text-[18px] font-bold leading-[1.1] sm:text-[28px] lg:text-[34px] ${c.title}`}>{t.title}</span>
-              {t.sub && <span className="mt-1 block text-[11.5px] text-ink/75 sm:text-[14px]">{t.sub}</span>}
-              <span className="mt-2 inline-flex items-center gap-1 text-[12.5px] font-semibold text-ink sm:mt-3 sm:text-[15px]">
+            <span className={`relative w-[58%] ${photoLeft ? "ml-auto pr-2.5 sm:pr-6" : "pl-3 sm:pl-6"}`}>
+              <span className={`block font-display text-[17px] font-bold leading-[1.12] sm:text-[28px] lg:text-[34px] ${c.title}`}>{t.title}</span>
+              {t.sub && <span className="mt-1 block text-[11px] leading-snug text-ink/75 sm:text-[14px]">{t.sub}</span>}
+              <span className="mt-2 inline-flex items-center gap-1 whitespace-nowrap text-[12px] font-semibold text-ink sm:mt-3 sm:text-[15px]">
                 {t.cta}
                 <span className="transition-transform group-hover:translate-x-1"><Icon size={15} d={I.arrow} /></span>
               </span>

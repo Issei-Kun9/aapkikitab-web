@@ -42,6 +42,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className={`${display.variable} ${deva.variable} ${sans.variable}`}>
       <head>
         {/* One official address: www and the pages.dev preview hop to aapkikitab.in, same path. */}
+        {/* A photo that fails to load disappears into its tinted frame instead of showing a broken icon. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `document.addEventListener("error",function(e){var t=e.target;if(t&&t.tagName==="IMG")t.style.visibility="hidden"},true)`,
+          }}
+        />
         <script
           dangerouslySetInnerHTML={{
             __html: `if(/^(www\\.aapkikitab\\.in|aapkikitab\\.pages\\.dev)$/.test(location.hostname))location.replace("https://aapkikitab.in"+location.pathname+location.search+location.hash)`,
@@ -53,7 +59,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ShopProvider>
           <Announcement />
           <Header />
-          <main className="mx-auto w-full max-w-7xl flex-1 px-4 pb-24 lg:pb-10">
+          <main className="mx-auto w-full max-w-7xl flex-1 px-4 pb-6 lg:pb-10">
             {children}
             <MoreBooks />
           </main>

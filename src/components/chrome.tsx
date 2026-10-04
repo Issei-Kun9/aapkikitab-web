@@ -462,7 +462,7 @@ const isExternal = (href: string) => /^(https?:|mailto:|tel:)/.test(href);
 
 export function Footer() {
   return (
-    <footer className="relative mt-24 overflow-hidden bg-ak-950 pb-20 text-white lg:pb-0">
+    <footer className="relative mt-14 overflow-hidden bg-ak-950 pb-20 text-white lg:mt-24 lg:pb-0">
       <div className="mx-auto grid max-w-7xl grid-cols-2 gap-x-6 gap-y-10 px-4 pb-14 pt-16 sm:grid-cols-3 lg:grid-cols-[minmax(0,1.6fr)_repeat(3,minmax(0,1fr))] lg:pt-20">
         <div className="col-span-2 sm:col-span-3 lg:col-span-1">
           <div className="flex items-center gap-3">
