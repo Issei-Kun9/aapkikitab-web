@@ -22,7 +22,7 @@ jobs:
       SHOPIFY_CHECKOUT_DOMAIN: shop.aapkikitab.in
       SHOPIFY_STOREFRONT_TOKEN: ${{ secrets.SHOPIFY_STOREFRONT_TOKEN }}
       # Headless → Customer Account API → Client ID (public, not a secret). Empty = Shopify-hosted accounts.
-      NEXT_PUBLIC_SHOPIFY_CUSTOMER_CLIENT_ID: ${{ vars.SHOPIFY_CUSTOMER_CLIENT_ID }}
+      NEXT_PUBLIC_SHOPIFY_CUSTOMER_CLIENT_ID: ${{ vars.SHOPIFY_CUSTOMER_CLIENT_ID || '47563962-5dc2-4c3e-b329-470496b04589' }}
       CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
     steps:
       - uses: actions/checkout@v4
