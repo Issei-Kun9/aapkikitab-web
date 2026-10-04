@@ -5,7 +5,7 @@ import { BestSellers } from "./storefront";
 
 /* Short utility pages end on a shelf of trending books instead of empty space:
    it keeps the page from feeling unfinished and always offers a next step. */
-const PAGES = ["/account", "/cart", "/wishlist", "/search", "/order-success", "/find-my-book", "/request-book", "/policies", "/checkout"];
+const PAGES = ["/account", "/cart", "/wishlist", "/search", "/find-my-book", "/request-book", "/policies", "/checkout"];
 
 export function MoreBooks() {
   const path = usePathname();

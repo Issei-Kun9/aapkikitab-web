@@ -24,7 +24,11 @@ export const SHIPPING = {
 export const DELIVERY = {
   headline: txt(S.delivery_headline, SHIPPING.freeAll ? "FREE DELIVERY ON EVERY ORDER" : "Free Delivery"),
   subline: txt(S.delivery_subline, SHIPPING.freeAll ? "Across India • No Minimum Order" : `On orders above ₹${freeAbove}`),
+  /* shown under "Delivery Fee: ₹0" in the cart and checkout */
+  freeNote: txt(S.delivery_free_note, "🎉 Enjoy FREE Delivery. It’s on us!"),
 };
+/* Shopify customer accounts: sign-in with an emailed one-time code, order history, addresses. */
+export const ACCOUNT_URL = txt(C?.accountUrl, "https://shopify.com/100332372257/account");
 export const PAYMENT = {
   online: txt(S.online_payment_label, "UPI / QR / Online Payment"),
   cod: S.cod_available === true || S.cod_available === "true",

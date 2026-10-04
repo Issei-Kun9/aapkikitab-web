@@ -1,21 +1,20 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { getBook, inr } from "@/data/books";
 import { SHOPIFY_DOMAIN } from "@/data/shopify-catalog";
 import { useShop } from "@/lib/store";
 import { track } from "@/lib/analytics";
 import { PAYMENT, shippingFor } from "@/data/settings";
 import { Icon, I } from "@/components/ui";
+import { DeliveryFee } from "@/components/delivery-fee";
 
 const inputCls =
   "h-12 w-full rounded-lg border border-line bg-white px-4 text-[15px] text-ink outline-none transition-[border-color,box-shadow] placeholder:text-muted/70 focus:border-ak-800 focus:shadow-[0_0_0_4px_rgba(75,15,138,0.08)]";
 const labelCls = "mb-1.5 block text-[13.5px] font-semibold text-ink";
 
 export default function CheckoutPage() {
-  const { cart, subtotal, removeFromCart } = useShop();
-  const router = useRouter();
+  const { cart, subtotal } = useShop();
   const [error, setError] = useState("");
   const [method, setMethod] = useState<"online" | "cod">("online");
   const [form, setForm] = useState({
@@ -70,25 +69,8 @@ export default function CheckoutPage() {
       return;
     }
 
-    const id = `AK${Date.now().toString().slice(-8)}`;
-    const order = {
-      id,
-      total,
-      items: lines.map(({ line, book }) => ({ slug: line.slug, qty: line.qty, title: book!.title })),
-      customer: form,
-      at: new Date().toISOString(),
-    };
-    try {
-      const raw = localStorage.getItem("ak_orders");
-      const list = raw ? JSON.parse(raw) : [];
-      list.push(order);
-      localStorage.setItem("ak_orders", JSON.stringify(list));
-    } catch {
-      /* ignore */
-    }
-    for (const { line } of lines) removeFromCart(line.slug);
-    track("purchase", { transaction_id: id, value: total, currency: "INR" });
-    router.push(`/order-success?id=${id}`);
+    /* Never confirm an order the shop can't actually take: no fake "order placed" without payment. */
+    setError("Some items in your cart can't be bought online right now. Please remove them or contact us.");
   };
 
   return (
@@ -179,10 +161,7 @@ export default function CheckoutPage() {
               <dt className="text-muted">Subtotal</dt>
               <dd className="tnum font-semibold">{inr(subtotal)}</dd>
             </div>
-            <div className="flex justify-between">
-              <dt className="text-muted">Shipping</dt>
-              <dd className="tnum font-semibold">{shipping === 0 ? "Free" : inr(shipping)}</dd>
-            </div>
+            <DeliveryFee fee={shipping} />
             <div className="flex justify-between text-base font-bold">
               <dt>Total</dt>
               <dd className="tnum">{inr(total)}</dd>
