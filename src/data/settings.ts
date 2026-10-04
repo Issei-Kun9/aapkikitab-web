@@ -11,13 +11,25 @@ const txt = (v: unknown, d: string) => (typeof v === "string" && v.trim() ? v.tr
 const num = (v: unknown, d: number) => (typeof v === "number" && Number.isFinite(v) ? v : d);
 const unsplash = (id: string, w = 1200) => `https://images.unsplash.com/photo-${id}?q=80&w=${w}&auto=format&fit=crop`;
 
+const freeAbove = num(S.free_shipping_above, 0);
+const fee = num(S.shipping_fee, 0);
 export const SHIPPING = {
-  freeAbove: num(S.free_shipping_above, 499),
-  fee: num(S.shipping_fee, 49),
+  freeAbove,
+  fee,
+  /* free on every order when there's no threshold or no fee */
+  freeAll: freeAbove <= 0 || fee <= 0,
   dispatch: txt(S.dispatch_text, "Dispatched in 24–48 hours, delivered in 3–7 working days"),
   returnDays: num(S.return_days, 7),
 };
-export const shippingFor = (subtotal: number) => (subtotal >= SHIPPING.freeAbove || subtotal === 0 ? 0 : SHIPPING.fee);
+export const DELIVERY = {
+  headline: txt(S.delivery_headline, SHIPPING.freeAll ? "FREE DELIVERY ON EVERY ORDER" : "Free Delivery"),
+  subline: txt(S.delivery_subline, SHIPPING.freeAll ? "Across India • No Minimum Order" : `On orders above ₹${freeAbove}`),
+};
+export const PAYMENT = {
+  online: txt(S.online_payment_label, "UPI / QR / Online Payment"),
+  cod: S.cod_available === true || S.cod_available === "true",
+};
+export const shippingFor = (subtotal: number) => (SHIPPING.freeAll || subtotal >= SHIPPING.freeAbove || subtotal === 0 ? 0 : SHIPPING.fee);
 
 const digits = (v: string) => v.replace(/[^\d]/g, "");
 const phone = txt(S.contact_phone, "");
@@ -34,7 +46,7 @@ export const CONTACT = {
 export const FOOTER = {
   about: txt(S.footer_about, "An independent online bookshop. Original books from real Indian bookshops, at honest prices."),
   newsletter: txt(S.newsletter_heading, "New arrivals, every Sunday"),
-  payments: Array.isArray(S.payment_methods) && S.payment_methods.length ? (S.payment_methods as string[]) : ["UPI", "Visa", "Mastercard", "RuPay", "NetBanking", "COD"],
+  payments: Array.isArray(S.payment_methods) && S.payment_methods.length ? (S.payment_methods as string[]) : ["UPI", "QR Code", "Online Payment"],
   copyright: txt(S.copyright_text, `© ${new Date().getFullYear()} Aapki Kitab. Made in India.`),
   social: [
     { label: "Instagram", href: txt(S.instagram, "") },
@@ -52,7 +64,7 @@ export const SEO = {
 };
 
 export const HEADER = {
-  tagline: txt(H.header_tagline, "Books • Gifts • Art & Craft • More"),
+  tagline: txt(H.header_tagline, "Made for India. Made for You."),
   searchPlaceholder: txt(H.search_placeholder, "Search for books, gifts, art & craft..."),
   deliveryPlace: txt(H.default_delivery_place, "Udaipur, 313001"),
 };
@@ -92,7 +104,7 @@ export interface TrustItem { title: string; sub: string; icon: string; href: str
 export const TRUST: TrustItem[] = C?.trust?.length
   ? C.trust
   : [
-      { title: "Free Delivery", sub: `Above ₹${SHIPPING.freeAbove}`, icon: "Truck", href: "" },
+      { title: "Free Delivery", sub: SHIPPING.freeAll ? "Every Order" : `Above ₹${SHIPPING.freeAbove}`, icon: "Truck", href: "" },
       { title: "Secure Payments", sub: "100% Safe", icon: "Shield", href: "" },
       { title: "Easy Returns", sub: `${SHIPPING.returnDays} Days`, icon: "Box", href: "/policies" },
       { title: "Customer Support", sub: "Always Here", icon: "Headset", href: "/request-book" },
