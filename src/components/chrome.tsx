@@ -401,10 +401,10 @@ export function Header() {
 
 const TABS = [
   { label: "Home", href: "/", icon: I.home },
+  { label: "Search", href: "/search", icon: I.search },
   { label: "Categories", href: "/browse", icon: I.grid },
   { label: "Wishlist", href: "/wishlist", icon: I.heart() },
   { label: "Cart", href: "/cart", icon: I.cart },
-  { label: "Account", href: "/account", icon: I.user },
 ];
 
 export function BottomNav() {
@@ -421,7 +421,7 @@ export function BottomNav() {
               key={t.href}
               href={t.href}
               aria-current={active ? "page" : undefined}
-              className={`relative flex flex-col items-center gap-1 pb-2 pt-2.5 text-[11.5px] font-semibold ${active ? "ak-tab-on text-ak-800" : "text-ink/75"}`}
+              className={`relative flex flex-col items-center gap-1 pb-2 pt-2.5 text-[11.5px] font-semibold ${active ? "ak-tab-on text-ak-800" : "text-ink/75"} ${t.href === "/search" ? "ak-tab-line" : ""}`}
             >
               <span className="relative">
                 <Icon size={25} d={t.icon} />

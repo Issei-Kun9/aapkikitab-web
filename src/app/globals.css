@@ -346,6 +346,7 @@ body {
 
 /* Bottom tab bar: the active tab's glyph is filled */
 .ak-tab-on svg :is(path, circle, rect) { fill: currentColor; }
+.ak-tab-on.ak-tab-line svg :is(path, circle, rect) { fill: none; stroke-width: 2.4; }
 
 /* Hero slide change */
 .ak-hero-in { animation: ak-rise 600ms cubic-bezier(0.16, 1, 0.3, 1) both; }

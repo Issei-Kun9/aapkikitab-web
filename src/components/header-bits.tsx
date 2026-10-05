@@ -7,6 +7,7 @@ import { CATEGORIES, EXAMS } from "@/data/taxonomy";
 import { CONTACT, DELIVERY, HEADER } from "@/data/settings";
 import { Icon, I } from "./ui";
 import { openChat } from "./chat";
+import { ProfileLinks } from "./profile-links";
 
 /* ---------- delivery pincode: remembered on this device ---------- */
 const DEFAULT_PLACE = HEADER.deliveryPlace;
@@ -194,8 +195,16 @@ export function Drawer({ nav, onClose }: { nav: { label: string; href: string }[
     { label: "Education & exams", href: "/category/education-exams" },
     ...nav,
     { label: "Find my book", href: "/find-my-book" },
-    { label: "My account", href: "/account" },
   ].filter((l, i, all) => all.findIndex((x) => x.href === l.href) === i);
+  const [profileName, setProfileName] = useState("");
+  useEffect(() => {
+    try {
+      const p = JSON.parse(localStorage.getItem("ak_profile") ?? "null") as { name?: string } | null;
+      setProfileName(p?.name?.split(" ")[0] ?? "");
+    } catch {
+      /* not signed in */
+    }
+  }, []);
   const linkCls = (href: string) =>
     `block rounded-xl px-3 py-2.5 text-[15.5px] font-semibold transition-colors ${pathname === href ? "bg-ak-50 text-ak-800" : "text-ink hover:bg-ak-50"}`;
 
@@ -211,6 +220,16 @@ export function Drawer({ nav, onClose }: { nav: { label: string; href: string }[
           <button type="button" onClick={onClose} aria-label="Close menu" className="grid h-10 w-10 place-items-center rounded-full text-ink hover:bg-ak-50">
             <Icon size={22} d={I.x} />
           </button>
+        </div>
+        <div className="mx-4 mb-3 rounded-2xl bg-ak-50 p-3">
+          <Link href="/account" className="flex items-center gap-3 px-1 pb-2">
+            <span className="grid h-10 w-10 place-items-center rounded-full bg-ak-800 text-white"><Icon size={20} d={I.user} /></span>
+            <span className="leading-tight">
+              <span className="block text-[15px] font-bold text-ink">{profileName ? `Hello, ${profileName}` : "Sign in / Create account"}</span>
+              <span className="block text-[12.5px] text-muted">{profileName ? "View your account" : "Track orders and share reviews"}</span>
+            </span>
+          </Link>
+          <ProfileLinks onNavigate={onClose} />
         </div>
         <nav aria-label="Menu" className="px-2">
           {links.map((n) => (
@@ -235,7 +254,7 @@ export function Drawer({ nav, onClose }: { nav: { label: string; href: string }[
           <Icon size={18} d={I.chat} />
           Chat with AapkiKitab Team
         </button>
-        <Link href="/community" className={`mx-2 mt-2 ${linkCls("/community")}`}>Reader stories</Link>
+
         {CONTACT.phone && (
           <a href={CONTACT.phoneHref} className="mx-4 mt-2 flex items-center justify-center gap-2 rounded-xl border border-line py-3 text-[15px] font-bold text-ak-800">
             <Icon size={18} d={I.phone} />

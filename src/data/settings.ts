@@ -47,6 +47,8 @@ export const CONTACT = {
   address: txt(S.contact_address, ""),
 };
 
+export const CHAT_STATUS = txt(S.chat_status, "Usually replies within a few hours");
+
 export const FOOTER = {
   about: txt(S.footer_about, "An independent online bookshop. Original books from real Indian bookshops, at honest prices."),
   newsletter: txt(S.newsletter_heading, "New arrivals, every Sunday"),
@@ -156,7 +158,7 @@ export const FOOTER_COLUMNS: { h: string; links: NavLink[] }[] = [
       { label: "Exams & education", href: "/category/education-exams" },
       { label: "Partner bookshops", href: "/bookstores" },
       { label: "Request a book", href: "/request-book" },
-      { label: "Reader stories", href: "/community" },
+      { label: "Customer reviews", href: "/community" },
     ]),
   },
   {

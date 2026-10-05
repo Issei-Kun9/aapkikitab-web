@@ -270,7 +270,7 @@ export function SectionHead({ title, href, sub }: { title: string; href?: string
       </div>
       {href && (
         <Link href={href} className="group flex shrink-0 items-center gap-1 pb-0.5 text-[14.5px] font-bold text-ak-800">
-          View All
+          See All
           <span className="transition-transform duration-300 group-hover:translate-x-1"><Icon size={15} d={I.arrow} /></span>
         </Link>
       )}

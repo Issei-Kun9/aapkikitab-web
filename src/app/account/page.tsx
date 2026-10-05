@@ -5,6 +5,7 @@ import { useCallback, useEffect, useState } from "react";
 import { Icon, I } from "@/components/ui";
 import { ACCOUNT_URL, CONTACT } from "@/data/settings";
 import { openChat } from "@/components/chat";
+import { ProfileLinks } from "@/components/profile-links";
 import {
   ACCOUNT_QUERY,
   customerQuery,
@@ -237,6 +238,9 @@ export default function AccountPage() {
   return (
     <div className="py-6">
       <h1 className="font-display text-[30px] font-bold leading-tight text-ink lg:text-[40px]">My Account</h1>
+      <div className="ak-card mt-4 rounded-2xl p-2 sm:p-3">
+        <ProfileLinks />
+      </div>
       <div className="mt-5">
         {!onSiteAccounts ? <HostedAccount /> : signedIn === null ? null : signedIn ? <SignedIn /> : <SignInCard />}
       </div>
