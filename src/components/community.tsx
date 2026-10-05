@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { BOOKS } from "@/data/books";
 import { ACCOUNT_URL } from "@/data/settings";
-import { createPost, fetchPosts, likedIds, timeAgo, toggleLike, uploadMedia, type Post, type PostMedia } from "@/lib/community";
+import { communityReady, createPost, fetchPosts, likedIds, timeAgo, toggleLike, uploadMedia, type Post, type PostMedia } from "@/lib/community";
 import { getSession, onSiteAccounts, signIn } from "@/lib/customer-account";
 import { Icon, I } from "./ui";
 
@@ -160,16 +160,19 @@ export function PostCard({ post }: { post: Post }) {
 /* ---------- data ---------- */
 export function usePosts() {
   const [posts, setPosts] = useState<Post[] | null>(null);
-  const [failed, setFailed] = useState(false);
+  const [ready, setReady] = useState(true);
   useEffect(() => {
     fetchPosts()
-      .then((d) => setPosts(d.posts))
+      .then((d) => {
+        setPosts(d.posts);
+        setReady(d.setup);
+      })
       .catch(() => {
         setPosts([]);
-        setFailed(true);
+        setReady(false);
       });
   }, []);
-  return { posts, failed };
+  return { posts, ready };
 }
 
 /* ---------- "Share your experience" ---------- */
@@ -177,6 +180,11 @@ const OPEN = "ak-open-composer";
 export const openComposer = (book?: string) => window.dispatchEvent(new CustomEvent(OPEN, { detail: { book } }));
 
 export function ShareButton({ book, className = "", label = "Share your experience" }: { book?: string; className?: string; label?: string }) {
+  const [ready, setReady] = useState(false);
+  useEffect(() => {
+    communityReady().then(setReady);
+  }, []);
+  if (!ready) return null;
   return (
     <button
       type="button"
@@ -406,7 +414,8 @@ const Skeleton = () => <div className="ak-card h-[340px] animate-pulse rounded-2
 
 /* ---------- homepage: a swipeable row of the latest stories ---------- */
 export function CommunityRail() {
-  const { posts } = usePosts();
+  const { posts, ready } = usePosts();
+  if (!ready) return null;
   return (
     <div>
       <div className="mb-3 flex items-end justify-between gap-3 lg:mb-5">
@@ -438,8 +447,9 @@ export function CommunityRail() {
 
 /* ---------- product page: stories about this book ---------- */
 export function BookStories({ slug, title }: { slug: string; title: string }) {
-  const { posts } = usePosts();
+  const { posts, ready } = usePosts();
   const mine = (posts ?? []).filter((p) => p.book?.handle === slug);
+  if (!ready) return null;
   return (
     <section className="mt-10" id="reviews">
       <div className="flex flex-wrap items-end justify-between gap-3">
@@ -460,8 +470,16 @@ export function BookStories({ slug, title }: { slug: string; title: string }) {
 
 /* ---------- /community: the full feed ---------- */
 export function CommunityFeed() {
-  const { posts } = usePosts();
+  const { posts, ready } = usePosts();
   const [tab, setTab] = useState<"all" | "media">("all");
+  if (!ready) {
+    return (
+      <div className="rounded-3xl bg-[linear-gradient(120deg,#f1ebff,#e6dcff)] p-6 text-center sm:p-10">
+        <p className="font-display text-[22px] font-bold text-ak-950">Reader Stories are opening soon</p>
+        <p className="mx-auto mt-2 max-w-md text-[14.5px] text-ink/75">Soon you&apos;ll be able to share photos, videos and words about your AapkiKitab order here.</p>
+      </div>
+    );
+  }
   const list = (posts ?? []).filter((p) => tab === "all" || p.media.length > 0);
   return (
     <div>

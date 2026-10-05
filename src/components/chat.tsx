@@ -3,14 +3,19 @@
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { CONTACT, waLink } from "@/data/settings";
-import { sendMessage } from "@/lib/community";
+import { communityReady, sendMessage } from "@/lib/community";
 import { VerifiedBadge } from "./community";
 import { Icon, I } from "./ui";
 
 /* "Chat with AapkiKitab Team": messages land in Shopify admin (Content → Metaobjects →
    Customer message); WhatsApp is offered too when the shop has a number. */
 const OPEN = "ak-open-chat";
-export const openChat = (detail: { topic?: string; order?: string } = {}) => window.dispatchEvent(new CustomEvent(OPEN, { detail }));
+export const openChat = (detail: { topic?: string; order?: string } = {}) => {
+  communityReady().then((ready) => {
+    if (ready) window.dispatchEvent(new CustomEvent(OPEN, { detail }));
+    else window.location.assign("/request-book"); // chat not switched on yet: the contact page still works
+  });
+};
 
 const TOPICS = ["Order status", "Payment or refund", "Book request", "Something else"];
 
@@ -22,6 +27,10 @@ export function ChatWidget() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [sent, setSent] = useState(false);
+  const [ready, setReady] = useState(false);
+  useEffect(() => {
+    communityReady().then(setReady);
+  }, []);
 
   useEffect(() => {
     const onOpen = (e: Event) => {
@@ -47,7 +56,7 @@ export function ChatWidget() {
     return () => document.removeEventListener("keydown", onKey);
   }, [open]);
 
-  if (pathname.startsWith("/account/callback")) return null;
+  if (!ready || pathname.startsWith("/account/callback")) return null;
   const set = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setForm((f) => ({ ...f, [k]: e.target.value }));
   const needsOrder = topic === "Order status" || topic === "Payment or refund";
   const wa = waLink(`Hello AapkiKitab Team${topic ? ` (${topic})` : ""}${form.order ? `, order ${form.order}` : ""}: ${form.message}`);

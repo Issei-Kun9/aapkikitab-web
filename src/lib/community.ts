@@ -31,6 +31,14 @@ async function call<T>(path: string, init: RequestInit = {}, auth = false): Prom
 
 export const fetchPosts = () => call<{ posts: Post[]; setup: boolean }>("/api/posts");
 
+/* Posting and chat stay hidden until the server side is switched on. */
+let readyP: Promise<boolean> | null = null;
+export const communityReady = () =>
+  (readyP ??= fetch("/api/status")
+    .then((r) => (r.ok ? r.json() : { ready: false }))
+    .then((j: { ready?: boolean }) => Boolean(j.ready))
+    .catch(() => false));
+
 const LIKED = "ak_liked";
 export function likedIds(): string[] {
   try {

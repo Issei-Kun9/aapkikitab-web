@@ -1,9 +1,16 @@
 "use client";
 
+import { useEffect, useState } from "react";
+import { communityReady } from "@/lib/community";
 import { openChat } from "./chat";
 import { Icon, I } from "./ui";
 
 export function ChatButton({ label = "Chat with AapkiKitab Team" }: { label?: string }) {
+  const [ready, setReady] = useState(false);
+  useEffect(() => {
+    communityReady().then(setReady);
+  }, []);
+  if (!ready) return null;
   return (
     <button
       type="button"
