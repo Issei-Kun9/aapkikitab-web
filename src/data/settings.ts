@@ -156,6 +156,7 @@ export const FOOTER_COLUMNS: { h: string; links: NavLink[] }[] = [
       { label: "Exams & education", href: "/category/education-exams" },
       { label: "Partner bookshops", href: "/bookstores" },
       { label: "Request a book", href: "/request-book" },
+      { label: "Reader stories", href: "/community" },
     ]),
   },
   {

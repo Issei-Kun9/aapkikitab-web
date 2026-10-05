@@ -9,7 +9,7 @@ import type { Store } from "@/data/taxonomy";
 import { CATEGORIES } from "@/data/taxonomy";
 import { useShop } from "@/lib/store";
 import { BookCard, Cover, Icon, I, Price, Rating } from "@/components/ui";
-import { Reviews } from "@/components/reviews";
+import { BookStories } from "@/components/community";
 import { RecentlyViewed, recordRecentView } from "@/components/recently-viewed";
 import { track } from "@/lib/analytics";
 import { PAYMENT, SHIPPING } from "@/data/settings";
@@ -248,7 +248,7 @@ export default function BookDetail({
         </div>
       </div>
 
-      <Reviews book={book} />
+      <BookStories slug={book.slug} title={book.title} />
 
       {related.length > 0 && (
         <section className="mt-8">

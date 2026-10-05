@@ -7,9 +7,9 @@ import {
   FindNextBook,
   GiftBoxes,
   MoodPanel,
-  ReaderReviews,
   RecentlyViewed,
 } from "@/components/home";
+import { CommunityRail } from "@/components/community";
 import { BestSellers, CategoryCircles, HeroCarousel, NewArrivals, PromoTiles, TrustStrip } from "@/components/storefront";
 import { CATEGORIES, SHOW } from "@/data/taxonomy";
 
@@ -34,7 +34,7 @@ export default function Home() {
       <section className={WIDE}>{SHOW("categories") && <CategoryShelf tiles={CATEGORIES} />}</section>
       <section className={WIDE}>{SHOW("budget") && <BudgetBand />}</section>
       <section className={WIDE}>{SHOW("book_of_day") && <BookOfDay />}</section>
-      <section className={WIDE}>{SHOW("reviews") && <ReaderReviews />}</section>
+      <section className={WIDE}>{SHOW("reviews") && <CommunityRail />}</section>
       <section className={WIDE}>{SHOW("find_book") && <FindNextBook />}</section>
       <section className={WIDE}>
         <RecentlyViewed />

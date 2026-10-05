@@ -99,7 +99,7 @@ export async function finishSignIn(params: URLSearchParams): Promise<string> {
   return pending.returnTo || "/account";
 }
 
-async function freshToken(): Promise<string | null> {
+export async function freshToken(): Promise<string | null> {
   const s = getSession();
   if (!s) return null;
   if (Date.now() < s.expiresAt) return s.accessToken;

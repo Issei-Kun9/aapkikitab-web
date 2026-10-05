@@ -24,6 +24,8 @@ jobs:
       # Headless → Customer Account API → Client ID (public, not a secret). Empty = Shopify-hosted accounts.
       NEXT_PUBLIC_SHOPIFY_CUSTOMER_CLIENT_ID: ${{ vars.SHOPIFY_CUSTOMER_CLIENT_ID || '47563962-5dc2-4c3e-b329-470496b04589' }}
       CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      SHOPIFY_ADMIN_TOKEN: ${{ secrets.SHOPIFY_ADMIN_TOKEN }}
+      SHOPIFY_CLIENT_SECRET: ${{ secrets.SHOPIFY_CLIENT_SECRET }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -33,6 +35,21 @@ jobs:
       - run: npm ci
       # prebuild pulls the catalog from Shopify; without the token it keeps the demo catalog
       - run: npm run build
+      # Reader Stories + team chat (functions/api/*) write to Shopify with an Admin API key.
+      # Add it once as the repo secret SHOPIFY_ADMIN_TOKEN (or SHOPIFY_CLIENT_ID + SHOPIFY_CLIENT_SECRET);
+      # each deploy hands it to Cloudflare as an encrypted Pages secret. Until then posting stays off.
+      - name: Pass the Shopify admin key to the site's server functions
+        if: env.CF_TOKEN != '' && (env.SHOPIFY_ADMIN_TOKEN != '' || env.SHOPIFY_CLIENT_SECRET != '')
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: d52611a650ad844340673baea34c3cc4
+          SHOPIFY_ADMIN_TOKEN: ${{ secrets.SHOPIFY_ADMIN_TOKEN }}
+          SHOPIFY_CLIENT_ID: ${{ secrets.SHOPIFY_CLIENT_ID }}
+          SHOPIFY_CLIENT_SECRET: ${{ secrets.SHOPIFY_CLIENT_SECRET }}
+        run: |
+          for name in SHOPIFY_ADMIN_TOKEN SHOPIFY_CLIENT_ID SHOPIFY_CLIENT_SECRET; do
+            if [ -n "${!name}" ]; then printf '%s' "${!name}" | npx wrangler pages secret put "$name" --project-name aapkikitab; fi
+          done
       # skipped until the CLOUDFLARE_API_TOKEN repo secret exists
       - if: env.CF_TOKEN != ''
         uses: cloudflare/wrangler-action@v3
