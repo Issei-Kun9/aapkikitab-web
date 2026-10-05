@@ -3,6 +3,8 @@
 import { admin, check, configured, handle, HttpError, json, sameSite, verifyCustomer } from "../../server/shopify";
 
 const LIMIT = { image: 10 * 1024 * 1024, video: 60 * 1024 * 1024 };
+const FILE_CREATE = `mutation($files: [FileCreateInput!]!) { fileCreate(files: $files) { files { id } userErrors { message } } }`;
+const FILE_READ = `query($id: ID!) { node(id: $id) { ... on MediaImage { fileStatus image { url } } } }`;
 const STAGE = `mutation($input: [StagedUploadInput!]!) { stagedUploadsCreate(input: $input) {
   stagedTargets { url resourceUrl parameters { name value } } userErrors { message } } }`;
 
@@ -29,5 +31,21 @@ export const onRequestPost = handle(async ({ request, env }) => {
   body.append("file", file, file.name);
   const up = await fetch(target.url, { method: "POST", body });
   if (!up.ok) throw new HttpError(502, "Upload failed. Please try again.");
+
+  // chat photos are sent straight away, so they need their final address now
+  if (form?.get("attach") === "1" && kind === "image") {
+    const c = await admin<{ fileCreate: { files: { id: string }[]; userErrors: { message: string }[] } }>(env, FILE_CREATE, {
+      files: [{ originalSource: target.resourceUrl, contentType: "IMAGE", alt: "Photo sent in support chat" }],
+    });
+    check(c.fileCreate);
+    const id = c.fileCreate.files[0].id;
+    for (let i = 0; i < 12; i++) {
+      await new Promise((r) => setTimeout(r, 800));
+      const n = await admin<{ node: { fileStatus: string; image: { url: string } | null } | null }>(env, FILE_READ, { id });
+      if (n.node?.image?.url) return json({ url: n.node.image.url, kind });
+      if (n.node?.fileStatus === "FAILED") break;
+    }
+    throw new HttpError(502, "Could not process the photo. Please try another one.");
+  }
   return json({ url: target.resourceUrl, kind });
 });

@@ -115,3 +115,16 @@ export function sameSite(env: Env, request: Request) {
 
 export const clean = (s: unknown, max: number) =>
   typeof s === "string" ? s.replace(/[\u0000-\u0008\u000b\u000c\u000e-\u001f]/g, "").trim().slice(0, max) : "";
+
+export const CREATE_METAOBJECT = `mutation($input: MetaobjectCreateInput!) { metaobjectCreate(metaobject: $input) { metaobject { id } userErrors { message } } }`;
+export const UPDATE_METAOBJECT = `mutation($id: ID!, $input: MetaobjectUpdateInput!) { metaobjectUpdate(id: $id, metaobject: $input) { metaobject { id } userErrors { message } } }`;
+
+/* A signed-in customer is optional on some routes (chat). */
+export async function maybeCustomer(env: Env, request: Request): Promise<Customer | null> {
+  if (!request.headers.get("authorization")) return null;
+  try {
+    return await verifyCustomer(env, request);
+  } catch {
+    return null;
+  }
+}

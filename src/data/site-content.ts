@@ -331,12 +331,12 @@ export const SITE_CONTENT: Record<string, any> | null = {
     "header_tagline": "Made for India. Made for You.",
     "search_placeholder": "Search for books, gifts, art & craft...",
     "default_delivery_place": "Udaipur, 313001",
-    "hero_eyebrow": "Discover stories",
-    "hero_title": "Books for a Better You",
-    "hero_lines": "Fiction | Self-Help | Academic\nGifts | Art & Craft | Stationery",
+    "hero_eyebrow": null,
+    "hero_title": "Books|Gifts|Art & Craft|and More",
+    "hero_lines": "Made for India.\nMade for You.",
     "hero_button_text": "Shop Now",
     "hero_button_link": "/browse",
-    "best_sellers_title": "Best Sellers",
+    "best_sellers_title": "Best Selling Books",
     "new_arrivals_title": "New Arrivals",
     "show_shortcuts": "true",
     "show_trust_strip": "true",
@@ -360,7 +360,8 @@ export const SITE_CONTENT: Record<string, any> | null = {
     "delivery_headline": "FREE DELIVERY ON EVERY ORDER",
     "delivery_subline": "Across India • No Minimum Order",
     "online_payment_label": "UPI / QR / Online Payment",
-    "cod_available": "false"
+    "cod_available": "false",
+    "chat_status": "Usually replies within a few hours"
   },
   "shortcuts": [
     {
@@ -528,6 +529,16 @@ export const SITE_CONTENT: Record<string, any> | null = {
       "label": "Privacy & terms",
       "href": "/policies#privacy",
       "placement": "Footer – Help"
+    },
+    {
+      "label": "Customer Reviews",
+      "href": "/community",
+      "placement": "Header menu"
+    },
+    {
+      "label": "Customer reviews",
+      "href": "/community",
+      "placement": "Footer – Discover"
     }
   ],
   "craftTypes": [
