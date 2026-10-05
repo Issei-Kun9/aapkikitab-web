@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState, type ReactNode } from "react";
-import { BOOKS, CRAFT, getBook, inr, type Book } from "@/data/books";
+import type { ReactNode } from "react";
+import { BOOKS, CRAFT, inr } from "@/data/books";
 import { BUDGETS, EXAMS, GIFT_BOXES, MOODS, type Tile } from "@/data/taxonomy";
 import { Cover, CraftCard, Icon, I, Rating, SectionHead } from "./ui";
 import { CRAFT_TYPES } from "@/data/settings";
@@ -280,64 +280,6 @@ export function BookOfDay() {
           </Link>
         </div>
       </div>
-    </div>
-  );
-}
-
-/* ---------- reader reviews (only real, submitted reviews — never seeded) ---------- */
-interface StoredReview {
-  name: string;
-  stars: number;
-  text: string;
-  date: string;
-}
-
-export function ReaderReviews() {
-  const [reviews, setReviews] = useState<{ book: Book; r: StoredReview }[]>([]);
-  useEffect(() => {
-    try {
-      const all = JSON.parse(localStorage.getItem("ak_reviews") ?? "{}") as Record<string, StoredReview[]>;
-      const flat = Object.entries(all).flatMap(([slug, list]) => {
-        const book = getBook(slug);
-        return book ? list.map((r) => ({ book, r })) : [];
-      });
-      setReviews(flat.sort((a, b) => b.r.date.localeCompare(a.r.date)).slice(0, 3));
-    } catch {
-      setReviews([]);
-    }
-  }, []);
-  const lead = BOOKS.find((b) => b.trending && b.cover) ?? BOOKS[0];
-
-  return (
-    <div>
-      <SectionHead title="Real readers. Real reviews." />
-      {reviews.length > 0 ? (
-        <div className="ak-rail ak-rail-gift">
-          {reviews.map(({ book, r }) => (
-            <Link key={`${book.slug}-${r.date}`} href={`/book/${book.slug}`} className="flex gap-4 rounded-2xl bg-ak-50 p-5 transition-colors hover:bg-ak-100">
-              <div className="min-w-0 flex-1">
-                <p className="text-marigold" aria-label={`${r.stars} out of 5 stars`}>
-                  {"★★★★★".slice(0, r.stars)}
-                  <span className="text-ak-100">{"★★★★★".slice(r.stars)}</span>
-                </p>
-                <p className="mt-2 line-clamp-4 font-display text-[16px] leading-relaxed text-ink">&ldquo;{r.text}&rdquo;</p>
-                <p className="mt-3 text-[14px] font-bold text-ink">{r.name}</p>
-                <p className="truncate text-[13px] text-muted">on {book.title}</p>
-              </div>
-              <span className="w-16 shrink-0 self-start overflow-hidden rounded-[2px] shadow-md"><Cover book={book} sizes="64px" /></span>
-            </Link>
-          ))}
-        </div>
-      ) : (
-        <div className="grid items-center gap-6 rounded-3xl bg-ak-50 p-7 sm:grid-cols-[minmax(0,1fr)_auto] sm:p-10">
-          <p className="max-w-2xl font-display text-[21px] leading-snug text-ink lg:text-[24px]">
-            Every review here comes from someone who bought the book from us. No paid reviews, no invented stars. Read one of ours lately? Tell the next reader what you thought.
-          </p>
-          <Link href={`/book/${lead.slug}#reviews`} className="inline-flex h-12 items-center justify-center rounded-lg bg-ak-800 px-6 text-[15px] font-bold text-white transition-colors hover:bg-ak-900">
-            Write a review
-          </Link>
-        </div>
-      )}
     </div>
   );
 }

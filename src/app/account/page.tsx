@@ -3,7 +3,8 @@
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 import { Icon, I } from "@/components/ui";
-import { ACCOUNT_URL, CONTACT, mailLink, waLink } from "@/data/settings";
+import { ACCOUNT_URL, CONTACT } from "@/data/settings";
+import { openChat } from "@/components/chat";
 import {
   ACCOUNT_QUERY,
   customerQuery,
@@ -34,16 +35,11 @@ function statusOf(o: AccountOrder): { label: string; tone: "ok" | "wait" | "bad"
 const STEPS = ["Placed", "Packed", "Shipped", "Delivered"];
 const TONE = { ok: "bg-leaf/10 text-leaf", wait: "bg-marigold-50 text-[#9a5b00]", bad: "bg-rose-50 text-rose" };
 
-function helpLink(o: AccountOrder) {
-  const text = `Hello Aapki Kitab, I need help with order ${o.name} (${inrOf(o.totalPrice)}).`;
-  return waLink(text) || mailLink(`Help with order ${o.name}`, text);
-}
 
 function OrderCard({ o }: { o: AccountOrder }) {
   const st = statusOf(o);
   const track = o.fulfillments.nodes.flatMap((f) => f.trackingInformation).find((t) => t.url || t.number);
   const eta = o.fulfillments.nodes[0]?.estimatedDeliveryAt;
-  const help = helpLink(o);
   const refunded = parseFloat(o.totalRefunded.amount) > 0;
   return (
     <li className="ak-card rounded-2xl p-4">
@@ -88,11 +84,13 @@ function OrderCard({ o }: { o: AccountOrder }) {
             Track parcel{track.company ? ` · ${track.company}` : ""}
           </a>
         )}
-        {help && (
-          <a href={help} target={help.startsWith("http") ? "_blank" : undefined} rel="noreferrer" className="inline-flex h-10 items-center rounded-lg border border-line px-4 text-[13.5px] font-bold text-ink hover:border-ak-800">
-            Payment or refund issue?
-          </a>
-        )}
+        <button
+          type="button"
+          onClick={() => openChat({ topic: "Payment or refund", order: o.name })}
+          className="inline-flex h-10 items-center rounded-lg border border-line px-4 text-[13.5px] font-bold text-ink hover:border-ak-800"
+        >
+          Payment or refund issue?
+        </button>
       </div>
     </li>
   );
@@ -207,7 +205,7 @@ function SignedIn() {
         </div>
         <div className="ak-card flex flex-col gap-2 rounded-2xl p-5">
           <Link href="/wishlist" className="flex items-center gap-2 text-[14.5px] font-semibold text-ink hover:text-ak-800"><Icon size={18} d={I.heart()} />Wishlist</Link>
-          <Link href="/request-book" className="flex items-center gap-2 text-[14.5px] font-semibold text-ink hover:text-ak-800"><Icon size={18} d={I.headset} />Help & contact{CONTACT.phone ? ` · ${CONTACT.phone}` : ""}</Link>
+          <button type="button" onClick={() => openChat()} className="flex items-center gap-2 text-left text-[14.5px] font-semibold text-ink hover:text-ak-800"><Icon size={18} d={I.chat} />Chat with AapkiKitab Team{CONTACT.phone ? ` · ${CONTACT.phone}` : ""}</button>
           <button type="button" onClick={signOut} className="mt-2 h-11 rounded-lg border border-line text-[14px] font-bold text-ink hover:border-ak-800">Sign out</button>
         </div>
       </aside>

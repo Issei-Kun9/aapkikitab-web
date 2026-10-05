@@ -6,6 +6,8 @@ import { Announcement, Header, BottomNav, Footer } from "@/components/chrome";
 import { SEO } from "@/data/settings";
 import { Analytics } from "@/components/Analytics";
 import { MoreBooks } from "@/components/more-books";
+import { Composer } from "@/components/community";
+import { ChatWidget } from "@/components/chat";
 
 /* Literata was drawn for long-form reading on screens — a bookseller's typeface.
    Tiro Devanagari carries the bilingual moments; Mukta runs the interface. */
@@ -65,6 +67,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </main>
           <Footer />
           <BottomNav />
+          <Composer />
+          <ChatWidget />
         </ShopProvider>
       </body>
     </html>

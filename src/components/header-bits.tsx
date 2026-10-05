@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { CATEGORIES, EXAMS } from "@/data/taxonomy";
 import { CONTACT, DELIVERY, HEADER } from "@/data/settings";
 import { Icon, I } from "./ui";
+import { openChat } from "./chat";
 
 /* ---------- delivery pincode: remembered on this device ---------- */
 const DEFAULT_PLACE = HEADER.deliveryPlace;
@@ -230,10 +231,11 @@ export function Drawer({ nav, onClose }: { nav: { label: string; href: string }[
             </Link>
           ))}
         </div>
-        <Link href="/request-book" className="mx-4 mt-6 flex items-center justify-center gap-2 rounded-xl bg-ak-800 py-3 text-[15px] font-bold text-white">
-          <Icon size={18} d={I.headset} />
-          Need help? Contact us
-        </Link>
+        <button type="button" onClick={() => { onClose(); openChat(); }} className="mx-4 mt-6 flex items-center justify-center gap-2 rounded-xl bg-ak-800 py-3 text-[15px] font-bold text-white">
+          <Icon size={18} d={I.chat} />
+          Chat with AapkiKitab Team
+        </button>
+        <Link href="/community" className={`mx-2 mt-2 ${linkCls("/community")}`}>Reader stories</Link>
         {CONTACT.phone && (
           <a href={CONTACT.phoneHref} className="mx-4 mt-2 flex items-center justify-center gap-2 rounded-xl border border-line py-3 text-[15px] font-bold text-ak-800">
             <Icon size={18} d={I.phone} />
