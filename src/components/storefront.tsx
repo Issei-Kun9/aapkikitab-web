@@ -80,9 +80,11 @@ export function HeroCarousel() {
       </Link>
 
       <div key={`t-${active}`} className="ak-hero-in relative z-10 flex min-h-[inherit] max-w-[60%] flex-col justify-center px-5 py-8 sm:max-w-[55%] sm:px-10 lg:px-14">
-        <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-ak-800 sm:text-[13px]">{s.eyebrow}</p>
-        <h1 className="mt-3 font-display text-[30px] font-bold leading-[1.08] tracking-[-0.02em] text-ak-950 sm:text-[44px] lg:text-[58px]">
-          {s.title}
+        {s.eyebrow && <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.22em] text-ak-800 sm:text-[13px]">{s.eyebrow}</p>}
+        <h1 className="font-display text-[30px] font-bold leading-[1.08] tracking-[-0.02em] text-ak-950 sm:text-[44px] lg:text-[58px]">
+          {s.title.split("|").map((line, i) => (
+            <span key={i} className="block">{line.trim()}</span>
+          ))}
         </h1>
         <div className="mt-3 space-y-0.5 text-[13px] text-ink/80 sm:text-[16px] lg:text-[18px]">
           {s.lines.map((l) => (

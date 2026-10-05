@@ -74,9 +74,9 @@ export const HEADER = {
 };
 
 export const HERO = {
-  eyebrow: txt(H.hero_eyebrow, "Discover stories"),
-  title: txt(H.hero_title, "Books for a Better You"),
-  lines: txt(H.hero_lines, "Fiction | Self-Help | Academic\nGifts | Art & Craft | Stationery").split(/\n+/).map((l) => l.trim()).filter(Boolean),
+  eyebrow: txt(H.hero_eyebrow, ""),
+  title: txt(H.hero_title, "Books|Gifts|Art & Craft|and More"),
+  lines: txt(H.hero_lines, "Made for India.\nMade for You.").split(/\n+/).map((l) => l.trim()).filter(Boolean),
   cta: txt(H.hero_button_text, "Shop Now"),
   href: txt(H.hero_button_link, "/browse"),
   photo: txt(H.hero_photo, unsplash("1512820790803-83ca734da794")),
