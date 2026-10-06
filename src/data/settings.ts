@@ -28,7 +28,7 @@ export const DELIVERY = {
   freeNote: txt(S.delivery_free_note, "🎉 Enjoy FREE Delivery. It’s on us!"),
 };
 /* Shopify customer accounts: sign-in with an emailed one-time code, order history, addresses. */
-export const ACCOUNT_URL = txt(C?.accountUrl, "https://shopify.com/100332372257/account");
+export const ACCOUNT_URL = txt(C?.accountUrl, "https://shopify.com/103306592388/account");
 export const PAYMENT = {
   online: txt(S.online_payment_label, "UPI / QR / Online Payment"),
   cod: S.cod_available === true || S.cod_available === "true",

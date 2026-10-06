@@ -1,6 +1,6 @@
 // Pulls the live catalog and all site content from the Shopify Storefront API and writes
 // src/data/shopify-catalog.ts + src/data/site-content.ts. No token? Keeps the demo data.
-// Usage: SHOPIFY_STORE_DOMAIN=x.myshopify.com SHOPIFY_STOREFRONT_TOKEN=shpsa_... node scripts/sync-shopify.mjs
+// Usage: SHOPIFY_STORE_DOMAIN=x.myshopify.com SHOPIFY_STOREFRONT_TOKEN=shpat_... node scripts/sync-shopify.mjs
 import { writeFileSync } from "node:fs";
 
 const domain = process.env.SHOPIFY_STORE_DOMAIN;
@@ -15,7 +15,8 @@ if (!domain || !token) {
 async function gql(query, variables = {}) {
   const r = await fetch(`https://${domain}/api/2026-01/graphql.json`, {
     method: "POST",
-    headers: { "Content-Type": "application/json", "X-Shopify-Storefront-Access-Token": token },
+    // Headless channel's private token (shpat_…) or a public storefront token (shpsa_…)
+    headers: { "Content-Type": "application/json", [token.startsWith("shpat_") ? "Shopify-Storefront-Private-Token" : "X-Shopify-Storefront-Access-Token"]: token },
     body: JSON.stringify({ query, variables }),
   });
   if (!r.ok) throw new Error(`HTTP ${r.status}`);
