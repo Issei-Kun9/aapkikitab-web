@@ -64,6 +64,7 @@ const MOODS = fallback(tagsOf("Mood"), ["feel", "thrill", "learn", "reflect", "l
 const CATS = fallback(tagsOf("Category"), ["fiction", "mystery-thriller", "self-help", "hindi-literature", "english-literature", "biography-history", "children", "education-exams", "maths-science"]);
 const EXAMS = tagsOf("Exam");
 const CRAFT_TYPES = fallback(tagsOf("Art & Craft type"), ["art-supplies", "notebooks", "craft-kits", "pens"]);
+const HIGHLIGHTS = { "New arrival": "newarrival", Bestseller: "bestseller", Trending: "trending", Featured: "featured", "Book of the day": "book-of-the-day" };
 const FLAGS = ["newarrival", "new", "bestseller", "featured", "trending", "book-of-the-day", "art-craft"];
 
 // ---- Catalog (paged, so it keeps working past 100 products) ----
@@ -81,8 +82,13 @@ const productQuery = `query($after: String) {
         {namespace:"custom",key:"publisher"},{namespace:"custom",key:"pages"},
         {namespace:"custom",key:"language"},{namespace:"custom",key:"edition"},
         {namespace:"custom",key:"genre"},
+        {namespace:"custom",key:"shelves"},{namespace:"custom",key:"bookstore"},{namespace:"custom",key:"highlights"},
         {namespace:"reviews",key:"rating"},{namespace:"reviews",key:"rating_count"}
-      ]) { key value }
+      ]) {
+        key value
+        reference { ... on Metaobject { tag: field(key: "tag") { value } } }
+        references(first: 50) { nodes { ... on Metaobject { tag: field(key: "tag") { value } } } }
+      }
     }
   }
 }`;
@@ -101,8 +107,15 @@ try {
 }
 
 const books = nodes.map((p) => {
-  const tags = (p.tags ?? []).map((t) => t.toLowerCase());
-  const mf = Object.fromEntries((p.metafields ?? []).filter(Boolean).map((m) => [m.key, m.value]));
+  const mfs = (p.metafields ?? []).filter(Boolean);
+  const mf = Object.fromEntries(mfs.map((m) => [m.key, m.value]));
+  // Pickers on the product page (Shows under / Bookstore / Highlight) work like the matching tags.
+  const picked = [
+    ...(mfs.find((m) => m.key === "shelves")?.references?.nodes ?? []).map((n) => n?.tag?.value),
+    ...[mfs.find((m) => m.key === "bookstore")?.reference?.tag?.value].filter(Boolean).map((t) => `store:${t}`),
+    ...list(mf.highlights).map((h) => HIGHLIGHTS[h]),
+  ].filter(Boolean);
+  const tags = [...new Set([...(p.tags ?? []), ...picked].map((t) => t.toLowerCase()))];
   const price = Math.round(parseFloat(p.priceRange?.minVariantPrice?.amount ?? "0"));
   const mrpRaw = parseFloat(p.compareAtPriceRange?.minVariantPrice?.amount ?? "0");
   const pick = (vocab) => tags.filter((t) => vocab.includes(t));
