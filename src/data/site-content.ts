@@ -7,7 +7,7 @@ export const SITE_CONTENT: Record<string, any> | null = {
       "book": "parth-the-promise",
       "note": "A novel · Book 1 of the Duology",
       "cta": "Buy now",
-      "photo": "https://cdn.shopify.com/s/files/1/1003/3237/2257/files/photo-1474932430478-367dbb6832c1.jpg?v=1791112582"
+      "photo": "https://cdn.shopify.com/s/files/1/1033/0659/2388/files/photo-1474932430478-367dbb6832c1.jpg?v=1791273220"
     },
     {
       "heading": "Exam season, sorted",
@@ -15,7 +15,7 @@ export const SITE_CONTENT: Record<string, any> | null = {
       "book": "quantitative-aptitude",
       "note": "SSC · Banking · Railway",
       "cta": "Shop now",
-      "photo": "https://cdn.shopify.com/s/files/1/1003/3237/2257/files/photo-1497633762265-9d179a990aa6.jpg?v=1791112582"
+      "photo": "https://cdn.shopify.com/s/files/1/1033/0659/2388/files/photo-1497633762265-9d179a990aa6.jpg?v=1791273221"
     },
     {
       "heading": "Hindi sahitya, timeless",
@@ -23,7 +23,7 @@ export const SITE_CONTENT: Record<string, any> | null = {
       "book": "godan",
       "note": "Classic Hindi literature",
       "cta": "Shop now",
-      "photo": "https://cdn.shopify.com/s/files/1/1003/3237/2257/files/photo-1526243741027-444d633d7365.jpg?v=1791112582"
+      "photo": "https://cdn.shopify.com/s/files/1/1033/0659/2388/files/photo-1526243741027-444d633d7365.jpg?v=1791273221"
     }
   ],
   "categories": [
@@ -235,6 +235,24 @@ export const SITE_CONTENT: Record<string, any> | null = {
       "href": "/exam/maths-science"
     }
   ],
+  "craftTypes": [
+    {
+      "slug": "art-supplies",
+      "label": "Art supplies"
+    },
+    {
+      "slug": "notebooks",
+      "label": "Notebooks & journals"
+    },
+    {
+      "slug": "craft-kits",
+      "label": "Craft kits"
+    },
+    {
+      "slug": "pens",
+      "label": "Pens"
+    }
+  ],
   "budgets": [
     {
       "slug": "under-199",
@@ -267,7 +285,7 @@ export const SITE_CONTENT: Record<string, any> | null = {
         "1 greeting card"
       ],
       "price": 599,
-      "photo": "https://cdn.shopify.com/s/files/1/1003/3237/2257/files/photo-1512909006721-3d6018887383.jpg?v=1791112582"
+      "photo": "https://cdn.shopify.com/s/files/1/1033/0659/2388/files/photo-1512909006721-3d6018887383.jpg?v=1791273231"
     },
     {
       "slug": "birthday-book-box",
@@ -278,7 +296,7 @@ export const SITE_CONTENT: Record<string, any> | null = {
         "1 greeting card"
       ],
       "price": 699,
-      "photo": "https://cdn.shopify.com/s/files/1/1003/3237/2257/files/photo-1513885535751-8b9238bd345a.jpg?v=1791112582"
+      "photo": "https://cdn.shopify.com/s/files/1/1033/0659/2388/files/photo-1513885535751-8b9238bd345a.jpg?v=1791273232"
     },
     {
       "slug": "best-friend-box",
@@ -289,7 +307,7 @@ export const SITE_CONTENT: Record<string, any> | null = {
         "1 small gift item"
       ],
       "price": 699,
-      "photo": "https://cdn.shopify.com/s/files/1/1003/3237/2257/files/photo-1544947950-fa07a98d237f.jpg?v=1791112582"
+      "photo": "https://cdn.shopify.com/s/files/1/1033/0659/2388/files/photo-1544947950-fa07a98d237f.jpg?v=1791273232"
     }
   ],
   "stores": [
@@ -300,7 +318,7 @@ export const SITE_CONTENT: Record<string, any> | null = {
       "about": "A family-run bookstore serving Jaipur's readers since 1998. Strong in exam prep, Hindi literature and children's books.",
       "phone": "+91-98290-00000",
       "tag": "store:abc-bookstore",
-      "photo": "https://cdn.shopify.com/s/files/1/1003/3237/2257/files/photo-1481627834876-b7833e8f5570.jpg?v=1791112582"
+      "photo": "https://cdn.shopify.com/s/files/1/1033/0659/2388/files/photo-1481627834876-b7833e8f5570.jpg?v=1791273233"
     },
     {
       "slug": "kitab-ghar",
@@ -309,14 +327,21 @@ export const SITE_CONTENT: Record<string, any> | null = {
       "about": "Old Delhi's beloved book lane veteran. Curated fiction, biographies and classics at honest prices.",
       "phone": "+91-98110-00000",
       "tag": "store:kitab-ghar",
-      "photo": "https://cdn.shopify.com/s/files/1/1003/3237/2257/files/photo-1521587760476-6c12a4b040da.jpg?v=1791112582"
+      "photo": "https://cdn.shopify.com/s/files/1/1033/0659/2388/files/photo-1521587760476-6c12a4b040da.jpg?v=1791273233"
     }
   ],
   "home": {
     "handle": "homepage",
-    "announcement_1": null,
-    "announcement_2": null,
-    "announcement_3": null,
+    "best_sellers_title": "Best Selling Books",
+    "default_delivery_place": "Udaipur, 313001",
+    "header_tagline": "Made for India. Made for You.",
+    "hero_button_link": "/browse",
+    "hero_button_text": "Shop Now",
+    "hero_lines": "Made for India.\nMade for You.",
+    "hero_title": "Books|Gifts|Art & Craft|and More",
+    "new_arrivals_title": "New Arrivals",
+    "search_placeholder": "Search for books, gifts, art & craft...",
+    "show_art_craft": "true",
     "show_book_of_day": "true",
     "show_budget": "true",
     "show_categories": "true",
@@ -325,43 +350,36 @@ export const SITE_CONTENT: Record<string, any> | null = {
     "show_gift_boxes": "true",
     "show_moods": "true",
     "show_new_arrivals": "true",
+    "show_promo_tiles": "true",
     "show_reviews": "true",
+    "show_shortcuts": "true",
     "show_slider": "true",
     "show_trending": "true",
-    "header_tagline": "Made for India. Made for You.",
-    "search_placeholder": "Search for books, gifts, art & craft...",
-    "default_delivery_place": "Udaipur, 313001",
-    "hero_eyebrow": null,
-    "hero_title": "Books|Gifts|Art & Craft|and More",
-    "hero_lines": "Made for India.\nMade for You.",
-    "hero_button_text": "Shop Now",
-    "hero_button_link": "/browse",
-    "best_sellers_title": "Best Selling Books",
-    "new_arrivals_title": "New Arrivals",
-    "show_shortcuts": "true",
-    "show_trust_strip": "true",
-    "show_promo_tiles": "true"
+    "show_trust_strip": "true"
   },
   "shop": {
-    "free_shipping_above": 0,
-    "shipping_fee": 0,
+    "handle": "shop-details",
+    "chat_status": "Usually replies within a few hours",
+    "cod_available": "false",
+    "contact_phone": "+91 95092 01038",
+    "contact_whatsapp": "+91 95092 01038",
+    "copyright_text": "© 2026 Aapki Kitab. Made in India.",
+    "delivery_headline": "FREE DELIVERY ON EVERY ORDER",
+    "delivery_subline": "Across India • No Minimum Order",
     "dispatch_text": "Dispatched in 24–48 hours, delivered in 3–7 working days",
-    "return_days": 7,
     "footer_about": "An independent online bookshop. Original books from real Indian bookshops, at honest prices.",
+    "free_shipping_above": 0,
     "newsletter_heading": "New arrivals, every Sunday",
+    "online_payment_label": "UPI / QR / Online Payment",
     "payment_methods": [
       "UPI",
       "QR Code",
       "Online Payment"
     ],
-    "copyright_text": "© 2026 Aapki Kitab. Made in India.",
-    "seo_title": "AapkiKitab — Books, Gifts, Art & Craft",
+    "return_days": 7,
     "seo_description": "Books, gifts, art & craft and stationery from real Indian bookshops. Discover books by mood, interest, exam and budget.",
-    "delivery_headline": "FREE DELIVERY ON EVERY ORDER",
-    "delivery_subline": "Across India • No Minimum Order",
-    "online_payment_label": "UPI / QR / Online Payment",
-    "cod_available": "false",
-    "chat_status": "Usually replies within a few hours"
+    "seo_title": "AapkiKitab — Books, Gifts, Art & Craft",
+    "shipping_fee": 0
   },
   "shortcuts": [
     {
@@ -446,48 +464,8 @@ export const SITE_CONTENT: Record<string, any> | null = {
       "placement": "Header menu"
     },
     {
-      "label": "Bestsellers",
-      "href": "/trending",
-      "placement": "Header menu"
-    },
-    {
-      "label": "Art & Craft",
-      "href": "/art-craft",
-      "placement": "Header menu"
-    },
-    {
-      "label": "Offers",
-      "href": "/offers",
-      "placement": "Header menu"
-    },
-    {
-      "label": "Bookstores",
-      "href": "/bookstores",
-      "placement": "Header menu"
-    },
-    {
       "label": "All books",
       "href": "/browse",
-      "placement": "Footer – Shop"
-    },
-    {
-      "label": "New arrivals",
-      "href": "/new",
-      "placement": "Footer – Shop"
-    },
-    {
-      "label": "Bestsellers",
-      "href": "/trending",
-      "placement": "Footer – Shop"
-    },
-    {
-      "label": "Art & craft",
-      "href": "/art-craft",
-      "placement": "Footer – Shop"
-    },
-    {
-      "label": "Offers",
-      "href": "/offers",
       "placement": "Footer – Shop"
     },
     {
@@ -496,24 +474,24 @@ export const SITE_CONTENT: Record<string, any> | null = {
       "placement": "Footer – Discover"
     },
     {
-      "label": "Exams & education",
-      "href": "/category/education-exams",
-      "placement": "Footer – Discover"
-    },
-    {
-      "label": "Partner bookshops",
-      "href": "/bookstores",
-      "placement": "Footer – Discover"
-    },
-    {
-      "label": "Request a book",
-      "href": "/request-book",
-      "placement": "Footer – Discover"
-    },
-    {
       "label": "Contact us",
       "href": "/request-book",
       "placement": "Footer – Help"
+    },
+    {
+      "label": "Bestsellers",
+      "href": "/trending",
+      "placement": "Header menu"
+    },
+    {
+      "label": "New arrivals",
+      "href": "/new",
+      "placement": "Footer – Shop"
+    },
+    {
+      "label": "Exams & education",
+      "href": "/category/education-exams",
+      "placement": "Footer – Discover"
     },
     {
       "label": "Shipping",
@@ -521,9 +499,39 @@ export const SITE_CONTENT: Record<string, any> | null = {
       "placement": "Footer – Help"
     },
     {
+      "label": "Art & Craft",
+      "href": "/art-craft",
+      "placement": "Header menu"
+    },
+    {
+      "label": "Bestsellers",
+      "href": "/trending",
+      "placement": "Footer – Shop"
+    },
+    {
+      "label": "Partner bookshops",
+      "href": "/bookstores",
+      "placement": "Footer – Discover"
+    },
+    {
       "label": "Returns & refunds",
       "href": "/policies#returns",
       "placement": "Footer – Help"
+    },
+    {
+      "label": "Offers",
+      "href": "/offers",
+      "placement": "Header menu"
+    },
+    {
+      "label": "Art & craft",
+      "href": "/art-craft",
+      "placement": "Footer – Shop"
+    },
+    {
+      "label": "Request a book",
+      "href": "/request-book",
+      "placement": "Footer – Discover"
     },
     {
       "label": "Privacy & terms",
@@ -531,33 +539,32 @@ export const SITE_CONTENT: Record<string, any> | null = {
       "placement": "Footer – Help"
     },
     {
-      "label": "Customer Reviews",
-      "href": "/community",
+      "label": "Bookstores",
+      "href": "/bookstores",
       "placement": "Header menu"
+    },
+    {
+      "label": "Offers",
+      "href": "/offers",
+      "placement": "Footer – Shop"
     },
     {
       "label": "Customer reviews",
       "href": "/community",
       "placement": "Footer – Discover"
+    },
+    {
+      "label": "Customer Reviews",
+      "href": "/community",
+      "placement": "Header menu"
     }
   ],
-  "craftTypes": [
+  "policies": [
     {
-      "slug": "art-supplies",
-      "label": "Art supplies"
-    },
-    {
-      "slug": "notebooks",
-      "label": "Notebooks & journals"
-    },
-    {
-      "slug": "craft-kits",
-      "label": "Craft kits"
-    },
-    {
-      "slug": "pens",
-      "label": "Pens"
+      "id": "privacy",
+      "title": "Privacy Policy",
+      "body": "<div>\n  <p>Last updated: October 6, 2026</p>\n  <p>Aapki Kitab operates this store and website, including all related information, content, features, tools, products and services, in order to provide you, the customer, with a curated shopping experience (the  \"Services\"). Aapki Kitab is powered by Shopify, which enables us to provide the Services to you. This Privacy Policy describes how we collect, use, and disclose your personal information when you visit, use, or make a purchase or other transaction using the Services or otherwise communicate with us. If there is a conflict between our Terms of Service and this Privacy Policy, this Privacy Policy controls with respect to the collection, processing, and disclosure of your personal information. </p>\n  <p>Please read this Privacy Policy carefully. By using and accessing any of the Services, you acknowledge that you have read this Privacy Policy and understand the collection, use, and disclosure of your information as described in this Privacy Policy.</p>\n  <h2>Personal Information We Collect or Process</h2>\n  <p>When we use the term  \"personal information,\" we are referring to information that identifies or can reasonably be linked to you or another person. Personal information does not include information that is collected anonymously or that has been de-identified, so that it cannot identify or be reasonably linked to you. We may collect or process the following categories of personal information, including inferences drawn from this personal information, depending on how you interact with the Services, where you live, and as permitted or required by applicable law:</p>\n  <ul>\n      <li><strong>Contact details</strong> including your name, address, billing address, shipping address, phone number, and email address.</li>\n      <li><strong>Financial information</strong> including credit card, debit card, and financial account numbers, payment card information, financial account information, transaction details, form of payment, payment confirmation and other payment details.</li>\n      <li><strong>Account information</strong> including your username, password, security questions, preferences and settings.</li>\n      <li><strong>Transaction information</strong> including the items you view, put in your cart, add to your wishlist, or purchase, return, exchange or cancel and your past transactions.</li>\n      <li><strong>Communications with us</strong> including the information you include in communications with us, for example, when sending a customer support inquiry.</li>\n      <li><strong>Device information</strong> including information about your device, browser, or network connection, your IP address, and other unique identifiers.</li>\n      <li><strong>Usage information</strong> including information regarding your interaction with the Services, including how and when you interact with or navigate the Services. </li>\n  </ul>\n  <h2>Personal Information Sources</h2>\n  <p>We may collect personal information from the following sources:</p>\n  <ul>\n      <li><strong>Directly from you</strong> including when you create an account, visit or use the Services, communicate with us, or otherwise provide us with your personal information;</li>\n      <li><strong>Automatically through the Services</strong> including from your device when you use our products or services or visit our websites, and through the use of cookies and similar technologies;</li>\n      <li><strong>From our service providers</strong> including when we engage them to enable certain technology and when they collect or process your personal information on our behalf; </li>\n      <li><strong>From our partners or other third parties.</strong></li>\n  </ul>\n  <h2>How We Use Your Personal Information</h2>\n  <p>Depending on how you interact with us or which of the Services you use, we may use personal information for the following purposes:</p>\n  <ul>\n      <li><strong>Provide, Tailor, and Improve the Services.</strong> We use your personal information to provide you with the Services, including to perform our contract with you, to process your payments, to fulfill your orders, to remember your preferences and items you are interested in, to send notifications to you related to your account, to process purchases, returns, exchanges or other transactions, to create, maintain and otherwise manage your account, to arrange for shipping, to facilitate any returns and exchanges, to enable you to post reviews, and to create a customized shopping experience for you, such as recommending products related to your purchases. This may include using your personal information to better tailor and improve the Services.</li>\n      <li><strong>Marketing and Advertising.</strong> We use your personal information for marketing and promotional purposes, such as to send marketing, advertising and promotional communications by email, text message or postal mail, and to show you online advertisements for products or services on the Services or other websites, including based on items you previously have purchased or added to your cart and other activity on the Services. </li>\n      <li><strong>Security and Fraud Prevention.</strong> We use your personal information to authenticate your account, to provide a secure payment and shopping experience, detect, investigate or take action regarding possible fraudulent, illegal, unsafe, or malicious activity, protect public safety, and to secure our services. If you choose to use the Services and register an account, you are responsible for keeping your account credentials safe. We highly recommend that you do not share your username, password or other access details with anyone else.</li>\n      <li><strong>Communicating with You.</strong> We use your personal information to provide you with customer support, to be responsive to you, to provide effective services to you and to maintain our business relationship with you. </li>\n      <li><strong>Legal Reasons.</strong> We use your personal information to comply with applicable law or respond to valid legal process, including requests from law enforcement or government agencies, to investigate or participate in civil discovery, potential or actual litigation, or other adversarial legal proceedings, and to enforce or investigate potential violations of our terms or policies.</li>\n  </ul>\n  <h2>How We Disclose Personal Information</h2>\n  <p>In certain circumstances, we may disclose your personal information to third parties for legitimate purposes subject to this Privacy Policy. Such circumstances may include:</p>\n  <ul>\n      <li>With Shopify, vendors and other third parties who perform services on our behalf (e.g. IT management, payment processing, data analytics, customer support, cloud storage, fulfillment and shipping).</li>\n      <li>With business and marketing partners to provide marketing services and advertise to you.  For example, we use Shopify to support personalized advertising with third-party services based on your online activity with different merchants and websites.  Our business and marketing partners will use your information in accordance with their own privacy notices. Depending on where you reside, you may have a right to direct us not to share information about you to show you targeted advertisements and marketing based on your online activity with different merchants and websites. .</li>\n      <li>When you direct, request us or otherwise consent to our disclosure of certain information to third parties, such as to ship you products or through your use of social media widgets or login integrations.</li>\n      <li>With our affiliates or otherwise within our corporate group.</li>\n      <li>\n      In connection with a business transaction such as a merger or bankruptcy, to comply with any applicable legal obligations (including to respond to subpoenas, search warrants and similar requests), to enforce any applicable terms of service or policies, and to protect or defend the Services, our rights, and the rights of our users or others.\n      </li>\n  </ul>\n  <h2>Relationship with Shopify</h2>\n  <p>The Services are hosted by Shopify, which collects and processes personal information about your access to and use of the Services in order to provide and improve the Services for you. Information you submit to the Services will be transmitted to and shared with Shopify as well as third parties that may be located in countries other than where you reside, in order to provide and improve the Services for you. In addition, to help protect, grow, and improve our business, we use certain Shopify enhanced features that incorporate data and information obtained from your interactions with our Store, along with other merchants and with Shopify. To provide these enhanced features, Shopify may make use of personal information collected about your interactions with our store, along with other merchants, and with Shopify. In these circumstances, Shopify is responsible for the processing of your personal information, including for responding to your requests to exercise your rights over use of your personal information for these purposes. To learn more about how Shopify uses your personal information and any rights you may have, you can visit the <a href=\"https://www.shopify.com/legal/privacy/app-users\">Shopify Consumer Privacy Policy</a> . Depending on where you live, you may exercise certain rights with respect to your personal information here <a href=\"https://privacy.shopify.com/en\">Shopify Privacy Portal Link</a>. </p>\n  <h2>Third Party Websites and Links</h2>\n  <p>The Services may provide links to websites or other online platforms operated by third parties. If you follow links to sites not affiliated or controlled by us, you should review their privacy and security policies and other terms and conditions. We do not guarantee and are not responsible for the privacy or security of such sites, including the accuracy, completeness, or reliability of information found on these sites. Information you provide on public or semi-public venues, including information you share on third-party social networking platforms may also be viewable by other users of the Services and/or users of those third-party platforms without limitation as to its use by us or by a third party. Our inclusion of such links does not, by itself, imply any endorsement of the content on such platforms or of their owners or operators, except as disclosed on the Services.</p>\n  <h2>Children's Data</h2>\n  <p>The Services are not intended to be used by children, and we do not knowingly collect any personal information about children under the age of majority in your jurisdiction. If you are the parent or guardian of a child who has provided us with their personal information, you may contact us using the contact details set out below to request that it be deleted.As of the Effective Date of this Privacy Policy, we do not have actual knowledge that we  \"share\" or  \"sell\" (as those terms are defined in applicable law) personal information of individuals under 16 years of age.</p>\n  <h2>Security and Retention of Your Information</h2>\n  <p>Please be aware that no security measures are perfect or impenetrable, and we cannot guarantee \"perfect security.\" In addition, any information you send to us may not be secure while in transit. We recommend that you do not use unsecure channels to communicate sensitive or confidential information to us.</p>\n  <p>How long we retain your personal information depends on different factors, such as whether we need the information to maintain your account, to provide you with Services, comply with legal obligations, resolve disputes or enforce other applicable contracts and policies.</p>\n  <h2>Your Rights and Choices</h2>\n  <p>Depending on where you live, you may have some or all of the rights listed below in relation to your personal information. However, these rights are not absolute, may apply only in certain circumstances and, in certain cases, we may decline your request as permitted by law.</p>\n  <ul>\n      <li><strong>Right to Access / Know.</strong> You may have a right to request access to personal information that we hold about you.</li>\n      <li><strong>Right to Delete.</strong> You may have a right to request that we delete personal information we maintain about you.</li>\n      <li><strong>Right to Correct.</strong> You may have a right to request that we correct inaccurate personal information we maintain about you.</li>\n      <li><strong>Right of Portability.</strong> You may have a right to receive a copy of the personal information we hold about you and to request that we transfer it to a third party, in certain circumstances and with certain exceptions.</li>\n      \n      <li>\n      <strong>Managing Communication Preferences.</strong> We may send you promotional emails, and you may opt out of receiving these at any time by using the unsubscribe option displayed in our emails to you. If you opt out, we may still send you non-promotional emails, such as those about your account or orders that you have made.\n      </li>\n  </ul>\n  <div>\n      \n  </div>\n  <p>You may exercise any of these rights where indicated on the Services or by contacting us using the contact details provided below. To learn more about how Shopify uses your personal information and any rights you may have, including rights related to data processed by Shopify, you can visit https://privacy.shopify.com/en. </p>\n  <p>We will not discriminate against you for exercising any of these rights. We may need to verify your identity before we can process your requests, as permitted or required under applicable law. In accordance with applicable laws, you may designate an authorized agent to make requests on your behalf to exercise your rights. Before accepting such a request from an agent, we will require that the agent provide proof you have authorized them to act on your behalf, and we may need you to verify your identity directly with us. We will respond to your request in a timely manner as required under applicable law.</p>\n  <h2>Complaints</h2>\n  <p>If you have complaints about how we process your personal information, please contact us using the contact details provided below. Depending on where you live, you may have the right to appeal our decision by contacting us using the contact details set out below, or lodge your complaint with your local data protection authority.</p>\n  <h2>International Transfers</h2>\n  <p>Please note that we may transfer, store and process your personal information outside the country you live in. </p>\n  <p>If we transfer your personal information out of the European Economic Area or the United Kingdom, we will rely on recognized transfer mechanisms like the European Commission's Standard Contractual Clauses, or any equivalent contracts issued by the relevant competent authority of the UK, as relevant, unless the data transfer is to a country that has been determined to provide an adequate level of protection.</p>\n  <h2>Changes to This Privacy Policy</h2>\n  <p>We may update this Privacy Policy from time to time, including to reflect changes to our practices or for other operational, legal, or regulatory reasons. We will post the revised Privacy Policy on this website, update the  \"Last updated\" date and provide notice as required by applicable law.</p>\n  <h2>Contact</h2>\n  <p>Should you have any questions about our privacy practices or this Privacy Policy, or if you would like to exercise any of the rights available to you, please call  or email us at yashwwardhanx@gmail.com. </p>\n</div>"
     }
   ],
-  "policies": []
+  "accountUrl": "https://shopify.com/103306592388/account"
 };

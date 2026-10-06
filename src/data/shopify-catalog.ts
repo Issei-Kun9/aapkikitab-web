@@ -24,8 +24,8 @@ export const SHOPIFY_BOOKS: Book[] = [
     ],
     "exams": [],
     "categories": [
-      "fiction",
-      "english-literature"
+      "english-literature",
+      "fiction"
     ],
     "badges": [
       "FEATURED",
@@ -34,7 +34,7 @@ export const SHOPIFY_BOOKS: Book[] = [
     "isNew": true,
     "trending": true,
     "bookOfDay": true,
-    "variantId": "53671523975457",
+    "variantId": "67614414766212",
     "store": "abc-bookstore",
     "blurb": "Discover the magic of Udaipur in this tale of faith, mystery and a promise waiting to be fulfilled. Book 1 of the Duology."
   },
@@ -53,7 +53,7 @@ export const SHOPIFY_BOOKS: Book[] = [
     "mrp": 1199,
     "rating": 0,
     "reviews": 0,
-    "cover": "https://cdn.shopify.com/s/files/1/1003/3237/2257/files/view_archive.jpg?v=1791108048",
+    "cover": "https://cdn.shopify.com/s/files/1/1033/0659/2388/files/view_archive.jpg?v=1791273184",
     "coverTint": "#4b0f8a",
     "moods": [
       "grow"
@@ -68,7 +68,7 @@ export const SHOPIFY_BOOKS: Book[] = [
     "isNew": false,
     "trending": true,
     "bookOfDay": false,
-    "variantId": "53671524008225",
+    "variantId": "67614414831748",
     "store": "abc-bookstore",
     "blurb": "Tiny changes, remarkable results — the definitive guide to building good habits and breaking bad ones."
   },
@@ -87,17 +87,17 @@ export const SHOPIFY_BOOKS: Book[] = [
     "mrp": 499,
     "rating": 0,
     "reviews": 0,
-    "cover": "https://cdn.shopify.com/s/files/1/1003/3237/2257/files/view_archive_68ce3329-671a-47a5-8a5a-0bf9869c1d69.jpg?v=1791108049",
+    "cover": "https://cdn.shopify.com/s/files/1/1033/0659/2388/files/view_archive_68ce3329-671a-47a5-8a5a-0bf9869c1d69.jpg?v=1791273185",
     "coverTint": "#4b0f8a",
     "moods": [
+      "escape",
       "feel",
-      "love",
-      "escape"
+      "love"
     ],
     "exams": [],
     "categories": [
-      "fiction",
-      "english-literature"
+      "english-literature",
+      "fiction"
     ],
     "badges": [
       "BESTSELLER"
@@ -105,7 +105,7 @@ export const SHOPIFY_BOOKS: Book[] = [
     "isNew": false,
     "trending": true,
     "bookOfDay": false,
-    "variantId": "53671524040993",
+    "variantId": "67614414897284",
     "store": "kitab-ghar",
     "blurb": "Santiago's journey to find treasure becomes a fable about following your dream."
   },
@@ -124,11 +124,11 @@ export const SHOPIFY_BOOKS: Book[] = [
     "mrp": 750,
     "rating": 0,
     "reviews": 0,
-    "cover": "https://cdn.shopify.com/s/files/1/1003/3237/2257/files/view_archive_32ebc91e-f32c-454a-8d85-a15db7a3b897.jpg?v=1791108049",
+    "cover": "https://cdn.shopify.com/s/files/1/1033/0659/2388/files/view_archive_32ebc91e-f32c-454a-8d85-a15db7a3b897.jpg?v=1791273187",
     "coverTint": "#4b0f8a",
     "moods": [
-      "reflect",
-      "grow"
+      "grow",
+      "reflect"
     ],
     "exams": [],
     "categories": [
@@ -138,7 +138,7 @@ export const SHOPIFY_BOOKS: Book[] = [
     "isNew": false,
     "trending": true,
     "bookOfDay": false,
-    "variantId": "53671524073761",
+    "variantId": "67614414962820",
     "store": "abc-bookstore",
     "blurb": "The Japanese philosophy of purpose and joy, from the centenarians of Okinawa."
   },
@@ -157,15 +157,15 @@ export const SHOPIFY_BOOKS: Book[] = [
     "mrp": 699,
     "rating": 0,
     "reviews": 0,
-    "cover": "https://cdn.shopify.com/s/files/1/1003/3237/2257/files/9780857197689-L.jpg?v=1791108050",
+    "cover": "https://cdn.shopify.com/s/files/1/1033/0659/2388/files/9780857197689-L.jpg?v=1791273188",
     "coverTint": "#4b0f8a",
     "moods": [
       "grow"
     ],
     "exams": [],
     "categories": [
-      "self-help",
-      "biography-history"
+      "biography-history",
+      "self-help"
     ],
     "badges": [
       "NEW"
@@ -173,7 +173,7 @@ export const SHOPIFY_BOOKS: Book[] = [
     "isNew": true,
     "trending": true,
     "bookOfDay": false,
-    "variantId": "53671524106529",
+    "variantId": "67614415061124",
     "store": "kitab-ghar",
     "blurb": "Timeless lessons on wealth, greed, and happiness — doing well with money has surprisingly little to do with how smart you are."
   },
@@ -192,7 +192,7 @@ export const SHOPIFY_BOOKS: Book[] = [
     "mrp": 599,
     "rating": 0,
     "reviews": 0,
-    "cover": "https://cdn.shopify.com/s/files/1/1003/3237/2257/files/view_archive_843df97e-dbea-4fb4-8b87-10a7e5869913.jpg?v=1791108052",
+    "cover": "https://cdn.shopify.com/s/files/1/1033/0659/2388/files/view_archive_843df97e-dbea-4fb4-8b87-10a7e5869913.jpg?v=1791273190",
     "coverTint": "#4b0f8a",
     "moods": [
       "grow"
@@ -207,7 +207,7 @@ export const SHOPIFY_BOOKS: Book[] = [
     "isNew": false,
     "trending": true,
     "bookOfDay": false,
-    "variantId": "53671524139297",
+    "variantId": "67614415126660",
     "store": "abc-bookstore",
     "blurb": "What the rich teach their kids about money that the poor and middle class do not."
   },
@@ -226,7 +226,7 @@ export const SHOPIFY_BOOKS: Book[] = [
     "mrp": 650,
     "rating": 0,
     "reviews": 0,
-    "cover": "https://cdn.shopify.com/s/files/1/1003/3237/2257/files/view_archive_ecc7ad8b-b208-4701-9eac-48fefe54df17.jpg?v=1791108053",
+    "cover": "https://cdn.shopify.com/s/files/1/1033/0659/2388/files/view_archive_ecc7ad8b-b208-4701-9eac-48fefe54df17.jpg?v=1791273193",
     "coverTint": "#4b0f8a",
     "moods": [
       "thrill"
@@ -242,7 +242,7 @@ export const SHOPIFY_BOOKS: Book[] = [
     "isNew": true,
     "trending": true,
     "bookOfDay": false,
-    "variantId": "53671524172065",
+    "variantId": "67614415159428",
     "store": "kitab-ghar",
     "blurb": "Alicia Berenson shot her husband five times and never spoke another word. A psychotherapist is determined to unravel her mystery."
   },
@@ -261,7 +261,7 @@ export const SHOPIFY_BOOKS: Book[] = [
     "mrp": 799,
     "rating": 0,
     "reviews": 0,
-    "cover": "https://cdn.shopify.com/s/files/1/1003/3237/2257/files/view_archive_484fb0ef-6d16-424f-a106-f88ca7dbe649.jpg?v=1791108053",
+    "cover": "https://cdn.shopify.com/s/files/1/1033/0659/2388/files/view_archive_484fb0ef-6d16-424f-a106-f88ca7dbe649.jpg?v=1791273193",
     "coverTint": "#4b0f8a",
     "moods": [
       "learn"
@@ -278,7 +278,7 @@ export const SHOPIFY_BOOKS: Book[] = [
     "isNew": true,
     "trending": false,
     "bookOfDay": false,
-    "variantId": "53671524204833",
+    "variantId": "67614415192196",
     "store": "abc-bookstore",
     "blurb": "How did our species conquer the world? A provocative history of humankind."
   },
@@ -297,11 +297,11 @@ export const SHOPIFY_BOOKS: Book[] = [
     "mrp": 450,
     "rating": 0,
     "reviews": 0,
-    "cover": "https://cdn.shopify.com/s/files/1/1003/3237/2257/files/9788173711466-L.jpg?v=1791108053",
+    "cover": "https://cdn.shopify.com/s/files/1/1033/0659/2388/files/9788173711466-L.jpg?v=1791273195",
     "coverTint": "#4b0f8a",
     "moods": [
-      "learn",
-      "grow"
+      "grow",
+      "learn"
     ],
     "exams": [
       "ssc",
@@ -314,7 +314,7 @@ export const SHOPIFY_BOOKS: Book[] = [
     "isNew": false,
     "trending": false,
     "bookOfDay": false,
-    "variantId": "53671524237601",
+    "variantId": "67614415224964",
     "store": "kitab-ghar",
     "blurb": "The inspiring life story of Dr. Kalam, from Rameswaram to Rashtrapati Bhavan."
   },
@@ -333,22 +333,22 @@ export const SHOPIFY_BOOKS: Book[] = [
     "mrp": 250,
     "rating": 0,
     "reviews": 0,
-    "cover": "https://cdn.shopify.com/s/files/1/1003/3237/2257/files/view_archive_d7759d6a-1bb9-443d-a591-1822213c9047.jpg?v=1791108055",
+    "cover": "https://cdn.shopify.com/s/files/1/1033/0659/2388/files/view_archive_d7759d6a-1bb9-443d-a591-1822213c9047.jpg?v=1791273197",
     "coverTint": "#4b0f8a",
     "moods": [
       "reflect"
     ],
     "exams": [],
     "categories": [
-      "fiction",
+      "biography-history",
       "english-literature",
-      "biography-history"
+      "fiction"
     ],
     "badges": [],
     "isNew": false,
     "trending": false,
     "bookOfDay": false,
-    "variantId": "53671524270369",
+    "variantId": "67614415257732",
     "store": "abc-bookstore",
     "blurb": "A searing Partition novel set in the village of Mano Majra — Singh's finest."
   },
@@ -367,7 +367,7 @@ export const SHOPIFY_BOOKS: Book[] = [
     "mrp": 225,
     "rating": 0,
     "reviews": 0,
-    "cover": "https://cdn.shopify.com/s/files/1/1003/3237/2257/files/view_archive_4adcbcd1-ca9d-479f-bc34-0ec6da40c1fd.jpg?v=1791108056",
+    "cover": "https://cdn.shopify.com/s/files/1/1033/0659/2388/files/view_archive_4adcbcd1-ca9d-479f-bc34-0ec6da40c1fd.jpg?v=1791273199",
     "coverTint": "#4b0f8a",
     "moods": [
       "feel",
@@ -385,7 +385,7 @@ export const SHOPIFY_BOOKS: Book[] = [
     "isNew": false,
     "trending": false,
     "bookOfDay": false,
-    "variantId": "53671524303137",
+    "variantId": "67614415290500",
     "store": "kitab-ghar",
     "blurb": "Premchand's immortal classic of peasant India — the novel every Hindi reader returns to."
   },
@@ -404,7 +404,7 @@ export const SHOPIFY_BOOKS: Book[] = [
     "mrp": 899,
     "rating": 0,
     "reviews": 0,
-    "cover": "https://cdn.shopify.com/s/files/1/1003/3237/2257/files/view_archive_7541fb5a-755c-4fc2-97eb-8804a9be3557.jpg?v=1791108057",
+    "cover": "https://cdn.shopify.com/s/files/1/1033/0659/2388/files/view_archive_7541fb5a-755c-4fc2-97eb-8804a9be3557.jpg?v=1791273201",
     "coverTint": "#4b0f8a",
     "moods": [
       "escape"
@@ -413,8 +413,8 @@ export const SHOPIFY_BOOKS: Book[] = [
       "school"
     ],
     "categories": [
-      "fiction",
-      "children"
+      "children",
+      "fiction"
     ],
     "badges": [
       "BESTSELLER"
@@ -422,7 +422,7 @@ export const SHOPIFY_BOOKS: Book[] = [
     "isNew": false,
     "trending": true,
     "bookOfDay": false,
-    "variantId": "53671524335905",
+    "variantId": "67614415323268",
     "store": "abc-bookstore",
     "blurb": "Harry discovers he is a wizard and begins his first year at Hogwarts."
   },
@@ -441,7 +441,7 @@ export const SHOPIFY_BOOKS: Book[] = [
     "mrp": 450,
     "rating": 0,
     "reviews": 0,
-    "cover": "https://cdn.shopify.com/s/files/1/1003/3237/2257/files/view_archive_a0d5de2b-e3a9-4746-b9ae-ed4b88804e58.jpg?v=1791108057",
+    "cover": "https://cdn.shopify.com/s/files/1/1033/0659/2388/files/view_archive_a0d5de2b-e3a9-4746-b9ae-ed4b88804e58.jpg?v=1791273202",
     "coverTint": "#4b0f8a",
     "moods": [
       "light"
@@ -458,7 +458,7 @@ export const SHOPIFY_BOOKS: Book[] = [
     "isNew": true,
     "trending": false,
     "bookOfDay": false,
-    "variantId": "53671524368673",
+    "variantId": "67614415356036",
     "store": "kitab-ghar",
     "blurb": "Matilda's parents think she's a nuisance, but she is a genius — with extraordinary powers."
   },
@@ -484,6 +484,7 @@ export const SHOPIFY_BOOKS: Book[] = [
     ],
     "exams": [
       "banking",
+      "maths-science",
       "railway",
       "ssc"
     ],
@@ -495,7 +496,7 @@ export const SHOPIFY_BOOKS: Book[] = [
     "isNew": false,
     "trending": false,
     "bookOfDay": false,
-    "variantId": "53671524401441",
+    "variantId": "67614415388804",
     "store": "abc-bookstore",
     "blurb": "The bible of aptitude preparation — SSC, Banking, Railway and all competitive exams."
   },
@@ -514,7 +515,7 @@ export const SHOPIFY_BOOKS: Book[] = [
     "mrp": 350,
     "rating": 0,
     "reviews": 0,
-    "cover": "https://cdn.shopify.com/s/files/1/1003/3237/2257/files/view_archive_a5387b2d-6f21-4499-9124-a075360730ce.jpg?v=1791108059",
+    "cover": "https://cdn.shopify.com/s/files/1/1033/0659/2388/files/view_archive_a5387b2d-6f21-4499-9124-a075360730ce.jpg?v=1791273205",
     "coverTint": "#4b0f8a",
     "moods": [
       "feel",
@@ -522,14 +523,14 @@ export const SHOPIFY_BOOKS: Book[] = [
     ],
     "exams": [],
     "categories": [
-      "fiction",
-      "english-literature"
+      "english-literature",
+      "fiction"
     ],
     "badges": [],
     "isNew": false,
     "trending": false,
     "bookOfDay": false,
-    "variantId": "53671524434209",
+    "variantId": "67614415454340",
     "store": "kitab-ghar",
     "blurb": "Elizabeth Bennet spars with Mr. Darcy in Austen's sparkling comedy of manners."
   },
@@ -548,7 +549,7 @@ export const SHOPIFY_BOOKS: Book[] = [
     "mrp": 275,
     "rating": 0,
     "reviews": 0,
-    "cover": "https://cdn.shopify.com/s/files/1/1003/3237/2257/files/view_archive_dbfb4921-db45-473f-9856-1aea2dd9ce90.jpg?v=1791108060",
+    "cover": "https://cdn.shopify.com/s/files/1/1033/0659/2388/files/view_archive_dbfb4921-db45-473f-9856-1aea2dd9ce90.jpg?v=1791273207",
     "coverTint": "#4b0f8a",
     "moods": [
       "learn"
@@ -567,7 +568,7 @@ export const SHOPIFY_BOOKS: Book[] = [
     "isNew": true,
     "trending": false,
     "bookOfDay": false,
-    "variantId": "53671524466977",
+    "variantId": "67614415519876",
     "store": "abc-bookstore",
     "blurb": "The legendary vocabulary builder — essential for Banking, SSC, CAT and all competitive exams."
   },
@@ -601,7 +602,7 @@ export const SHOPIFY_BOOKS: Book[] = [
     "isNew": false,
     "trending": false,
     "bookOfDay": false,
-    "variantId": "53671524499745",
+    "variantId": "67614415552644",
     "store": "kitab-ghar",
     "blurb": "The definitive UPSC polity reference — constitution, governance and current updates."
   },
@@ -620,14 +621,10 @@ export const SHOPIFY_BOOKS: Book[] = [
     "mrp": 450,
     "rating": 0,
     "reviews": 0,
-    "cover": "https://cdn.shopify.com/s/files/1/1003/3237/2257/files/photo-1460661419201-fd4cecdf8a8b.jpg?v=1791117270",
+    "cover": "https://cdn.shopify.com/s/files/1/1033/0659/2388/files/photo-1460661419201-fd4cecdf8a8b.jpg?v=1791273211",
     "coverTint": "#4b0f8a",
     "moods": [],
-    "exams": [
-      "art-craft",
-      "art-supplies",
-      "demo-item"
-    ],
+    "exams": [],
     "categories": [
       "art-supplies"
     ],
@@ -635,7 +632,7 @@ export const SHOPIFY_BOOKS: Book[] = [
     "isNew": false,
     "trending": false,
     "bookOfDay": false,
-    "variantId": "53671699120417",
+    "variantId": "67614415585412",
     "store": "abc-bookstore",
     "blurb": "Twelve brushes in round, flat and filbert shapes for acrylic, watercolour and gouache."
   },
@@ -654,14 +651,10 @@ export const SHOPIFY_BOOKS: Book[] = [
     "mrp": 699,
     "rating": 0,
     "reviews": 0,
-    "cover": "https://cdn.shopify.com/s/files/1/1003/3237/2257/files/photo-1513364776144-60967b0f800f.jpg?v=1791117271",
+    "cover": "https://cdn.shopify.com/s/files/1/1033/0659/2388/files/photo-1513364776144-60967b0f800f.jpg?v=1791273211",
     "coverTint": "#4b0f8a",
     "moods": [],
-    "exams": [
-      "art-craft",
-      "art-supplies",
-      "demo-item"
-    ],
+    "exams": [],
     "categories": [
       "art-supplies"
     ],
@@ -669,7 +662,7 @@ export const SHOPIFY_BOOKS: Book[] = [
     "isNew": false,
     "trending": false,
     "bookOfDay": false,
-    "variantId": "53671699153185",
+    "variantId": "67614415618180",
     "store": "abc-bookstore",
     "blurb": "Rich, fast-drying acrylics in twelve mixable shades, with a starter brush."
   },
@@ -688,14 +681,10 @@ export const SHOPIFY_BOOKS: Book[] = [
     "mrp": 1599,
     "rating": 0,
     "reviews": 0,
-    "cover": "https://cdn.shopify.com/s/files/1/1003/3237/2257/files/photo-1456735190827-d1262f71b8a3.jpg?v=1791117271",
+    "cover": "https://cdn.shopify.com/s/files/1/1033/0659/2388/files/photo-1456735190827-d1262f71b8a3.jpg?v=1791273214",
     "coverTint": "#4b0f8a",
     "moods": [],
-    "exams": [
-      "art-craft",
-      "art-supplies",
-      "demo-item"
-    ],
+    "exams": [],
     "categories": [
       "art-supplies"
     ],
@@ -703,7 +692,7 @@ export const SHOPIFY_BOOKS: Book[] = [
     "isNew": false,
     "trending": false,
     "bookOfDay": false,
-    "variantId": "53671699317025",
+    "variantId": "67614415650948",
     "store": "abc-bookstore",
     "blurb": "Pencils, markers, crayons and colours in one portable case for school and hobby artists."
   },
@@ -722,14 +711,10 @@ export const SHOPIFY_BOOKS: Book[] = [
     "mrp": 599,
     "rating": 0,
     "reviews": 0,
-    "cover": "https://cdn.shopify.com/s/files/1/1003/3237/2257/files/photo-1517842645767-c639042777db.jpg?v=1791117272",
+    "cover": "https://cdn.shopify.com/s/files/1/1033/0659/2388/files/photo-1517842645767-c639042777db.jpg?v=1791273215",
     "coverTint": "#4b0f8a",
     "moods": [],
-    "exams": [
-      "art-craft",
-      "demo-item",
-      "notebooks"
-    ],
+    "exams": [],
     "categories": [
       "notebooks"
     ],
@@ -737,7 +722,7 @@ export const SHOPIFY_BOOKS: Book[] = [
     "isNew": false,
     "trending": false,
     "bookOfDay": false,
-    "variantId": "53671699349793",
+    "variantId": "67614415683716",
     "store": "abc-bookstore",
     "blurb": "A hardbound ruled journal paired with a smooth fountain pen. A thoughtful gift for writers."
   },
@@ -756,14 +741,10 @@ export const SHOPIFY_BOOKS: Book[] = [
     "mrp": 399,
     "rating": 0,
     "reviews": 0,
-    "cover": "https://cdn.shopify.com/s/files/1/1003/3237/2257/files/photo-1531346878377-a5be20888e57.jpg?v=1791117273",
+    "cover": "https://cdn.shopify.com/s/files/1/1033/0659/2388/files/photo-1531346878377-a5be20888e57.jpg?v=1791273216",
     "coverTint": "#4b0f8a",
     "moods": [],
-    "exams": [
-      "art-craft",
-      "demo-item",
-      "notebooks"
-    ],
+    "exams": [],
     "categories": [
       "notebooks"
     ],
@@ -771,7 +752,7 @@ export const SHOPIFY_BOOKS: Book[] = [
     "isNew": false,
     "trending": false,
     "bookOfDay": false,
-    "variantId": "53671699382561",
+    "variantId": "67614415716484",
     "store": "abc-bookstore",
     "blurb": "Thick 140 gsm pages that take pencil, ink and light washes."
   },
@@ -790,14 +771,10 @@ export const SHOPIFY_BOOKS: Book[] = [
     "mrp": 499,
     "rating": 0,
     "reviews": 0,
-    "cover": "https://cdn.shopify.com/s/files/1/1003/3237/2257/files/photo-1452860606245-08befc0ff44b.jpg?v=1791117273",
+    "cover": "https://cdn.shopify.com/s/files/1/1033/0659/2388/files/photo-1452860606245-08befc0ff44b.jpg?v=1791273218",
     "coverTint": "#4b0f8a",
     "moods": [],
-    "exams": [
-      "art-craft",
-      "craft-kits",
-      "demo-item"
-    ],
+    "exams": [],
     "categories": [
       "craft-kits"
     ],
@@ -805,7 +782,7 @@ export const SHOPIFY_BOOKS: Book[] = [
     "isNew": false,
     "trending": false,
     "bookOfDay": false,
-    "variantId": "53671699415329",
+    "variantId": "67614415749252",
     "store": "abc-bookstore",
     "blurb": "Washi tape, scissors, a craft knife, sticky notes and a ruler for school projects and journaling."
   },
@@ -824,14 +801,10 @@ export const SHOPIFY_BOOKS: Book[] = [
     "mrp": 349,
     "rating": 0,
     "reviews": 0,
-    "cover": "https://cdn.shopify.com/s/files/1/1003/3237/2257/files/photo-1585336261022-680e295ce3fe.jpg?v=1791117274",
+    "cover": "https://cdn.shopify.com/s/files/1/1033/0659/2388/files/photo-1585336261022-680e295ce3fe.jpg?v=1791273219",
     "coverTint": "#4b0f8a",
     "moods": [],
-    "exams": [
-      "art-craft",
-      "demo-item",
-      "pens"
-    ],
+    "exams": [],
     "categories": [
       "pens"
     ],
@@ -839,9 +812,9 @@ export const SHOPIFY_BOOKS: Book[] = [
     "isNew": false,
     "trending": false,
     "bookOfDay": false,
-    "variantId": "53671699448097",
+    "variantId": "67614415782020",
     "store": "abc-bookstore",
     "blurb": "A balanced steel-nib fountain pen with a converter. Writes smooth from the first line."
   }
 ];
-export const SHOPIFY_DOMAIN = "aapkikitab.myshopify.com";
+export const SHOPIFY_DOMAIN = "aapki-kitab-iysbgwrj.myshopify.com";

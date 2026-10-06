@@ -18,8 +18,8 @@ export interface Ctx {
 }
 
 const API_VERSION = "2026-01";
-const domainOf = (env: Env) => env.SHOPIFY_STORE_DOMAIN || "aapkikitab.myshopify.com";
-const shopIdOf = (env: Env) => env.SHOPIFY_SHOP_ID || "100332372257";
+const domainOf = (env: Env) => env.SHOPIFY_STORE_DOMAIN || "aapki-kitab-iysbgwrj.myshopify.com";
+const shopIdOf = (env: Env) => env.SHOPIFY_SHOP_ID || "103306592388";
 export const originOf = (env: Env) => env.SITE_ORIGIN || "https://aapkikitab.in";
 
 export const json = (data: unknown, status = 200, headers: Record<string, string> = {}) =>
