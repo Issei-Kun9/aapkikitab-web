@@ -3,7 +3,7 @@ import { CONTACT, SHIPPING, SHOPIFY_POLICIES } from "@/data/settings";
 
 export const metadata: Metadata = {
   title: "Policies — Aapki Kitab",
-  description: "Shipping, returns, privacy and terms for Aapki Kitab.",
+  description: "Shipping, returns, refunds, cancellations, privacy, terms and contact details for Aapki Kitab.",
 };
 
 const contactLine = CONTACT.email ? ` You can reach us at ${CONTACT.email}.` : "";
@@ -17,8 +17,8 @@ const DEFAULTS: { id: string; title: string; text: string }[] = [
   },
   {
     id: "returns",
-    title: "Returns",
-    text: `Every copy we sell is new. If your order arrives damaged or you receive the wrong title, write to us within ${SHIPPING.returnDays} days of delivery with your order ID and photos, and we will arrange a replacement or refund.${contactLine}`,
+    title: "Returns, refunds & cancellations",
+    text: `Every copy we sell is new. If your order arrives damaged or you receive the wrong title, write to us within ${SHIPPING.returnDays} days of delivery with your order ID and photos, and we will arrange a replacement or refund. Orders can be cancelled for a full refund until they are dispatched.${contactLine}`,
   },
   {
     id: "privacy",
@@ -37,11 +37,12 @@ export default function PoliciesPage() {
     const live = SHOPIFY_POLICIES.find((p) => p.id === d.id);
     return { id: d.id, title: live?.title ?? d.title, html: live?.body ?? "", text: d.text };
   });
+  const nav = [...sections, { id: "contact", title: "Contact us" }];
   return (
     <div className="py-6">
       <h1 className="font-display text-[30px] font-bold leading-tight text-ink lg:text-[40px]">Policies</h1>
       <nav aria-label="Policies" className="mt-4 flex flex-wrap gap-2">
-        {sections.map((s) => (
+        {nav.map((s) => (
           <a key={s.id} href={`#${s.id}`} className="rounded-full border border-line bg-white px-4 py-2 text-[14px] font-semibold text-ink hover:border-ak-800 hover:text-ak-800">
             {s.title}
           </a>
@@ -61,6 +62,36 @@ export default function PoliciesPage() {
             )}
           </section>
         ))}
+        {/* Business contact details (Shopify: Content → Metaobjects → Shop details) */}
+        <section id="contact" className="scroll-mt-40 rounded-2xl border border-line bg-white p-5">
+          <h2 className="font-display text-xl font-bold text-ink">Contact us</h2>
+          <dl className="ak-prose mt-2 grid gap-2 text-ink/80">
+            {CONTACT.address && (
+              <div>
+                <dt className="font-semibold text-ink">Address</dt>
+                <dd className="whitespace-pre-line">{CONTACT.address}</dd>
+              </div>
+            )}
+            {CONTACT.phone && (
+              <div>
+                <dt className="font-semibold text-ink">Phone</dt>
+                <dd><a href={CONTACT.phoneHref} className="text-ak-800 underline">{CONTACT.phone}</a></dd>
+              </div>
+            )}
+            {CONTACT.whatsappNumber && (
+              <div>
+                <dt className="font-semibold text-ink">WhatsApp</dt>
+                <dd><a href={`https://wa.me/${CONTACT.whatsappNumber}`} className="text-ak-800 underline">{CONTACT.whatsapp}</a></dd>
+              </div>
+            )}
+            {CONTACT.email && (
+              <div>
+                <dt className="font-semibold text-ink">Email</dt>
+                <dd><a href={`mailto:${CONTACT.email}`} className="text-ak-800 underline">{CONTACT.email}</a></dd>
+              </div>
+            )}
+          </dl>
+        </section>
       </div>
     </div>
   );
