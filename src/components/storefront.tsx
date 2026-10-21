@@ -118,7 +118,7 @@ export function HeroCarousel() {
   );
 }
 
-/* ---------- round shortcuts under the hero (Shopify: Homepage shortcut button) ---------- */
+/* ---------- round shortcuts under the hero (admin: Homepage shortcut button) ---------- */
 const SHORTCUT_ICON: Record<string, string> = {
   Books: "books",
   Gifts: "gifts",
@@ -148,7 +148,7 @@ export function CategoryCircles() {
   );
 }
 
-/* ---------- reassurance strip (Shopify: Trust strip item) ---------- */
+/* ---------- reassurance strip (admin: Trust strip item) ---------- */
 const TRUST_ICON: Record<string, ReactNode> = {
   Truck: I.truck,
   Shield: I.shield,
@@ -186,7 +186,7 @@ export function TrustStrip() {
   );
 }
 
-/* ---------- promo cards (Shopify: Homepage promo card) ---------- */
+/* ---------- promo cards (admin: Homepage promo card) ---------- */
 const TILE_COLOUR: Record<string, { bg: string; title: string }> = {
   Peach: { bg: "bg-peach", title: "text-[#7b3a10]" },
   Lavender: { bg: "bg-[linear-gradient(110deg,#efe8ff,#e0d4ff)]", title: "text-ak-900" },

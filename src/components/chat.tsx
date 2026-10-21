@@ -4,12 +4,12 @@ import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { CHAT_STATUS, CONTACT, waLink } from "@/data/settings";
 import { chatRef, communityReady, loadChat, sendChat, uploadMedia, type ChatMsg } from "@/lib/community";
-import { getSession } from "@/lib/customer-account";
+import { getSession } from "@/lib/account";
 import { VerifiedBadge } from "./community";
 import { Icon, I } from "./ui";
 
-/* "Chat with AapkiKitab Team": a two-way chat kept in Shopify (Content → Metaobjects →
-   Support chat). The team answers by typing in "Your reply"; it shows up here. */
+/* "Chat with AapkiKitab Team": a two-way chat. The team answers in the admin panel (Chats);
+   replies show up here. */
 const OPEN = "ak-open-chat";
 const SEEN = "ak_chat_seen";
 export const openChat = (detail: { topic?: string; order?: string } = {}) => {

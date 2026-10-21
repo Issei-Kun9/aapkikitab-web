@@ -1,6 +1,6 @@
 import { SITE_CONTENT } from "./site-content";
 
-/* Everything a shop owner edits in Shopify admin (Content → Metaobjects) that isn't a
+/* Everything a shop owner edits in the admin panel (/admin → Website) that isn't a
    product. Each value falls back to a sensible default, so an empty field never leaves
    a hole in the page. */
 
@@ -27,8 +27,6 @@ export const DELIVERY = {
   /* shown under "Delivery Fee: ₹0" in the cart and checkout */
   freeNote: txt(S.delivery_free_note, "🎉 Enjoy FREE Delivery. It’s on us!"),
 };
-/* Shopify customer accounts: sign-in with an emailed one-time code, order history, addresses. */
-export const ACCOUNT_URL = txt(C?.accountUrl, "https://shopify.com/103306592388/account");
 export const PAYMENT = {
   online: txt(S.online_payment_label, "UPI / QR / Online Payment"),
   cod: S.cod_available === true || S.cod_available === "true",
@@ -182,8 +180,8 @@ export const CRAFT_TYPES: { slug: string; label: string }[] = C?.craftTypes?.len
     ];
 
 export interface Policy { id: string; title: string; body: string }
-/* Policies written in Shopify admin (Settings → Policies) are HTML; ours are plain text. */
-export const SHOPIFY_POLICIES: Policy[] = C?.policies ?? [];
+/* Policy pages written in the admin panel (Settings → Policy pages), turned into HTML at build. */
+export const POLICIES: Policy[] = C?.policies ?? [];
 
 /* Section switches: on unless switched off in admin. */
 export const SHOW = (key: string) => (H[`show_${key}`] ?? "true") !== "false";

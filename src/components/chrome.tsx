@@ -11,7 +11,7 @@ import { Icon, I, Price } from "./ui";
 import { DeliveryBar, Drawer, FreeDelivery, VoiceButton } from "./header-bits";
 import { Bump } from "./motion";
 
-/* Header links come from Shopify (Menu link → "Header menu"); Books and Exams menus are built in. */
+/* Header links come from the admin panel (Menu link → "Header menu"); Books and Exams menus are built in. */
 const NAV = HEADER_LINKS;
 
 /* Optional top bar: shown only while a message is set in Homepage settings. */

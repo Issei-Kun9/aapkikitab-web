@@ -179,7 +179,7 @@ export function BudgetBand() {
 }
 
 /* ---------- art & craft: the stationery corner of the shop ---------- */
-/* Art & craft types come from Shopify (Discovery tile → "Art & Craft type"). */
+/* Art & craft types come from the admin panel (Discovery tile → "Art & Craft type"). */
 export const CRAFT_GROUPS = CRAFT_TYPES;
 
 export function ArtCraft() {

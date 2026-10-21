@@ -1,32 +1,16 @@
 /* POST /api/comment { post, text } → a signed-in customer comments; it waits as Draft for the team. */
-import { admin, check, clean, configured, CREATE_METAOBJECT, handle, HttpError, json, sameSite, verifyCustomer } from "../../server/shopify";
-
-const POST = `query($id: ID!) { metaobject(id: $id) { type capabilities { publishable { status } } } }`;
+import { body, clean, handle, HttpError, json, now, sameSite } from "../../server/core";
+import { publicName, requireCustomer } from "../../server/auth";
+import { createEntry, getById } from "../../server/entries";
 
 export const onRequestPost = handle(async ({ request, env }) => {
   sameSite(env, request);
-  if (!configured(env)) throw new HttpError(503, "Comments are not switched on yet.");
-  const customer = await verifyCustomer(env, request);
-  const b = (await request.json().catch(() => ({}))) as { post?: string; text?: string };
+  const c = await requireCustomer(env, request);
+  const b = await body(request);
   const text = clean(b.text, 300);
   if (text.length < 2) throw new HttpError(400, "Please write your comment.");
-  const post = (await admin<{ metaobject: { type: string; capabilities: { publishable: { status: string } | null } } | null }>(env, POST, { id: b.post })).metaobject;
-  if (!post || post.type !== "ak_post" || post.capabilities.publishable?.status !== "ACTIVE") throw new HttpError(404, "This post is no longer available.");
-  const d = await admin<{ metaobjectCreate: { userErrors: { message: string }[] } }>(env, CREATE_METAOBJECT, {
-    input: {
-      type: "ak_comment",
-      capabilities: { publishable: { status: "DRAFT" } },
-      fields: [
-        { key: "author_name", value: customer.name },
-        { key: "text", value: text },
-        { key: "post", value: b.post },
-        { key: "likes", value: "0" },
-        { key: "submitted_at", value: new Date().toISOString() },
-        { key: "customer_email", value: customer.email },
-        { key: "customer_id", value: customer.id },
-      ],
-    },
-  });
-  check(d.metaobjectCreate);
+  const post = await getById(env, clean(b.post, 40));
+  if (!post || post.type !== "ak_post" || post.status !== "active") throw new HttpError(404, "This post is no longer available.");
+  await createEntry(env, "ak_comment", { author_name: publicName(c), text, post: post.id, likes: 0, submitted_at: now(), customer_email: c.email, customer_id: c.id }, { status: "draft" });
   return json({ ok: true });
 });

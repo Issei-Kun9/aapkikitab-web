@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { CONTACT, SHIPPING, SHOPIFY_POLICIES } from "@/data/settings";
+import { CONTACT, SHIPPING, POLICIES } from "@/data/settings";
 
 export const metadata: Metadata = {
   title: "Policies — Aapki Kitab",
@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 const contactLine = CONTACT.email ? ` You can reach us at ${CONTACT.email}.` : "";
 
-/* Used only where no policy has been written in Shopify admin (Settings → Policies). */
+/* Used only where no policy page has been written in the admin panel (Settings → Policy pages). */
 const DEFAULTS: { id: string; title: string; text: string }[] = [
   {
     id: "shipping",
@@ -28,13 +28,13 @@ const DEFAULTS: { id: string; title: string; text: string }[] = [
   {
     id: "terms",
     title: "Terms",
-    text: "Prices and availability are confirmed at checkout, which is handled securely by Shopify. By placing an order you agree to be contacted about sourcing and delivery.",
+    text: "Prices and availability are confirmed at checkout, which is handled securely by Razorpay. By placing an order you agree to be contacted about sourcing and delivery.",
   },
 ];
 
 export default function PoliciesPage() {
   const sections = DEFAULTS.map((d) => {
-    const live = SHOPIFY_POLICIES.find((p) => p.id === d.id);
+    const live = POLICIES.find((p) => p.id === d.id);
     return { id: d.id, title: live?.title ?? d.title, html: live?.body ?? "", text: d.text };
   });
   const nav = [...sections, { id: "contact", title: "Contact us" }];
@@ -62,7 +62,7 @@ export default function PoliciesPage() {
             )}
           </section>
         ))}
-        {/* Business contact details (Shopify: Content → Metaobjects → Shop details) */}
+        {/* Business contact details (admin panel → Website → Shop details) */}
         <section id="contact" className="scroll-mt-40 rounded-2xl border border-line bg-white p-5">
           <h2 className="font-display text-xl font-bold text-ink">Contact us</h2>
           <dl className="ak-prose mt-2 grid gap-2 text-ink/80">

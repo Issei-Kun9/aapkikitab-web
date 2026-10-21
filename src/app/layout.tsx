@@ -1,12 +1,7 @@
 import type { Metadata } from "next";
 import { Literata, Mukta, Tiro_Devanagari_Hindi } from "next/font/google";
 import "./globals.css";
-import { ShopProvider } from "@/lib/store";
-import { Announcement, Header, BottomNav, Footer } from "@/components/chrome";
 import { SEO } from "@/data/settings";
-import { Analytics } from "@/components/Analytics";
-import { MoreBooks } from "@/components/more-books";
-import { ChatWidget } from "@/components/chat";
 
 /* Literata was drawn for long-form reading on screens — a bookseller's typeface.
    Tiro Devanagari carries the bilingual moments; Mukta runs the interface. */
@@ -56,18 +51,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body className="min-h-screen font-sans">
-        <Analytics />
-        <ShopProvider>
-          <Announcement />
-          <Header />
-          <main className="mx-auto w-full max-w-7xl flex-1 px-4 pb-6 lg:pb-10">
-            {children}
-            <MoreBooks />
-          </main>
-          <Footer />
-          <BottomNav />
-          <ChatWidget />
-        </ShopProvider>
+        {children}
       </body>
     </html>
   );

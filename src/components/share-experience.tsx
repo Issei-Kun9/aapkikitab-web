@@ -4,9 +4,8 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { BOOKS } from "@/data/books";
-import { ACCOUNT_URL } from "@/data/settings";
 import { communityReady, createPost, uploadMedia, type Post } from "@/lib/community";
-import { customerQuery, getSession, onSiteAccounts, signIn } from "@/lib/customer-account";
+import { getSession, signIn } from "@/lib/account";
 import { PostCard, duration } from "./community";
 import { Icon, I } from "./ui";
 
@@ -59,9 +58,11 @@ export function ShareExperience() {
     communityReady().then(setReady);
     setSignedIn(Boolean(getSession()));
     setBook(params.get("book") ?? "");
-    customerQuery<{ customer: { firstName: string | null; lastName: string | null } }>("{ customer { firstName lastName } }")
-      .then((d) => d?.customer.firstName && setName(`${d.customer.firstName}${d.customer.lastName ? ` ${d.customer.lastName.charAt(0)}.` : ""}`))
-      .catch(() => {});
+    const me = getSession();
+    if (me) {
+      const [first, ...rest] = (me.name || me.email.split("@")[0]).trim().split(/\s+/);
+      setName(`${first}${rest.length ? ` ${rest[rest.length - 1].charAt(0).toUpperCase()}.` : ""}`);
+    }
   }, [params]);
 
   const addFiles = (files: FileList | null) => {
@@ -138,11 +139,7 @@ export function ShareExperience() {
         <div className="ak-card rounded-2xl p-6 text-center">
           <p className="font-display text-[22px] font-bold text-ak-950">Sign in to share</p>
           <p className="mt-2 text-[14.5px] text-muted">We&apos;ll email you a 6-digit code, so we know the review is really yours. Only your first name is shown.</p>
-          {onSiteAccounts ? (
-            <button type="button" onClick={() => signIn(`/community/share${book ? `?book=${book}` : ""}`)} className="mt-5 h-12 w-full rounded-xl bg-ak-800 text-[15px] font-bold text-white">Continue with email</button>
-          ) : (
-            <a href={ACCOUNT_URL} className="mt-5 flex h-12 items-center justify-center rounded-xl bg-ak-800 text-[15px] font-bold text-white">Continue with email</a>
-          )}
+          <button type="button" onClick={() => signIn(`/community/share${book ? `?book=${book}` : ""}`)} className="mt-5 h-12 w-full rounded-xl bg-ak-800 text-[15px] font-bold text-white">Continue with email</button>
         </div>
       </div>
     );

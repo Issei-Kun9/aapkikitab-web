@@ -42,3 +42,6 @@ next-env.d.ts
 
 # wrangler local dev state
 .wrangler/
+
+# written by the deploy workflow (local copy is for testing only)
+wrangler.toml
