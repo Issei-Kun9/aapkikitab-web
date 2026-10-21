@@ -14,6 +14,7 @@ interface ShopState {
   addToCart: (slug: string, qty?: number) => void;
   setQty: (slug: string, qty: number) => void;
   removeFromCart: (slug: string) => void;
+  clearCart: () => void;
   toggleWish: (slug: string) => void;
   isWished: (slug: string) => boolean;
   cartCount: number;
@@ -66,6 +67,7 @@ export function ShopProvider({ children }: { children: ReactNode }) {
       setQty: (slug, qty) =>
         setCart((c) => (qty <= 0 ? c.filter((l) => l.slug !== slug) : c.map((l) => (l.slug === slug ? { ...l, qty } : l)))),
       removeFromCart: (slug) => setCart((c) => c.filter((l) => l.slug !== slug)),
+      clearCart: () => setCart([]),
       toggleWish: (slug) => setWishlist((w) => (w.includes(slug) ? w.filter((s) => s !== slug) : [...w, slug])),
       isWished: (slug) => wishlist.includes(slug),
     };

@@ -1,0 +1,19 @@
+# Local testing only: copy to wrangler.toml. The deploy workflow writes the real one.
+name = "aapkikitab"
+pages_build_output_dir = "out"
+compatibility_date = "2026-01-01"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "aapkikitab-db"
+database_id = "00000000-0000-0000-0000-000000000000"
+migrations_dir = "migrations"
+
+[[kv_namespaces]]
+binding = "MEDIA"
+id = "00000000000000000000000000000000"
+
+[vars]
+SITE_ORIGIN = "http://localhost:8788"
+DEV_MODE = "1"
+ADMIN_EMAILS = "owner@example.com"

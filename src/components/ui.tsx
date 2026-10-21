@@ -156,8 +156,14 @@ function CardPrice({ price, mrp }: { price: number; mrp: number }) {
   );
 }
 
-function AddButton({ label, onAdd }: { label: string; onAdd: () => void }) {
+function AddButton({ label, onAdd, soldOut }: { label: string; onAdd: () => void; soldOut?: boolean }) {
   const [added, setAdded] = useState(false);
+  if (soldOut)
+    return (
+      <span className="mt-2.5 flex h-9 w-full items-center justify-center rounded-lg bg-line text-[12px] font-bold text-muted sm:h-10 sm:text-[14px]" aria-label={`${label} is sold out`}>
+        Sold out
+      </span>
+    );
   return (
     <button
       type="button"
@@ -223,7 +229,7 @@ export function BookCard({ book }: { book: Book }) {
         <p className="mt-0.5 truncate text-[11.5px] text-muted sm:text-[13px]">{book.author}</p>
         <div className="mt-auto">
           <CardPrice price={book.price} mrp={book.mrp} />
-          <AddButton label={book.title} onAdd={add} />
+          <AddButton label={book.title} onAdd={add} soldOut={book.soldOut} />
         </div>
       </div>
     </div>
@@ -253,7 +259,7 @@ export function CraftCard({ item }: { item: Book }) {
         </Link>
         <div className="mt-auto">
           <CardPrice price={item.price} mrp={item.mrp} />
-          <AddButton label={item.title} onAdd={add} />
+          <AddButton label={item.title} onAdd={add} soldOut={item.soldOut} />
         </div>
       </div>
     </div>

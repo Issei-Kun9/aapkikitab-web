@@ -155,17 +155,19 @@ export default function BookDetail({
             <button
                 type="button"
                 onClick={addOne}
-                className={`flex h-12 w-full items-center justify-center gap-1.5 whitespace-nowrap rounded-full px-4 sm:px-7 transition-transform active:scale-[0.97] sm:w-auto text-[15px] font-bold text-white transition-colors ${added ? "bg-leaf" : "bg-ak-800 hover:bg-ak-900"}`}
+                disabled={book.soldOut}
+                className={`flex h-12 w-full items-center justify-center gap-1.5 whitespace-nowrap rounded-full px-4 sm:px-7 transition-transform active:scale-[0.97] disabled:cursor-not-allowed disabled:bg-line disabled:text-muted sm:w-auto text-[15px] font-bold text-white transition-colors ${added ? "bg-leaf" : "bg-ak-800 hover:bg-ak-900"}`}
               >
                 <span className="hidden min-[400px]:inline"><Icon size={16} d={added ? I.check : I.cart} /></span>
-                {added ? "Added" : "Add to cart"}
+                {book.soldOut ? "Sold out" : added ? "Added" : "Add to cart"}
               </button>
             <button
               type="button"
               onClick={buyNow}
-              className="order-last col-span-3 h-12 rounded-full border border-ak-800 px-7 text-[15px] font-bold text-ak-800 transition-colors hover:bg-ak-50 sm:order-none"
+              disabled={book.soldOut}
+              className="order-last col-span-3 h-12 rounded-full border border-ak-800 px-7 text-[15px] font-bold text-ak-800 transition-colors hover:bg-ak-50 disabled:cursor-not-allowed disabled:opacity-50 sm:order-none"
             >
-              Buy now
+              {book.soldOut ? "Out of stock" : "Buy now"}
             </button>
             <button
               type="button"
@@ -280,9 +282,10 @@ export default function BookDetail({
               <button
                 type="button"
                 onClick={addOne}
-                className={`h-11 shrink-0 rounded-full px-5 text-sm font-bold text-white ${added ? "bg-leaf" : "bg-ak-800"}`}
+                disabled={book.soldOut}
+                className={`h-11 shrink-0 rounded-full px-5 text-sm font-bold text-white disabled:bg-line disabled:text-muted ${added ? "bg-leaf" : "bg-ak-800"}`}
               >
-                {added ? "Added" : "Add to cart"}
+                {book.soldOut ? "Sold out" : added ? "Added" : "Add to cart"}
               </button>
             </div>
           </motion.div>

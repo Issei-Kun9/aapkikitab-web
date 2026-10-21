@@ -1,4 +1,9 @@
-/* GET /api/status → whether posting and team chat are switched on (Shopify key present). */
-import { configured, json, type Ctx } from "../../server/shopify";
+/* GET /api/status → which parts of the shop are switched on (the website hides what isn't). */
+import { json, type Ctx } from "../../server/core";
 
-export const onRequestGet = async ({ env }: Ctx) => json({ ready: configured(env) }, 200, { "cache-control": "public, max-age=60" });
+export const onRequestGet = ({ env }: Ctx) =>
+  json(
+    { ready: Boolean(env.DB && env.MEDIA), payments: Boolean(env.RAZORPAY_KEY_ID || env.DEV_MODE === "1"), email: Boolean(env.RESEND_API_KEY || env.DEV_MODE === "1") },
+    200,
+    { "cache-control": "no-store" },
+  );

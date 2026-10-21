@@ -1,5 +1,5 @@
-// Demo seed catalog. Prices/ratings are synthetic placeholders to be
-// replaced with real inventory when the Shopify Storefront API is wired.
+// Demo seed catalog, used only when the real catalog (src/data/catalog.ts, synced from the
+// admin panel) is empty.
 export type Badge = "NEW" | "BESTSELLER" | "FEATURED";
 
 export interface Book {
@@ -26,8 +26,9 @@ export interface Book {
   trending: boolean;
   bookOfDay?: boolean;
   store: string;
-  variantId?: string;
-  kind?: "book" | "craft"; // "craft" = Art & Craft / stationery (Shopify product type "Art & Craft") // Shopify variant (numeric id) — present once the catalog is synced
+  kind?: "book" | "craft"; // "craft" = Art & Craft / stationery
+  gallery?: string[]; // all photos when there is more than one (the first is the cover)
+  soldOut?: boolean; // stock reached 0 in the admin panel
   blurb: string;
 }
 
@@ -463,11 +464,11 @@ export const DEMO_BOOKS: Book[] = [
   },
 ];
 
-import { SHOPIFY_BOOKS } from "./shopify-catalog";
+import { CATALOG_BOOKS } from "./catalog";
 
-// Live Shopify catalog when synced, demo seed otherwise.
-// Admin flow: edit products in Shopify admin → rebuild (Pages deploy hook) → live.
-const ALL_PRODUCTS: Book[] = SHOPIFY_BOOKS.length > 0 ? SHOPIFY_BOOKS : DEMO_BOOKS;
+// Live catalog from the admin panel when synced, demo seed otherwise.
+// Admin flow: edit products at /admin → the site rebuilds every 15 minutes → live.
+const ALL_PRODUCTS: Book[] = CATALOG_BOOKS.length > 0 ? CATALOG_BOOKS : DEMO_BOOKS;
 export const BOOKS: Book[] = ALL_PRODUCTS.filter((b) => b.kind !== "craft");
 /* Art & Craft: stationery, art supplies, craft kits — same product shape, no author/ISBN. */
 export const CRAFT: Book[] = ALL_PRODUCTS.filter((b) => b.kind === "craft");

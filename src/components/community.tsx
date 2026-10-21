@@ -4,8 +4,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { BOOKS } from "@/data/books";
 import { communityReady, fetchPosts, likedIds, reportPost, sendComment, timeAgo, toggleLike, type Comment, type Post, type PostMedia } from "@/lib/community";
-import { getSession, onSiteAccounts, signIn } from "@/lib/customer-account";
-import { ACCOUNT_URL } from "@/data/settings";
+import { getSession, signIn } from "@/lib/account";
 import { Icon, I } from "./ui";
 
 /* ---------- the official badge: only ever rendered next to the AapkiKitab Team ---------- */
@@ -143,7 +142,7 @@ function MediaGrid({ media }: { media: PostMedia[] }) {
   );
 }
 
-/* ---------- likes (one per device; the count lives in Shopify) ---------- */
+/* ---------- likes (one per device; the count lives on our server) ---------- */
 function Like({ likeKey, initial, small = false }: { likeKey: string; initial: number; small?: boolean }) {
   const [liked, setLiked] = useState(false);
   const [count, setCount] = useState(initial);
@@ -226,7 +225,7 @@ function CommentBox({ postId, onSent }: { postId: string; onSent: () => void }) 
   useEffect(() => setSignedIn(Boolean(getSession())), []);
   if (!signedIn) {
     return (
-      <button type="button" onClick={() => (onSiteAccounts ? signIn(`/community#${postAnchor(postId)}`) : window.location.assign(ACCOUNT_URL))} className="w-full rounded-xl border border-dashed border-ak-100 py-2.5 text-[13.5px] font-semibold text-ak-800">
+      <button type="button" onClick={() => signIn(`/community#${postAnchor(postId)}`)} className="w-full rounded-xl border border-dashed border-ak-100 py-2.5 text-[13.5px] font-semibold text-ak-800">
         Sign in to comment
       </button>
     );

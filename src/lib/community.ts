@@ -1,6 +1,6 @@
-/* Reader stories + team chat. Talks to the Cloudflare Pages Functions in /functions/api,
-   which keep everything in Shopify so the team moderates from Shopify admin. */
-import { freshToken } from "./customer-account";
+/* Reviews + team chat. Talks to the Cloudflare Pages Functions in /functions/api; the team
+   moderates and replies in the admin panel. Signed-in customers are recognised by their cookie. */
+import { getSession } from "./account";
 
 export type PostMedia = { type: "image"; url: string; w: number; h: number } | { type: "video"; url: string; poster: string; duration: number };
 export interface Comment {
@@ -28,13 +28,8 @@ export interface Post {
 }
 
 async function call<T>(path: string, init: RequestInit = {}, auth = false): Promise<T> {
-  const headers = new Headers(init.headers);
-  if (auth) {
-    const token = await freshToken();
-    if (!token) throw new Error("Please sign in first.");
-    headers.set("authorization", token);
-  }
-  const r = await fetch(path, { ...init, headers });
+  if (auth && !getSession()) throw new Error("Please sign in first.");
+  const r = await fetch(path, { credentials: "same-origin", ...init });
   const j = (await r.json().catch(() => ({}))) as T & { error?: string };
   if (!r.ok) throw new Error(j.error || "Something went wrong. Please try again.");
   return j;
@@ -73,9 +68,39 @@ export async function toggleLike(key: string, like: boolean): Promise<number> {
   return r.likes;
 }
 
+/* photos are made smaller first; videos send their size and length for the review card */
+async function prepare(file: File, body: FormData) {
+  if (file.type.startsWith("video/")) {
+    if (file.size > 24 * 1024 * 1024) throw new Error("Videos can be up to 24 MB. Please choose a shorter clip.");
+    const info = await new Promise<{ w: number; h: number; d: number }>((res) => {
+      const v = document.createElement("video");
+      v.preload = "metadata";
+      v.onloadedmetadata = () => res({ w: v.videoWidth, h: v.videoHeight, d: Math.round(v.duration || 0) });
+      v.onerror = () => res({ w: 0, h: 0, d: 0 });
+      v.src = URL.createObjectURL(file);
+    });
+    body.append("file", file);
+    body.append("width", String(info.w));
+    body.append("height", String(info.h));
+    body.append("duration", String(info.d));
+    return;
+  }
+  const bmp = /^image\/(jpeg|png|webp)$/.test(file.type) ? await createImageBitmap(file).catch(() => null) : null;
+  if (!bmp) return void body.append("file", file);
+  const scale = Math.min(1, 1600 / Math.max(bmp.width, bmp.height));
+  const c = document.createElement("canvas");
+  c.width = Math.round(bmp.width * scale);
+  c.height = Math.round(bmp.height * scale);
+  c.getContext("2d")!.drawImage(bmp, 0, 0, c.width, c.height);
+  const blob = await new Promise<Blob | null>((res) => c.toBlob(res, "image/webp", 0.86));
+  body.append("file", blob && blob.size < file.size ? new File([blob], "photo.webp", { type: "image/webp" }) : file);
+  body.append("width", String(c.width));
+  body.append("height", String(c.height));
+}
+
 export async function uploadMedia(file: File, attach = false) {
   const body = new FormData();
-  body.append("file", file);
+  await prepare(file, body);
   if (attach) body.append("attach", "1");
   return call<{ url: string; kind: "image" | "video" }>("/api/upload", { method: "POST", body }, true);
 }
@@ -107,10 +132,10 @@ export async function loadChat(): Promise<ChatMsg[]> {
 }
 export async function sendChat(m: { text: string; image?: string; name?: string; contact?: string; website?: string }): Promise<ChatMsg[]> {
   const ref = chatRef();
-  const token = await freshToken().catch(() => null);
   const r = await fetch("/api/chat", {
     method: "POST",
-    headers: { "content-type": "application/json", ...(token ? { authorization: token } : {}) },
+    credentials: "same-origin",
+    headers: { "content-type": "application/json" },
     body: JSON.stringify({ ...m, ...(ref ?? {}) }),
   });
   const j = (await r.json().catch(() => ({}))) as { id?: string; key?: string; messages?: ChatMsg[]; error?: string };

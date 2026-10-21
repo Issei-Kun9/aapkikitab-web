@@ -1,13 +1,13 @@
-# Rebuilds the static site from the live Shopify catalog and deploys it to
-# Cloudflare Pages. Runs on every push, every 30 minutes (so edits made in
-# Shopify admin go live on their own), and on demand via "Run workflow".
+# Builds the website from the shop's own database (edited at aapkikitab.in/admin) and deploys it
+# to Cloudflare Pages. Runs on every push, every 15 minutes (so admin edits go live on their own),
+# and on demand via "Run workflow".
 name: Build & deploy
 
 on:
   push:
     branches: [main]
   schedule:
-    - cron: "*/30 * * * *"
+    - cron: "*/15 * * * *"
   workflow_dispatch:
 
 concurrency:
@@ -18,14 +18,9 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     env:
-      SHOPIFY_STORE_DOMAIN: aapki-kitab-iysbgwrj.myshopify.com
-      SHOPIFY_CHECKOUT_DOMAIN: aapki-kitab-iysbgwrj.myshopify.com
-      SHOPIFY_STOREFRONT_TOKEN: ${{ secrets.SHOPIFY_STOREFRONT_TOKEN }}
-      # Headless → Customer Account API → Client ID (public, not a secret). Empty = Shopify-hosted accounts.
-      NEXT_PUBLIC_SHOPIFY_CUSTOMER_CLIENT_ID: ${{ vars.SHOPIFY_CUSTOMER_CLIENT_ID || 'd6e178d5-88fe-4233-8c05-dc174a08a82e' }}
-      CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-      SHOPIFY_ADMIN_TOKEN: ${{ secrets.SHOPIFY_ADMIN_TOKEN }}
-      SHOPIFY_CLIENT_SECRET: ${{ secrets.SHOPIFY_CLIENT_SECRET }}
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: d52611a650ad844340673baea34c3cc4
+      CATALOG_URL: https://aapkikitab.in
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -33,27 +28,82 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      # prebuild pulls the catalog from Shopify; without the token it keeps the demo catalog
-      - run: npm run build
-      # Reader Stories + team chat (functions/api/*) write to Shopify with an Admin API key.
-      # Add it once as the repo secret SHOPIFY_ADMIN_TOKEN (or SHOPIFY_CLIENT_ID + SHOPIFY_CLIENT_SECRET);
-      # each deploy hands it to Cloudflare as an encrypted Pages secret. Until then posting stays off.
-      - name: Pass the Shopify admin key to the site's server functions
-        if: env.CF_TOKEN != '' && (env.SHOPIFY_ADMIN_TOKEN != '' || env.SHOPIFY_CLIENT_SECRET != '')
-        env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          CLOUDFLARE_ACCOUNT_ID: d52611a650ad844340673baea34c3cc4
-          SHOPIFY_ADMIN_TOKEN: ${{ secrets.SHOPIFY_ADMIN_TOKEN }}
-          SHOPIFY_CLIENT_ID: ${{ secrets.SHOPIFY_CLIENT_ID }}
-          SHOPIFY_CLIENT_SECRET: ${{ secrets.SHOPIFY_CLIENT_SECRET }}
+
+      # The database (D1) and photo storage (KV) are created the first time, then reused.
+      # Their ids go into wrangler.toml so the site's server functions can reach them.
+      - name: Database and photo storage
         run: |
-          for name in SHOPIFY_ADMIN_TOKEN SHOPIFY_CLIENT_ID SHOPIFY_CLIENT_SECRET; do
+          set -euo pipefail
+          db_id=$(npx wrangler d1 list --json | node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>{const d=JSON.parse(s).find(x=>x.name==="aapkikitab-db");process.stdout.write(d?d.uuid:"")})')
+          if [ -z "$db_id" ]; then
+            npx wrangler d1 create aapkikitab-db --location apac
+            db_id=$(npx wrangler d1 list --json | node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>{process.stdout.write(JSON.parse(s).find(x=>x.name==="aapkikitab-db").uuid)})')
+          fi
+          kv_list() { npx wrangler kv namespace list | node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>{const n=JSON.parse(s.slice(s.indexOf("["))).find(x=>x.title==="aapkikitab-media");process.stdout.write(n?n.id:"")})'; }
+          kv_id=$(kv_list)
+          if [ -z "$kv_id" ]; then
+            npx wrangler kv namespace create aapkikitab-media
+            kv_id=$(kv_list)
+          fi
+          cat > wrangler.toml <<EOF
+          name = "aapkikitab"
+          pages_build_output_dir = "out"
+          compatibility_date = "2026-01-01"
+
+          [[d1_databases]]
+          binding = "DB"
+          database_name = "aapkikitab-db"
+          database_id = "$db_id"
+          migrations_dir = "migrations"
+
+          [[kv_namespaces]]
+          binding = "MEDIA"
+          id = "$kv_id"
+
+          [vars]
+          SITE_ORIGIN = "https://aapkikitab.in"
+          ADMIN_EMAILS = "${{ vars.ADMIN_EMAILS || 'himanshushar1890@gmail.com' }}"
+          EMAIL_FROM = "${{ vars.EMAIL_FROM || 'AapkiKitab <orders@aapkikitab.in>' }}"
+          GITHUB_REPO = "${{ github.repository }}"
+          EOF
+          sed -i 's/^          //' wrangler.toml
+          echo "KV_ID=$kv_id" >> "$GITHUB_ENV"
+
+      - name: Update the database tables
+        run: npx wrangler d1 migrations apply aapkikitab-db --remote
+
+      # One-time move from Shopify: only while the database has no products yet.
+      - name: Copy products and content from Shopify (first run only)
+        env:
+          SHOPIFY_ADMIN_TOKEN: ${{ secrets.SHOPIFY_ADMIN_TOKEN }}
+          SHOPIFY_STORE_DOMAIN: ${{ vars.SHOPIFY_STORE_DOMAIN || 'aapki-kitab-iysbgwrj.myshopify.com' }}
+        run: |
+          set -euo pipefail
+          n=$(npx wrangler d1 execute aapkikitab-db --remote --json --command "SELECT COUNT(*) AS n FROM entries WHERE type = 'product'" | node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>{process.stdout.write(String(JSON.parse(s)[0].results[0].n))})')
+          echo "products in the database: $n"
+          if [ "$n" != "0" ]; then echo "already moved — nothing to do"; exit 0; fi
+          if [ -z "${SHOPIFY_ADMIN_TOKEN:-}" ]; then echo "no Shopify key — skipping the move"; exit 0; fi
+          node scripts/import-shopify.mjs import-out
+          npx wrangler kv bulk put --remote --namespace-id "$KV_ID" import-out/media.json
+          npx wrangler d1 execute aapkikitab-db --remote --file import-out/import.sql --yes
+          rm -rf import-out
+
+      # prebuild reads /api/catalog; if the live site can't answer yet it keeps the content in the repo
+      - run: npm run build
+
+      # Secrets for payments, emails and the admin password, kept encrypted by Cloudflare.
+      # Add them once under GitHub → Settings → Secrets and variables → Actions.
+      - name: Pass secrets to the site's server functions
+        env:
+          RAZORPAY_KEY_ID: ${{ secrets.RAZORPAY_KEY_ID }}
+          RAZORPAY_KEY_SECRET: ${{ secrets.RAZORPAY_KEY_SECRET }}
+          RAZORPAY_WEBHOOK_SECRET: ${{ secrets.RAZORPAY_WEBHOOK_SECRET }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
+          GITHUB_DISPATCH_TOKEN: ${{ secrets.PUBLISH_TOKEN }}
+        run: |
+          for name in RAZORPAY_KEY_ID RAZORPAY_KEY_SECRET RAZORPAY_WEBHOOK_SECRET RESEND_API_KEY ADMIN_PASSWORD GITHUB_DISPATCH_TOKEN; do
             if [ -n "${!name}" ]; then printf '%s' "${!name}" | npx wrangler pages secret put "$name" --project-name aapkikitab; fi
           done
-      # skipped until the CLOUDFLARE_API_TOKEN repo secret exists
-      - if: env.CF_TOKEN != ''
-        uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: d52611a650ad844340673baea34c3cc4
-          command: pages deploy out --project-name aapkikitab --branch main
+
+      - run: npx wrangler pages deploy out --project-name aapkikitab --branch main

@@ -98,7 +98,7 @@ export interface Promo {
   photo: string; // real photography behind the slide
 }
 
-/* Admin-managed later (Shopify metaobjects). Order = display order. */
+/* Defaults; the admin panel (Website → Categories, moods & exams) replaces them. Order = display order. */
 const STATIC_PROMOS: Promo[]  = [
   {
     heading: "Stories that stay with you",
@@ -146,7 +146,7 @@ export const DISCOVERY_IMAGE = us("1506880018603-83d5b814b5a6", 800);
 export const BUDGET_IMAGE = us("1495446815901-a7297e633e8d", 800);
 export const EMPTY_SHELF_IMAGE = us("1481627834876-b7833e8f5570", 800);
 
-/* Live content from Shopify admin (Content → Metaobjects) when synced; the static
+/* Live content from the admin panel when synced; the static
    lists above are the fallback, so the site never renders empty. */
 const C = SITE_CONTENT;
 const withImages = (live: Tile[] | undefined, fallback: Tile[]): Tile[] =>

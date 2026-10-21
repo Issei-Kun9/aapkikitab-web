@@ -44,7 +44,7 @@ export default function RequestBookPage() {
     } catch {
       /* storage unavailable — the message below still goes out */
     }
-    /* The request itself goes to the shop's WhatsApp (or email), set in Shopify → Shop details. */
+    /* The request itself goes to the shop's WhatsApp (or email), set in the admin panel → Shop details. */
     const wa = waLink(message);
     const mail = mailLink(`Book request: ${form.bookName.trim()}`, message);
     if (wa) window.open(wa, "_blank", "noopener");

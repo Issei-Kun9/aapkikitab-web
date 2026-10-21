@@ -14,7 +14,7 @@ import { BestSellers, CategoryCircles, HeroCarousel, NewArrivals, PromoTiles, Tr
 import { CATEGORIES, SHOW } from "@/data/taxonomy";
 
 /* Storefront first (hero → shortcuts → reassurance → promos → product rails), then the
-   discovery sections. Every section after the hero can be switched off in Shopify. */
+   discovery sections. Every section after the hero can be switched off in the admin panel. */
 const S = "mt-7 empty:hidden lg:mt-12";
 const WIDE = "mt-12 empty:hidden lg:mt-20";
 

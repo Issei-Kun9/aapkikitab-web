@@ -2,8 +2,6 @@
 
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { ACCOUNT_URL } from "@/data/settings";
-import { onSiteAccounts } from "@/lib/customer-account";
 import { openChat } from "./chat";
 import { Icon, I } from "./ui";
 
@@ -18,14 +16,13 @@ const G = {
 };
 
 export function ProfileLinks({ onNavigate }: { onNavigate?: () => void }) {
-  const orders = onSiteAccounts ? "/account" : `${ACCOUNT_URL}/orders`;
   const items: { label: string; icon: ReactNode; href?: string; action?: () => void }[] = [
-    { label: "My Orders", icon: G.orders, href: orders },
-    { label: "My Address", icon: G.address, href: `${ACCOUNT_URL}/profile` },
+    { label: "My Orders", icon: G.orders, href: "/account#orders" },
+    { label: "My Address", icon: G.address, href: "/account#addresses" },
     { label: "Customer Reviews", icon: G.reviews, href: "/community" },
     { label: "Help & Support (Chat)", icon: G.help, action: () => openChat() },
     { label: "Returns & Refunds", icon: G.returns, href: "/policies#returns" },
-    { label: "Settings", icon: G.settings, href: `${ACCOUNT_URL}/profile` },
+    { label: "Settings", icon: G.settings, href: "/account#profile" },
   ];
   const cls = "flex flex-col items-center gap-1.5 rounded-xl px-1 py-2 text-center transition-colors hover:bg-ak-50";
   const inner = (it: (typeof items)[number]) => (
